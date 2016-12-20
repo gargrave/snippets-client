@@ -1,0 +1,111 @@
+@import 'variables';
+
+
+/*=============================================
+ = Basic Snippet panel styles
+ =============================================*/
+.snippet-panel {
+  max-width: $panelMaxWidth;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
+
+  .panel-body {
+    padding: 10px 16px;
+  }
+
+  .snippet-title {
+    a {
+      color: #333 !important;
+      text-decoration: none !important;
+      &:hover {
+        text-decoration: underline !important;
+      }
+    }
+  }
+
+  .panel-heading {
+    border-bottom: 0;
+  }
+
+  .panel-footer {
+    border-top: 0;
+    padding: 8px 4px;
+  }
+}
+
+// 'add new snippet' button/link
+.new-snippet-link-panel {
+  cursor: pointer;
+  .panel-body {
+    padding: 3px 15px;
+  }
+}
+
+// panel for 'create new snippet'
+.new-snippet-form-panel {
+  border: 1px solid #ccc !important;
+}
+
+/*=============================================
+ = Snippet panel coloring
+ =============================================*/
+$snippetWhite: rgb(250, 250, 250);
+$snippetRed: rgb(255, 138, 128);
+$snippetGreen: rgb(204, 255, 144);
+$snippetBlue: rgb(128, 216, 255);
+$snippetYellow: rgb(255, 255, 141);
+$snippetOrange: rgb(255, 209, 128);
+$snippetTeal: rgb(167, 255, 235);
+$snippetGray: rgb(207, 216, 220);
+
+@mixin coloredSnippetPanel($color) {
+  & > .panel-body, & > a {
+    background-color: $color;
+  }
+  & > .panel-heading, & > .panel-footer, & > a:hover {
+    background-color: desaturate(darken($color, 15), 25) !important;
+  }
+  hr {
+    border-top: 1px solid desaturate(darken($color, 15), 25) !important;
+  }
+}
+
+.snippet-color-white { @include coloredSnippetPanel($snippetWhite); }
+
+.snippet-color-red { @include coloredSnippetPanel($snippetRed); }
+
+.snippet-color-green { @include coloredSnippetPanel($snippetGreen); }
+
+.snippet-color-blue { @include coloredSnippetPanel($snippetBlue); }
+
+.snippet-color-yellow { @include coloredSnippetPanel($snippetYellow); }
+
+.snippet-color-orange { @include coloredSnippetPanel($snippetOrange); }
+
+.snippet-color-teal { @include coloredSnippetPanel($snippetTeal); }
+
+.snippet-color-gray { @include coloredSnippetPanel($snippetGray); }
+
+/*=============================================
+ = Snippet control styles
+ =============================================*/
+.snippet-control {
+  margin: 0 14px;
+  line-height: inherit;
+}
+
+.color-picker-item > a {
+  min-height: 32px;
+  text-decoration: none !important;
+}
+
+.dropdown-menu.color-picker-list {
+  padding: 0;
+  margin: 0;
+}
+
+.snippets-hr {
+  border-top: 2px solid #aaa !important;
+  max-width: $panelMaxWidth;
+}

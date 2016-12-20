@@ -1,0 +1,51 @@
+@import 'variables';
+
+
+/*=============================================
+ = basic style overrides
+ =============================================*/
+.navmenu {
+  width: $navMenuWidth;
+  margin-top: 52px;
+}
+
+.navmenu-default {
+  border-color: $bgColor;
+}
+
+.nav-header {
+  font-weight: bold;
+  position: relative;
+  display: block;
+  padding: 3px $navMenuLeftPad1;
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
+
+// active link in side navbar
+.navmenu-default .navmenu-nav > .active > a,
+.navmenu-default .navmenu-nav > .active > a:active,
+.navmenu-default .navmenu-nav > .active > a:focus,
+.navmenu-default .navmenu-nav > .active > a:hover {
+  color: #744;
+  background-color: $bgColor;
+  font-weight: bold;
+}
+
+/*=============================================
+ = tablet- resolutions
+ =============================================*/
+@media (max-width: 768px) {
+  .navmenu-nav > li a {
+    padding: $navLinkPaddingOnMobile $navMenuLeftPad2;
+  }
+}
+
+/*=============================================
+ = desktop resolutions
+ =============================================*/
+@media (min-width: 769px) {
+  .navmenu-nav > li a {
+    padding: $navLinkPaddingOnDesktop $navMenuLeftPad2;
+  }
+}

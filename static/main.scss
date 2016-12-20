@@ -1,0 +1,43 @@
+@import 'variables';
+@import 'overrides';
+@import 'jasny-overrides';
+@import 'snippets';
+
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.success-text {
+  color: #3c763d;
+}
+
+.error-msg {
+  margin-left: .5rem;
+  color: #e50000;
+}
+
+// increase font size for forms on small devices
+input[type="text"], input[type="number"], input[type="password"],
+textarea, select, select.form-control {
+  font-size: 16px;
+}
+
+/*=============================================
+ = tablet+ resolutions
+ =============================================*/
+@media (min-width: 768px) {
+  body {
+    padding-left: $navMenuWidth;
+  }
+  font-size: 14px;
+}
