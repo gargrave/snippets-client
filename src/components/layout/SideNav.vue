@@ -71,9 +71,7 @@
 
   export default {
     data() {
-      return {
-        appName: 'Snippets'
-      };
+      return {};
     },
 
     computed: {

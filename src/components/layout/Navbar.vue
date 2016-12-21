@@ -11,7 +11,7 @@
           <span class="icon-bar"></span>
         </button>
         <router-link class="navbar-brand" to="/">
-          {{ appName }}
+          {{ appTitle }}
         </router-link>
       </div><!-- /navbar-header -->
 
@@ -70,12 +70,12 @@
   export default {
     data() {
       return {
-        appName: 'Snippets'
       };
     },
 
     computed: {
       ...mapGetters({
+        appTitle: 'appTitle',
         user: 'userData',
         isLoggedIn: 'isLoggedIn'
       })
