@@ -1,6 +1,8 @@
 <template>
   <div class="home">
+    <img src="../assets/logo.png">
     <h1>{{ msg }}</h1>
+
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -10,6 +12,7 @@
       <br>
       <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
     </ul>
+
     <h2>Ecosystem</h2>
     <ul>
       <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
@@ -17,12 +20,17 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+
+    <h2>Temp Links</h2>
+    <ul>
+      <router-link to="/snippets" tag="li">
+        <a href="">Snippets List</a>
+      </router-link>
+    </ul>
   </div>
 </template>
 
 <script>
-  import request from 'superagent';
-
   export default {
     name: 'home',
 
@@ -30,29 +38,16 @@
       return {
         msg: 'Welcome to Your Vue.js App'
       };
-    },
-
-    created() {
-      /* eslint-disable no-console */
-      console.log('Home.vue -> created()');
-      request
-        .get('http://localhost:8000/api/v1/snippets/')
-        .set('Authorization', `Token 1fae445b49b535bfea2d8fa2fc61ef7ae6c4a0c6`)
-        .end((err, res) => {
-          if (err) {
-            console.log('err:');
-            console.log(err);
-          } else {
-            console.log('res:');
-            console.log(res.body);
-          }
-        });
     }
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  div {
+    text-align: center;
+  }
+
   h1, h2 {
     font-weight: normal;
   }

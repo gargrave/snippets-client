@@ -15,7 +15,7 @@ import '../static/jasny-bootstrap.min.js';
 import '../static/main.scss';
 
 // we need to import the Bootstrap JS to initialize it
-import bs from 'bootstrap';
+import bs from 'bootstrap'; // eslint-disable-line no-unused-vars
 
 
 Vue.use(VueRouter);

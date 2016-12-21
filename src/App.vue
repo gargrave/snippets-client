@@ -3,14 +3,19 @@
     <app-sidenav></app-sidenav>
     <app-navbar></app-navbar>
 
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="container-fluid">
+      <main class="row">
+        <div class="col-xs-12 main-content-area">
+          <router-view></router-view>
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-  import Navbar from './components/layout/Navbar.vue'
-  import SideNav from './components/layout/SideNav.vue'
+  import Navbar from './components/layout/Navbar.vue';
+  import SideNav from './components/layout/SideNav.vue';
 
   export default {
     name: 'app',
