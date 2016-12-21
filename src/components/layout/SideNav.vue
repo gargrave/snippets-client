@@ -38,7 +38,7 @@
               </router-link>
             </li>
             <li>
-              <a href="#" @click="onLogout">
+              <a href="#" @click.prevent="onLogout">
                 <span class="fa fa-sign-out fa-lg"></span>&nbsp;&nbsp;
                 Logout
               </a>
@@ -66,24 +66,21 @@
 
 
 <script>
+  import {mapActions, mapGetters} from 'vuex';
   import toastr from 'toastr';
 
   export default {
     data() {
       return {
-        appName: 'Snippets',
-        loggedIn: true, // TODO: temp prop; remove when no longer needed
-        user: {
-          username: 'TODO: Set Username'
-        }
+        appName: 'Snippets'
       };
     },
 
     computed: {
-      isLoggedIn() {
-        // TODO: implement proper logged in checking
-        return this.loggedIn;
-      }
+      ...mapGetters({
+        user: 'userData',
+        isLoggedIn: 'isLoggedIn'
+      })
     },
 
     methods: {
@@ -93,9 +90,13 @@
       },
 
       onLogout(event) {
-        event.preventDefault();
-        toastr.warning('TODO: Implement onLogout()', 'Not implemented');
-      }
+        this.storeLogout();
+        this.$router.push('/account/login');
+      },
+
+      ...mapActions({
+        storeLogout: 'logout'
+      })
     }
   };
 </script>

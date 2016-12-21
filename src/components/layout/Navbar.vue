@@ -40,7 +40,7 @@
 
               <!-- logout link -->
               <li>
-                <a href="" @click="logout">
+                <a href="" @click.prevent="logout">
                   <span class="fa fa-sign-out fa-lg"></span>&nbsp; &nbsp;
                   Logout
                 </a>
@@ -64,33 +64,32 @@
 
 
 <script>
+  import {mapActions, mapGetters} from 'vuex';
   import toastr from 'toastr';
 
   export default {
     data() {
       return {
-        appName: 'Snippets',
-        loggedIn: true, // TODO: temp prop; remove when no longer needed
-        user: {
-          username: 'TODO: Set Username'
-        }
+        appName: 'Snippets'
       };
     },
 
     computed: {
-      isLoggedIn() {
-        // TODO: implement proper logged in checking
-        return this.loggedIn;
-      }
+      ...mapGetters({
+        user: 'userData',
+        isLoggedIn: 'isLoggedIn'
+      })
     },
 
     methods: {
       logout(event) {
-        // TODO: implement logout()
-        event.preventDefault();
-        toastr.warning('TODO: implement logout()', 'Not implemented');
-        this.loggedIn = false;
-      }
+        this.storeLogout();
+        this.$router.push('/account/login');
+      },
+
+      ...mapActions({
+        storeLogout: 'logout'
+      })
     }
   };
 </script>
