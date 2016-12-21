@@ -19,7 +19,7 @@
       <!-- dev stuff (i.e. things I'm working on that don't have a proper home yet) -->
       <ul class="nav navmenu-nav">
         <li class="nav-header">In Dev</li>
-        <li><a href="#" @click="onExpandCollapse">Expand/Collapse</a></li>
+        <li><a href="#" @click.prevent="toggleExpanded">Expand/Collapse</a></li>
       </ul>
 
       <!-- user/account links -->
@@ -38,7 +38,7 @@
               </router-link>
             </li>
             <li>
-              <a href="#" @click.prevent="onLogout">
+              <a href="#" @click.prevent="logout">
                 <span class="fa fa-sign-out fa-lg"></span>&nbsp;&nbsp;
                 Logout
               </a>
@@ -70,10 +70,6 @@
   import toastr from 'toastr';
 
   export default {
-    data() {
-      return {};
-    },
-
     computed: {
       ...mapGetters({
         user: 'userData',
@@ -81,13 +77,13 @@
       })
     },
 
+
     methods: {
-      onExpandCollapse(event) {
-        event.preventDefault();
+      toggleExpanded() {
         toastr.warning('TODO: Implement onExpandCollapse()', 'Not implemented');
       },
 
-      onLogout(event) {
+      logout() {
         this.storeLogout();
         this.$router.push('/account/login');
       },

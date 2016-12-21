@@ -68,11 +68,6 @@
   import toastr from 'toastr';
 
   export default {
-    data() {
-      return {
-      };
-    },
-
     computed: {
       ...mapGetters({
         appTitle: 'appTitle',
@@ -81,8 +76,9 @@
       })
     },
 
+
     methods: {
-      logout(event) {
+      logout() {
         this.storeLogout();
         this.$router.push('/account/login');
       },
