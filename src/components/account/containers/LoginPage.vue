@@ -14,6 +14,7 @@
         <app-login-form
           :working="working"
           :onSubmit="onSubmit"
+          :errors="errors"
           @formDataChanged="onLoginFormChanged"
         ></app-login-form>
       </div>
@@ -26,6 +27,7 @@
 <script>
   import {mapActions} from 'vuex';
   import request from 'superagent';
+  import toastr from 'toastr';
   import LoginForm from '../components/LoginForm.vue';
 
   export default {
@@ -37,7 +39,16 @@
     data() {
       return {
         working: false,
+
         apiError: '',
+
+        errors: {
+          username: '',
+          usernameConfirm: '',
+          password: '',
+          passwordConfirm: ''
+        },
+
         userData: {
           username: '',
           password: ''
@@ -55,19 +66,26 @@
       },
 
       onSubmit(event) {
-        this.apiError = '';
-        // TODO use the URL constants
-        request.post('http://localhost:8000/api-token-auth/')
-          .send(this.userData)
-          .end((err, res) => {
-            if (err) {
-              this.apiError = 'Unable to log in with provided credentials.';
-            } else {
-              this.storeLogin(res.body);
-              // TODO use the URL constants
-              this.$router.push('/snippets');
-            }
-          })
+        if (this.isValid()) {
+          this.apiError = '';
+          // TODO use the URL constants
+          request.post('http://localhost:8000/api-token-auth/')
+            .send(this.userData)
+            .end((err, res) => {
+              if (err) {
+                this.apiError = 'Unable to log in with provided credentials.';
+              } else {
+                this.storeLogin(res.body);
+                // TODO use the URL constants
+                this.$router.push('/snippets');
+              }
+            });
+        }
+      },
+
+      isValid() {
+        toastr.warning('LoginPage.isValid()', 'NOT IMPLEMENTED');
+        return false;
       },
 
       ...mapActions({

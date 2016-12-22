@@ -2,7 +2,8 @@
   <div class="form-group">
     <label :for="name">{{ label }}:</label>
 
-    <!-- TODO: add error message display from parent -->
+    <!-- error message disiplay -->
+    <span class="error-msg" v-if="error">{{ error }}</span>
 
     <!-- 'password' type input field -->
     <div v-if="inputType === 'password'">
@@ -50,6 +51,11 @@
         required: true
       },
       placeholder: {
+        type: String,
+        required: false,
+        default: ''
+      },
+      error: {
         type: String,
         required: false,
         default: ''

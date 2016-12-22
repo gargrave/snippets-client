@@ -7,6 +7,7 @@
         label="Username"
         name="username"
         placeholder="Username"
+        :error="errors.username"
         @valueChanged="onUsernameChange"
       ></app-input-field>
 
@@ -15,6 +16,7 @@
         label="Password"
         name="password"
         placeholder="Password"
+        :error="errors.password"
         @valueChanged="onPasswordChange"
       ></app-input-field>
 
@@ -41,6 +43,10 @@
       onSubmit: {
         type: Function,
         required: true
+      },
+      errors: {
+        type: Object,
+        required: true
       }
     },
 
@@ -51,7 +57,7 @@
           username: '',
           password: ''
         }
-      }
+      };
     },
 
 
