@@ -3,7 +3,7 @@ import {USER_LOGIN, USER_LOGOUT} from '../mutation-types';
 
 export default {
   state: {
-    userData: {
+    user: {
       uid: '',
       authToken: '',
       username: '',
@@ -20,14 +20,21 @@ export default {
      * Returns full user data for currently logged in user
      */
     userData(state) {
-      return state.userData;
+      return state.user;
+    },
+
+    /**
+     * Returns just the current authToken for the user.
+     */
+    authToken(state) {
+      return state.user.authToken;
     },
 
     /**
      * Returns whether the current user is logged in
      */
     isLoggedIn(state) {
-      return !!state.userData.authToken;
+      return !!state.user.authToken;
     }
   },
 
@@ -38,7 +45,7 @@ export default {
      save provided user details in the store
      */
     [USER_LOGIN](state, newUserData) {
-      state.userData = {
+      state.user = {
         uid: newUserData.uid,
         authToken: newUserData.authToken,
         username: newUserData.username,
@@ -55,7 +62,7 @@ export default {
      simply clear existing user data
      */
     [USER_LOGOUT](state) {
-      state.userData = {
+      state.user = {
         uid: '',
         authToken: '',
         username: '',

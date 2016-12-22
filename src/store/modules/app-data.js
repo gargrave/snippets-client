@@ -1,11 +1,11 @@
 export default {
   state: {
-    appTitle: 'Snippets'
+    title: 'Snippets'
   },
 
   getters: {
     appTitle(state) {
-      return state.appTitle;
+      return state.title;
     }
   }
 };

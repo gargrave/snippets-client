@@ -1,15 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import appData from './modules/app-data';
-import user from './modules/user';
+import AppData from './modules/app-data';
+import User from './modules/user';
+import Snippets from './modules/snippets';
 
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   modules: {
-    appData,
-    user
+    AppData,
+    User,
+    Snippets
   }
 });
