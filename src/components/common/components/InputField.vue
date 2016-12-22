@@ -37,24 +37,30 @@
 <script>
   export default {
     props: {
+      // the type of input field (e.g. 'text' 'passowrd' etc.)
+      // optional, defaults to 'text'
       inputType: {
         type: String,
         required: false,
         default: 'text'
       },
+      // value for input field's label
       label: {
         type: String,
         required: true
       },
+      // name/id for the input field
       name: {
         type: String,
         required: true
       },
+      // placeholder text for input field (optional)
       placeholder: {
         type: String,
         required: false,
         default: ''
       },
+      // validation error message (if any)
       error: {
         type: String,
         required: false,
@@ -65,12 +71,17 @@
 
     data() {
       return {
+        // the current value of this field; used for v-model
         value: ''
       };
     },
 
 
     methods: {
+      /**
+       * Handler for @input events on the input field. Simply emits
+       * the event upward with the current value.
+       */
       inputEvent() {
         this.$emit('valueChanged', this.value);
       }
