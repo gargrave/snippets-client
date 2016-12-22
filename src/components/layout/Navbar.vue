@@ -65,7 +65,6 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
-  import toastr from 'toastr';
 
   export default {
     computed: {

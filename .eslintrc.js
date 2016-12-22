@@ -32,7 +32,7 @@ module.exports = {
     'no-trailing-spaces': 0,
     'no-undef': 0,
     'no-underscore-dangle': 0,
-    'no-unused-vars': 1,
+    'no-unused-vars': 0,
     'no-var': 1,
     'quotes': [1, 'single', { 'allowTemplateLiterals': true }],
     'semi': [1, 'always'],
