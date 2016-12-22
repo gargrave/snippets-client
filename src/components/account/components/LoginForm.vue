@@ -1,38 +1,38 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input
-          class="form-control"
-          type="text"
-          id="username"
-          name="username"
-          placeholder="Username"
-          v-model="userData.username"
-        >
-      </div>
 
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input
-          class="form-control"
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          v-model="userData.password"
-        >
-      </div>
+      <app-input-field
+        inputType="text"
+        label="Username"
+        name="username"
+        placeholder="Username"
+        @valueChanged="onUsernameChange"
+      ></app-input-field>
 
-      <input type="submit" value="Submit">
+      <app-input-field
+        inputType="password"
+        label="Password"
+        name="password"
+        placeholder="Password"
+        @valueChanged="onPasswordChange"
+      ></app-input-field>
+
+      <input class="btn btn-primary" type="submit" value="Submit">
     </form>
   </div>
 </template>
 
 
 <script>
+  import TextInput from '../../common/components/InputField.vue';
+
   export default {
+    components: {
+      appInputField: TextInput
+    },
+
+
     props: {
       working: {
         type: Boolean,
@@ -41,10 +41,29 @@
       onSubmit: {
         type: Function,
         required: true
+      }
+    },
+
+
+    data() {
+      return {
+        loginUser: {
+          username: '',
+          password: ''
+        }
+      }
+    },
+
+
+    methods: {
+      onUsernameChange(value, event) {
+        this.loginUser.username = value;
+        this.$emit('formDataChanged', this.loginUser);
       },
-      userData: {
-        type: Object,
-        required: true
+
+      onPasswordChange(value, event) {
+        this.loginUser.password = value;
+        this.$emit('formDataChanged', this.loginUser);
       }
     }
   };

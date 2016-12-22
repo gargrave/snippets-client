@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="panel panel-default snippet-panel">
+    <div class="panel panel-primary snippet-panel">
 
       <div class="panel-heading">
         <h3 class="panel-title">Login</h3>
@@ -14,7 +14,7 @@
         <app-login-form
           :working="working"
           :onSubmit="onSubmit"
-          :userData="userData"
+          @formDataChanged="onLoginFormChanged"
         ></app-login-form>
       </div>
 
@@ -33,6 +33,7 @@
       appLoginForm: LoginForm
     },
 
+
     data() {
       return {
         working: false,
@@ -44,7 +45,15 @@
       };
     },
 
+
     methods: {
+      onLoginFormChanged(value, event) {
+        this.userData = {
+          username: value.username,
+          password: value.password
+        };
+      },
+
       onSubmit(event) {
         this.apiError = '';
         // TODO use the URL constants
