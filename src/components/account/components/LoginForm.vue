@@ -2,6 +2,7 @@
   <div>
     <form @submit.prevent="onSubmit">
 
+      <!-- user name input -->
       <app-input-field
         inputType="text"
         label="Username"
@@ -11,6 +12,7 @@
         @valueChanged="onUsernameChange"
       ></app-input-field>
 
+      <!-- password input -->
       <app-input-field
         inputType="password"
         label="Password"

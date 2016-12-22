@@ -4,7 +4,7 @@
 
       <div class="panel-heading">
         <h3 class="panel-title">Login</h3>
-      </div>
+      </div><!-- /panel-heading -->
 
       <div class="panel-body">
         <!-- API error message -->
@@ -17,7 +17,7 @@
           :errors="errors"
           @formDataChanged="onLoginFormChanged"
         ></app-login-form>
-      </div>
+      </div><!-- /panel-body -->
 
     </div>
   </div>
@@ -28,6 +28,8 @@
   import {mapActions} from 'vuex';
   import request from 'superagent';
   import toastr from 'toastr';
+
+  import validate from '../../../utils/validate';
   import LoginForm from '../components/LoginForm.vue';
 
   export default {
@@ -38,17 +40,19 @@
 
     data() {
       return {
+        // whether any operations are currently running
         working: false,
 
+        // error messages returned from API (e.g. invalid login)
         apiError: '',
 
+        // local validation errors (e.g. missing field)
         errors: {
           username: '',
-          usernameConfirm: '',
-          password: '',
-          passwordConfirm: ''
+          password: ''
         },
 
+        // model for user login data
         userData: {
           username: '',
           password: ''
@@ -58,23 +62,34 @@
 
 
     methods: {
-      onLoginFormChanged(value, event) {
+      /**
+       * Handler for input fields being changed on login form.
+       */
+      onLoginFormChanged(value) {
         this.userData = {
           username: value.username,
           password: value.password
         };
       },
 
-      onSubmit(event) {
+      /**
+       * Attempts to submit the current user data to the API to login.
+       * Note that if it does not validate, no request is sent.
+       */
+      onSubmit() {
         if (this.isValid()) {
           this.apiError = '';
+          this.working = true;
           // TODO use the URL constants
           request.post('http://localhost:8000/api-token-auth/')
             .send(this.userData)
             .end((err, res) => {
+              this.working = false;
               if (err) {
+                // if error, display the error message
                 this.apiError = 'Unable to log in with provided credentials.';
               } else {
+                // if no error, send user data to store and redirect
                 this.storeLogin(res.body);
                 // TODO use the URL constants
                 this.$router.push('/snippets');
@@ -83,9 +98,37 @@
         }
       },
 
+      /**
+       * Validates the user data currently entered into the form.
+       *
+       * @returns {boolean} Whether the data validates correctly.
+       */
       isValid() {
-        toastr.warning('LoginPage.isValid()', 'NOT IMPLEMENTED');
-        return false;
+        let valid = true;
+        let params;
+
+        this.errors = {
+          username: '',
+          password: ''
+        };
+
+        // validate username
+        params = {required: true, minLength: 2};
+        const userVal = validate(this.userData.username, params);
+        if (!userVal.valid) {
+          this.errors.username = userVal.error;
+          valid = false;
+        }
+
+        // validate password
+        params = {required: true, minLength: 8};
+        const passVal = validate(this.userData.password, params);
+        if (!passVal.valid) {
+          this.errors.password = passVal.error;
+          valid = false;
+        }
+
+        return valid;
       },
 
       ...mapActions({
