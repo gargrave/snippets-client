@@ -14,15 +14,31 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
+
   import Navbar from './components/layout/Navbar.vue';
   import SideNav from './components/layout/SideNav.vue';
 
   export default {
     name: 'app',
 
+
     components: {
       appNavbar: Navbar,
       appSidenav: SideNav
+    },
+
+
+    methods: {
+      ...mapActions([
+        'checkForStoredLogin'
+      ])
+    },
+
+
+    created() {
+      // auto-login if we have user data stored in localStorage
+      this.checkForStoredLogin();
     }
   };
 </script>

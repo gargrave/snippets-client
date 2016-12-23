@@ -1,4 +1,4 @@
-import {USER_LOGIN, USER_LOGOUT} from '../mutation-types';
+import {USER} from '../mutation-types';
 
 
 export default {
@@ -44,7 +44,7 @@ export default {
      login authenticated user;
      save provided user details in the store
      */
-    [USER_LOGIN](state, newUserData) {
+    [USER.USER_LOGIN](state, newUserData) {
       state.user = {
         uid: newUserData.uid,
         authToken: newUserData.authToken,
@@ -55,13 +55,14 @@ export default {
         dateJoined: newUserData.dateJoined,
         lastLogin: newUserData.lastLogin
       };
+      localStorage.setItem('user', JSON.stringify(newUserData));
     },
 
     /*
      logout current user;
      simply clear existing user data
      */
-    [USER_LOGOUT](state) {
+    [USER.USER_LOGOUT](state) {
       state.user = {
         uid: '',
         authToken: '',
@@ -72,16 +73,24 @@ export default {
         dateJoined: '',
         lastLogin: ''
       };
+      localStorage.clear();
     }
   },
 
   actions: {
     login({commit}, newUserData) {
-      commit(USER_LOGIN, newUserData);
+      commit(USER.USER_LOGIN, newUserData);
     },
 
     logout({commit}) {
-      commit(USER_LOGOUT);
+      commit(USER.USER_LOGOUT);
+    },
+
+    checkForStoredLogin({commit}) {
+      let storedLogin = localStorage.getItem('user');
+      if (storedLogin) {
+        commit(USER.USER_LOGIN, JSON.parse(storedLogin));
+      }
     }
   }
 };

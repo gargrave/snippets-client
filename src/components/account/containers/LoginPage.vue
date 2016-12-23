@@ -25,7 +25,7 @@
 
 
 <script>
-  import {mapActions} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
   import request from 'superagent';
   import toastr from 'toastr';
 
@@ -58,6 +58,13 @@
           password: ''
         }
       };
+    },
+
+
+    computed: {
+      ...mapGetters([
+        'isLoggedIn'
+      ])
     },
 
 
@@ -134,6 +141,15 @@
       ...mapActions({
         storeLogin: 'login'
       })
+    },
+
+
+    created() {
+      // if we already logged in, redirect to account/profile page
+      if (this.isLoggedIn) {
+        // TODO use the URL constants
+        this.$router.push('/account');
+      }
     }
   };
 </script>

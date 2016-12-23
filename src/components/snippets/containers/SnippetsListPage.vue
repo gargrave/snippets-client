@@ -47,7 +47,6 @@
         this.working = true;
         this.fetchSnippets(this.authToken)
           .then((res) => {
-            console.log('alskdjflkasjdlfksjdf');
             this.working = false;
           }, (err) => {
             // TODO: show error message
