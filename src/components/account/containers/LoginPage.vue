@@ -8,7 +8,20 @@
 
       <div class="panel-body">
         <!-- API error message -->
-        <div class="alert alert-danger" v-if="apiError">{{ apiError }}</div>
+        <!-- TODO: pull this into a separate component -->
+        <div
+          class="alert alert-danger alert-dismissible"
+          v-if="apiError"
+          role="alert">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ apiError }}
+        </div>
 
         <!-- login form -->
         <app-login-form
@@ -29,6 +42,7 @@
   import request from 'superagent';
   import toastr from 'toastr';
 
+  import {apiUrls, localUrls} from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import LoginForm from '../components/LoginForm.vue';
 
@@ -53,7 +67,7 @@
         },
 
         // model for user login data
-        userData: {
+        credentials: {
           username: '',
           password: ''
         }
@@ -73,7 +87,7 @@
        * Handler for input fields being changed on login form.
        */
       onLoginFormChanged(value) {
-        this.userData = {
+        this.credentials = {
           username: value.username,
           password: value.password
         };
@@ -85,22 +99,15 @@
        */
       onSubmit() {
         if (this.isValid()) {
-          this.apiError = '';
           this.working = true;
-          // TODO use the URL constants
-          request.post('http://localhost:8000/api-token-auth/')
-            .send(this.userData)
-            .end((err, res) => {
+
+          this.login(this.credentials)
+            .then(() => {
+              this.$router.push(localUrls.snippetsList);
               this.working = false;
-              if (err) {
-                // if error, display the error message
-                this.apiError = 'Unable to log in with provided credentials.';
-              } else {
-                // if no error, send user data to store and redirect
-                this.storeLogin(res.body);
-                // TODO use the URL constants
-                this.$router.push('/snippets');
-              }
+            }, (err) => {
+              this.apiError = err;
+              this.working = false;
             });
         }
       },
@@ -121,7 +128,7 @@
 
         // validate username
         params = {required: true, minLength: 2};
-        const userVal = validate(this.userData.username, params);
+        const userVal = validate(this.credentials.username, params);
         if (!userVal.valid) {
           this.errors.username = userVal.error;
           valid = false;
@@ -129,7 +136,7 @@
 
         // validate password
         params = {required: true, minLength: 8};
-        const passVal = validate(this.userData.password, params);
+        const passVal = validate(this.credentials.password, params);
         if (!passVal.valid) {
           this.errors.password = passVal.error;
           valid = false;
@@ -138,17 +145,16 @@
         return valid;
       },
 
-      ...mapActions({
-        storeLogin: 'login'
-      })
+      ...mapActions([
+        'login'
+      ])
     },
 
 
     created() {
       // if we already logged in, redirect to account/profile page
       if (this.isLoggedIn) {
-        // TODO use the URL constants
-        this.$router.push('/account');
+        this.$router.push(localUrls.account);
       }
     }
   };
