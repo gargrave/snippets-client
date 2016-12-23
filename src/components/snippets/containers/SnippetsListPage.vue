@@ -18,6 +18,8 @@
 <script>
   import {mapActions, mapGetters} from 'vuex';
 
+  import {localUrls} from '../../../appData/urls';
+
   export default {
     data() {
       return {
@@ -30,6 +32,7 @@
     computed: {
       ...mapGetters([
         'authToken',
+        'isLoggedIn',
         'snippets'
       ])
     },
@@ -43,7 +46,7 @@
 
 
     created() {
-      if (this.authToken) {
+      if (this.isLoggedIn && this.authToken) {
         this.working = true;
         this.fetchSnippets(this.authToken)
           .then((res) => {
@@ -53,8 +56,7 @@
             this.working = false;
           });
       } else {
-        // TODO: use URL constants
-        this.$router.push('/account/login')
+        this.$router.push(localUrls.login);
       }
     }
   };

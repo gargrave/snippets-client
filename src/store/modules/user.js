@@ -1,3 +1,6 @@
+import request from 'superagent';
+
+import {apiUrls} from '../../appData/urls';
 import {USER} from '../mutation-types';
 
 
@@ -78,8 +81,21 @@ export default {
   },
 
   actions: {
-    login({commit}, newUserData) {
-      commit(USER.USER_LOGIN, newUserData);
+    login({commit}, credentials) {
+      return new Promise((resolve, reject) => {
+        request.post(apiUrls.login)
+          .send(credentials)
+          .end((err, res) => {
+            if (err) {
+              // if error, reject with error message
+              reject('Unable to log in with provided credentials.');
+            } else {
+              // if no error, login locally with returned user data
+              commit(USER.USER_LOGIN, res.body);
+              resolve();
+            }
+          });
+      });
     },
 
     logout({commit}) {
