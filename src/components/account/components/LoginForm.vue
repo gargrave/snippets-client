@@ -22,7 +22,7 @@
         @valueChanged="onPasswordChange"
       ></app-input-field>
 
-      <input class="btn btn-primary" type="submit" value="Submit">
+      <input class="btn btn-primary" type="submit" value="Submit" :disabled="working">
     </form>
   </div>
 </template>
