@@ -46,9 +46,9 @@
 
 
     created() {
-      if (this.isLoggedIn && this.authToken) {
+      if (this.isLoggedIn) {
         this.working = true;
-        this.fetchSnippets(this.authToken)
+        this.fetchSnippets()
           .then((res) => {
             this.working = false;
           }, (err) => {

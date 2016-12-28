@@ -4,5 +4,6 @@ export const USER = {
 };
 
 export const SNIPPETS = {
-  SNIPPETS_FETCH_ALL: 'SNIPPETS_FETCH_ALL'
+  FETCH_ALL: 'SNIPPETS_FETCH_ALL',
+  CREATE: 'SNIPPETS_CREATE'
 };
