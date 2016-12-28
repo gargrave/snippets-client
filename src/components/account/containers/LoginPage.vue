@@ -28,7 +28,7 @@
           :working="working"
           :onSubmit="onSubmit"
           :errors="errors"
-          @formDataChanged="onLoginFormChanged"
+          @formDataChanged="onFormChanged"
         ></app-login-form>
       </div><!-- /panel-body -->
 
@@ -86,7 +86,7 @@
       /**
        * Handler for input fields being changed on login form.
        */
-      onLoginFormChanged(value) {
+      onFormChanged(value) {
         this.credentials = {
           username: value.username,
           password: value.password

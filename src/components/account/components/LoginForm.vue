@@ -1,30 +1,28 @@
 <template>
-  <div>
-    <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" novalidate>
 
-      <!-- user name input -->
-      <app-input-field
-        inputType="text"
-        label="Username"
-        name="username"
-        placeholder="Username"
-        :error="errors.username"
-        @valueChanged="onUsernameChange"
-      ></app-input-field>
+    <!-- user name input -->
+    <app-input-field
+      inputType="text"
+      label="Username"
+      name="username"
+      placeholder="Username"
+      :error="errors.username"
+      @valueChanged="onUsernameChange"
+    ></app-input-field>
 
-      <!-- password input -->
-      <app-input-field
-        inputType="password"
-        label="Password"
-        name="password"
-        placeholder="Password"
-        :error="errors.password"
-        @valueChanged="onPasswordChange"
-      ></app-input-field>
+    <!-- password input -->
+    <app-input-field
+      inputType="password"
+      label="Password"
+      name="password"
+      placeholder="Password"
+      :error="errors.password"
+      @valueChanged="onPasswordChange"
+    ></app-input-field>
 
-      <input class="btn btn-primary" type="submit" value="Submit" :disabled="working">
-    </form>
-  </div>
+    <input class="btn btn-primary" type="submit" value="Submit" :disabled="working">
+  </form>
 </template>
 
 

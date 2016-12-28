@@ -28,6 +28,7 @@ module.exports = {
     'eol-last': 0,
     'no-alert': 1,
     'no-console': 1,
+    'no-empty': 1,
     'no-lone-blocks': 0,
     'no-trailing-spaces': 0,
     'no-undef': 0,
