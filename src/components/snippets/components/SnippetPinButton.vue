@@ -24,8 +24,11 @@
     computed: {
       pinButtonClass() {
         return snippetStyles.snippetPinButton(this.snippet);
-      },
+      }
+    },
 
+
+    methods: {
       onClick() {
         console.log('SnippetPinButton.onClick()');
       }
