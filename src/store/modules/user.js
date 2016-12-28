@@ -47,7 +47,7 @@ export default {
      login authenticated user;
      save provided user details in the store
      */
-    [USER.USER_LOGIN](state, newUserData) {
+    [USER.LOGIN](state, newUserData) {
       state.user = {
         uid: newUserData.uid,
         authToken: newUserData.authToken,
@@ -65,7 +65,7 @@ export default {
      logout current user;
      simply clear existing user data
      */
-    [USER.USER_LOGOUT](state) {
+    [USER.LOGOUT](state) {
       state.user = {
         uid: '',
         authToken: '',
@@ -91,7 +91,7 @@ export default {
               reject('Unable to log in with provided credentials.');
             } else {
               // if no error, login locally with returned user data
-              commit(USER.USER_LOGIN, res.body);
+              commit(USER.LOGIN, res.body);
               resolve();
             }
           });
@@ -99,13 +99,13 @@ export default {
     },
 
     logout({commit}) {
-      commit(USER.USER_LOGOUT);
+      commit(USER.LOGOUT);
     },
 
     checkForStoredLogin({commit}) {
       let storedLogin = localStorage.getItem('user');
       if (storedLogin) {
-        commit(USER.USER_LOGIN, JSON.parse(storedLogin));
+        commit(USER.LOGIN, JSON.parse(storedLogin));
       }
     }
   }
