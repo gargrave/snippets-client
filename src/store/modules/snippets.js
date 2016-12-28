@@ -40,7 +40,7 @@ export default {
           .end((err, res) => {
             if (err) {
               const error = err.response.body;
-              reject('There was an error fetching Snippets.');
+              reject('There was an error fetching your Snippets.');
             } else {
               commit(SNIPPETS.FETCH_ALL, res.body);
               resolve(res.body);

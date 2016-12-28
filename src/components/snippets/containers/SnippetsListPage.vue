@@ -3,6 +3,9 @@
 
     <app-new-snippet-panel></app-new-snippet-panel>
 
+    <!-- API error display -->
+    <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+
     <div class="panel panel-default" v-for="snippet in snippets">
       <div class="panel-heading">
         <h3 class="panel-title">{{ snippet.title }}</h3>
@@ -32,7 +35,10 @@
     data() {
       return {
         // whether any operations are currently running
-        working: false
+        working: false,
+
+        // error messages returned from API (e.g. invalid data)
+        apiError: '',
       };
     },
 
@@ -60,7 +66,7 @@
           .then((res) => {
             this.working = false;
           }, (err) => {
-            // TODO: show error message
+            this.apiError = err;
             this.working = false;
           });
       } else {
