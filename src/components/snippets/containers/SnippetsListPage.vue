@@ -1,6 +1,8 @@
 <template>
   <div>
 
+    <app-new-snippet-panel></app-new-snippet-panel>
+
     <div class="panel panel-default" v-for="snippet in snippets">
       <div class="panel-heading">
         <h3 class="panel-title">{{ snippet.title }}</h3>
@@ -19,8 +21,14 @@
   import {mapActions, mapGetters} from 'vuex';
 
   import {localUrls} from '../../../appData/urls';
+  import NewSnippetPanel from '../components/NewSnippetPanel.vue';
 
   export default {
+    components: {
+      appNewSnippetPanel: NewSnippetPanel
+    },
+
+
     data() {
       return {
         // whether any operations are currently running
