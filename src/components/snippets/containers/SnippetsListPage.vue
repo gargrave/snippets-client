@@ -6,15 +6,10 @@
     <!-- API error display -->
     <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-    <div class="panel panel-default" v-for="snippet in snippets">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{ snippet.title }}</h3>
-      </div>
-
-      <div class="panel-body">
-        {{ snippet.url }}
-      </div>
-    </div>
+    <app-snippet-list-detail
+      v-for="snippet in snippets"
+      :snippet="snippet"
+    ></app-snippet-list-detail>
 
   </div>
 </template>
@@ -25,10 +20,12 @@
 
   import {localUrls} from '../../../appData/urls';
   import NewSnippetPanel from '../components/NewSnippetPanel.vue';
+  import SnippetListDetail from '../components/SnippetListDetail.vue';
 
   export default {
     components: {
-      appNewSnippetPanel: NewSnippetPanel
+      appNewSnippetPanel: NewSnippetPanel,
+      appSnippetListDetail: SnippetListDetail
     },
 
 
