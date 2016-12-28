@@ -1,7 +1,7 @@
-export const DEFAULT_TITLE = 'Untitled Snippet';
-export const VALID_COLORS = ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'teal', 'gray'];
-
 export default {
+  DEFAULT_TITLE: 'Untitled Snippet',
+  VALID_COLORS: ['white', 'red', 'green', 'blue', 'yellow', 'orange', 'teal', 'gray'],
+
   getNewRecord: function() {
     let dateNow = new Date();
     return {
@@ -32,6 +32,6 @@ export default {
 
   isValidColor: function(color) {
     let colorClean = (color || '').trim().toLocaleLowerCase();
-    return VALID_COLORS.find((c) => c === colorClean);
+    return this.VALID_COLORS.find((c) => c === colorClean);
   }
 };

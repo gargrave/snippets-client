@@ -9,6 +9,7 @@
     <app-snippet-list-detail
       v-for="snippet in snippets"
       :snippet="snippet"
+      @quickUpdate="onQuickUpdate"
     ></app-snippet-list-detail>
 
   </div>
@@ -19,6 +20,7 @@
   import {mapActions, mapGetters} from 'vuex';
 
   import {localUrls} from '../../../appData/urls';
+  import snippetData from '../helpers/snippetData';
   import NewSnippetPanel from '../components/NewSnippetPanel.vue';
   import SnippetListDetail from '../components/SnippetListDetail.vue';
 
@@ -50,8 +52,35 @@
 
 
     methods: {
+      onQuickUpdate(value, event) {
+        if (!this.working) {
+          const foundSnippet = this.snippets.find(s => s.id === value.id);
+          if (foundSnippet) {
+            // create a new object and set its 'id' property
+            let snippet = Object.assign({}, snippetData.buildRecordData(foundSnippet));
+            snippet.id = foundSnippet.id;
+
+            // update any properties that were changed
+            if (value.color) {
+              snippet.color = value.color;
+            }
+
+            // call the action to save changes to the API
+            this.working = true;
+            this.updateSnippet(snippet)
+              .then((res) => {
+                this.working = false;
+              }, (err) => {
+                this.apiError = err;
+                this.working = false;
+              });
+          }
+        }
+      },
+
       ...mapActions([
-        'fetchSnippets'
+        'fetchSnippets',
+        'updateSnippet'
       ])
     },
 

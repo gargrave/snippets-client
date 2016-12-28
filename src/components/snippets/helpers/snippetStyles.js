@@ -34,5 +34,5 @@ export default {
   snippetArchiveButton(snippet) {
     let iconClass = snippet.archived ? 'fa fa-refresh' : 'fa fa-archive';
     return `${iconClass} pointer snippet-control snippet-control-archive`;
-  }
+  },
 };

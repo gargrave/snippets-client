@@ -12,6 +12,11 @@
 
 
     <div class="panel-footer snippet-controls">
+      <!-- pin/unpin button -->
+      <app-snippet-pin-button
+        :snippet="snippet"
+      ></app-snippet-pin-button>
+
       <!-- star/unstar button -->
       <span
         :class="starButtonClass"
@@ -19,10 +24,11 @@
         @click="onStarClick">
       </span>
 
-      <!-- pin/unpin button -->
-      <app-snippet-pin-button
-        :snippet="snippet"
-      ></app-snippet-pin-button>
+      <!-- color picker dropdown menu -->
+      <app-snippet-color-picker
+        @colorSelected="onColorSelected"
+      >
+      </app-snippet-color-picker>
 
       <!-- archive/unarchive button -->
       <app-snippet-archive-button
@@ -36,13 +42,15 @@
 
 <script>
   import snippetStyles from '../helpers/snippetStyles';
-  import SnippetPinButton from '../components/SnippetPinButton.vue';
   import SnippetArchiveButton from '../components/SnippetArchiveButton.vue';
+  import SnippetPinButton from '../components/SnippetPinButton.vue';
+  import SnippetColorPicker from '../components/SnippetColorPicker.vue';
 
   export default {
     components: {
       appSnippetPinButton: SnippetPinButton,
-      appSnippetArchiveButton: SnippetArchiveButton
+      appSnippetArchiveButton: SnippetArchiveButton,
+      appSnippetColorPicker: SnippetColorPicker,
     },
 
 
@@ -68,6 +76,13 @@
     methods: {
       onStarClick() {
         console.log('onStarClick');
+      },
+
+      onColorSelected(value, event) {
+        this.$emit('quickUpdate', {
+          id: this.snippet.id,
+          color: value
+        });
       }
     }
   };
