@@ -23,6 +23,11 @@
       <app-snippet-pin-button
         :snippet="snippet"
       ></app-snippet-pin-button>
+
+      <!-- archive/unarchive button -->
+      <app-snippet-archive-button
+        :snippet="snippet"
+      ></app-snippet-archive-button>
     </div><!-- /panel-footer -->
 
   </div><!-- /panel -->
@@ -32,10 +37,12 @@
 <script>
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetPinButton from '../components/SnippetPinButton.vue';
+  import SnippetArchiveButton from '../components/SnippetArchiveButton.vue';
 
   export default {
     components: {
-      appSnippetPinButton: SnippetPinButton
+      appSnippetPinButton: SnippetPinButton,
+      appSnippetArchiveButton: SnippetArchiveButton
     },
 
 

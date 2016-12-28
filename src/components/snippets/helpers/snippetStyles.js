@@ -29,5 +29,10 @@ export default {
   snippetPinButton(snippet) {
     let iconClass = snippet.pinned ? 'fa fa-bookmark' : 'fa fa-bookmark-o';
     return `${iconClass} pointer snippet-control snippet-control-pin`;
+  },
+
+  snippetArchiveButton(snippet) {
+    let iconClass = snippet.archived ? 'fa fa-refresh' : 'fa fa-archive';
+    return `${iconClass} pointer snippet-control snippet-control-archive`;
   }
 };
