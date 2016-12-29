@@ -1,17 +1,28 @@
 <template>
   <div>
-
     <app-new-snippet-panel></app-new-snippet-panel>
 
     <!-- API error display -->
     <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
+    <!-- pinned Snippets list -->
+    <div v-if="pinnedSnippets.length">
+      <app-snippet-list-detail
+        v-for="snippet in pinnedSnippets"
+        :snippet="snippet"
+        :working="working"
+        @quickUpdate="onQuickUpdate">
+      </app-snippet-list-detail>
+      <hr class="snippets-hr">
+    </div>
+
+    <!-- unpinned Snippets list -->
     <app-snippet-list-detail
-      v-for="snippet in snippets"
+      v-for="snippet in unpinnedSnippets"
       :snippet="snippet"
       :working="working"
-      @quickUpdate="onQuickUpdate"
-    ></app-snippet-list-detail>
+      @quickUpdate="onQuickUpdate">
+    </app-snippet-list-detail>
 
   </div>
 </template>
@@ -44,6 +55,14 @@
 
 
     computed: {
+      pinnedSnippets() {
+        return this.snippets.filter(s => s.pinned === true);
+      },
+
+      unpinnedSnippets() {
+        return this.snippets.filter(s => s.pinned === false);
+      },
+
       ...mapGetters([
         'authToken',
         'isLoggedIn',
@@ -53,7 +72,7 @@
 
 
     methods: {
-      onQuickUpdate(value, event) {
+      onQuickUpdate(value) {
         if (!this.working) {
           const foundSnippet = this.snippets.find(s => s.id === value.id);
           if (foundSnippet) {

@@ -37,6 +37,8 @@
 // 'add new snippet' button/link
 .new-snippet-link-panel {
   cursor: pointer;
+  margin-top: 6px;
+  margin-bottom: 20px;
   .panel-body {
     padding: 3px 15px;
   }
@@ -106,6 +108,6 @@ $snippetGray: rgb(207, 216, 220);
 }
 
 .snippets-hr {
-  border-top: 2px solid #aaa !important;
-  max-width: $panelMaxWidth;
+  border-top: 2px dotted #c5c5c5 !important;
+  max-width: $panelMaxWidth - 5;
 }

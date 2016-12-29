@@ -15,25 +15,25 @@
       <!-- pin/unpin button -->
       <app-snippet-pin-button
         :snippet="snippet"
-        @pinClicked="onPinClick"
-      ></app-snippet-pin-button>
+        @pinClicked="onPinClick">
+      </app-snippet-pin-button>
 
       <!-- star/unstar button -->
       <app-snippet-star-button
         :snippet="snippet"
-        @starClicked="onStarClick"
-      ></app-snippet-star-button>
+        @starClicked="onStarClick">
+      </app-snippet-star-button>
 
       <!-- color picker dropdown menu -->
       <app-snippet-color-picker
-        @colorSelected="onColorSelected"
-      ></app-snippet-color-picker>
+        @colorSelected="onColorSelected">
+      </app-snippet-color-picker>
 
       <!-- archive/unarchive button -->
       <app-snippet-archive-button
         :snippet="snippet"
-        @archiveClicked="onArchiveClick"
-      ></app-snippet-archive-button>
+        @archiveClicked="onArchiveClick">
+      </app-snippet-archive-button>
 
       <!-- goto detail view button -->
       <span
@@ -90,7 +90,6 @@
 
 
     methods: {
-      // TODO: make sure we are not currently working before running any of these
       /**
        * Handler for changing a Snippet's 'pinned' state;
        * toggle the 'pinned' value and emit an event.
