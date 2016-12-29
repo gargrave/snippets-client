@@ -19,7 +19,8 @@ export default {
   buildRecordData: function(record) {
     let dateNow = new Date();
     return {
-      title: record.title ? record.title.trim() : '',
+      id: record.id,
+      title: record.title ? record.title.trim() : this.DEFAULT_TITLE,
       url: record.url ? record.url.trim() : '',
       archived: record.archived || false,
       starred: record.starred || false,

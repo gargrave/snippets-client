@@ -19,8 +19,8 @@
 
       <!-- star/unstar button -->
       <span
-        :class="starButtonClass"
         aria-hidden="true"
+        :class="starButtonClass"
         @click="onStarClick">
       </span>
 
@@ -34,6 +34,13 @@
       <app-snippet-archive-button
         :snippet="snippet"
       ></app-snippet-archive-button>
+
+      <!-- goto detail view button -->
+      <span
+        aria-hidden="true"
+        class="fa fa-cog fa-pull-right pointer snippet-control"
+        @click.prevent="onDetailClick">
+      </span>
     </div><!-- /panel-footer -->
 
   </div><!-- /panel -->
@@ -41,6 +48,7 @@
 
 
 <script>
+  import {localUrls} from '../../../appData/urls';
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetArchiveButton from '../components/SnippetArchiveButton.vue';
   import SnippetPinButton from '../components/SnippetPinButton.vue';
@@ -83,6 +91,10 @@
           id: this.snippet.id,
           color: value
         });
+      },
+
+      onDetailClick() {
+        this.$router.push(`${localUrls.snippetsList}/${this.snippet.id}`);
       }
     }
   };

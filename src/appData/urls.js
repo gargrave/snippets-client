@@ -12,5 +12,6 @@ export const localUrls = {
   account: '/account',
   login: '/account/login',
   snippetsList: '/snippets',
-  snippetCreate: '/snippets/new'
+  snippetCreate: '/snippets/new',
+  snippetDetail: '/snippets/:id'
 };

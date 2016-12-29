@@ -1,9 +1,11 @@
 <template>
   <div>
-    <!-- 'New Snippet' panel -->
-    <div class="panel panel-default snippet-panel snippet-color-white new-snippet-form-panel">
+    <!-- Snippet detail panel -->
+    <div :class="panelClass">
       <div class="panel-heading">
-        <h3 class="panel-title">New Snippet</h3>
+        <h4 class="panel-title">
+          {{ originalSnippet.title }}
+        </h4>
       </div>
 
       <div class="panel-body">
@@ -11,7 +13,7 @@
         <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
         <app-snippet-form
-          :snippet="newSnippet"
+          :snippet="snippet"
           :working="working"
           :errors="errors"
           :onSubmit="onSubmit"
@@ -19,18 +21,25 @@
           @formDataChanged="onFormChanged"
         >
         </app-snippet-form>
-      </div><!-- /panel-body -->
-    </div><!-- /panel -->
+      </div>
+    </div>
+
+
+    <!-- delete Snippet link -->
+    <a href="" @click.prevent="onDelete">Delete this Snippet</a>
+    <br/>
   </div>
 </template>
 
 
 <script>
-  import {mapActions} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
+  import toastr from 'toastr';
 
   import {localUrls} from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
+  import snippetStyles from '../helpers/snippetStyles';
   import SnippetForm from '../components/SnippetForm.vue';
 
   export default {
@@ -53,12 +62,20 @@
           url: ''
         },
 
-        // models for new snippet
-        newSnippet: {
-          title: '',
-          url: ''
-        }
+        snippet: {},
+        originalSnippet: {},
       };
+    },
+
+
+    computed: {
+      panelClass() {
+        return snippetStyles.snippetPanel(this.snippet);
+      },
+
+      ...mapGetters([
+        'isLoggedIn'
+      ])
     },
 
 
@@ -67,24 +84,18 @@
        * Handler for input fields being changed on login form.
        */
       onFormChanged(value) {
-        this.newSnippet = {
-          title: value.title,
-          url: value.url
-        }
+        this.snippet.title = value.title;
+        this.snippet.url = value.url;
       },
 
       /**
        * Attempts to send the current Snippet data to the API to be saved.
        */
       onSubmit() {
+        toastr.warning('Check if Snippet is dirty before validation.', 'TODO');
         if (this.isValid()) {
-          const snippet = {
-            title: this.newSnippet.title.trim() || snippetData.DEFAULT_TITLE,
-            url: this.newSnippet.url.trim()
-          };
-
           this.working = true;
-          this.createSnippet(snippet)
+          this.updateSnippet(snippetData.buildRecordData(this.snippet))
             .then((res) => {
               this.working = false;
               this.$router.push(localUrls.snippetsList);
@@ -118,7 +129,7 @@
 
         // validate username
         params = {minLength: 3};
-        const titleVal = validate(this.newSnippet.title, params);
+        const titleVal = validate(this.snippet.title, params);
         if (!titleVal.valid) {
           this.errors.title = titleVal.error;
           valid = false;
@@ -126,7 +137,7 @@
 
         // validate password
         params = {required: true, format: 'url'};
-        const urlVal = validate(this.newSnippet.url, params);
+        const urlVal = validate(this.snippet.url, params);
         if (!urlVal.valid) {
           this.errors.url = urlVal.error;
           valid = false;
@@ -135,9 +146,41 @@
         return valid;
       },
 
+      onDelete() {
+        console.log('on delete click');
+      },
+
       ...mapActions([
-        'createSnippet'
+        'findSnippet',
+        'updateSnippet'
       ])
+    },
+
+
+    /*
+     * Search in route params for a Snippet ID. If none is found, redirect
+     * to List page. If it is found, use it. Otherwise, redirect to List page.
+     */
+    created() {
+      if (!this.isLoggedIn) {
+        this.$router.push(localUrls.login);
+      } else {
+        const snippetId = this.$route.params.id;
+        if (!snippetId) {
+          this.$router.push(localUrls.snippetsList);
+        } else {
+          this.working = true;
+          this.findSnippet(snippetId)
+            .then((res) => {
+              this.snippet = Object.assign({}, res);
+              this.originalSnippet = Object.assign({}, res);
+              this.working = false;
+            }, (err) => {
+              this.working = false;
+              this.$router.push(localUrls.snippetsList);
+            });
+        }
+      }
     }
   };
 </script>

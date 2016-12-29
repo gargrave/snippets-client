@@ -13,8 +13,8 @@
         :id="name"
         :name="name"
         :placeholder="placeholder"
-        v-model="value"
-        @input.prevent="inputEvent"
+        :value="value"
+        @input="inputEvent"
       >
     </div>
 
@@ -26,8 +26,8 @@
         :id="name"
         :name="name"
         :placeholder="placeholder"
-        v-model="value"
-        @input.prevent="inputEvent"
+        :value="value"
+        @input="inputEvent"
       >
     </div>
   </div>
@@ -43,6 +43,11 @@
         type: String,
         required: false,
         default: 'text'
+      },
+      value: {
+        type: String,
+        required: false,
+        default: ''
       },
       // value for input field's label
       label: {
@@ -69,21 +74,13 @@
     },
 
 
-    data() {
-      return {
-        // the current value of this field; used for v-model
-        value: ''
-      };
-    },
-
-
     methods: {
       /**
        * Handler for @input events on the input field. Simply emits
        * the event upward with the current value.
        */
-      inputEvent() {
-        this.$emit('valueChanged', this.value);
+      inputEvent(event) {
+        this.$emit('valueChanged', event.target.value);
       }
     }
   };

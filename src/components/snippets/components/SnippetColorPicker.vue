@@ -35,7 +35,6 @@
       },
 
       validColors() {
-        console.log('validColors');
         return snippetData.VALID_COLORS;
       },
     },

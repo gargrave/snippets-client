@@ -7,6 +7,7 @@
       label="Title"
       name="title"
       placeholder="Snippet Title (optional)"
+      :value="snippet.title"
       :error="errors.title"
       @valueChanged="onTitleChange"
     ></app-input-field>
@@ -17,6 +18,7 @@
       label="URL"
       name="url"
       placeholder="Snippet URL"
+      :value="snippet.url"
       :error="errors.url"
       @valueChanged="onUrlChange"
     ></app-input-field>
@@ -32,6 +34,7 @@
 
 
 <script>
+  import snippetData from '../helpers/snippetData';
   import InputField from '../../common/components/InputField.vue';
   import SubmitCancelBtnGroup from '../../common/components/SubmitCancelBtnGroup.vue';
 
@@ -62,29 +65,26 @@
       onCancel: {
         type: Function,
         required: true
-      }
-    },
-
-
-    data() {
-      return {
-        newSnippetData: {
-          title: '',
-          url: ''
-        }
+      },
+      // snippet being created/edited (e.g. for detail/edit view)
+      snippet: {
+        type: Object,
+        required: true
       }
     },
 
 
     methods: {
       onTitleChange(value, event) {
-        this.newSnippetData.title = value;
-        this.$emit('formDataChanged', this.newSnippetData);
+        const updatedSnippet = Object.assign({}, this.snippet);
+        updatedSnippet.title = value;
+        this.$emit('formDataChanged', updatedSnippet);
       },
 
       onUrlChange(value, event) {
-        this.newSnippetData.url = value;
-        this.$emit('formDataChanged', this.newSnippetData);
+        const updatedSnippet = Object.assign({}, this.snippet);
+        updatedSnippet.url = value;
+        this.$emit('formDataChanged', updatedSnippet);
       }
     }
   };
