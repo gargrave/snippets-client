@@ -1,5 +1,5 @@
 // regex for URLs
-const RE_URL = /^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+const RE_URL = /^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+\-~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
 // regex for email addresses
 const RE_EMAIL = /^\S+@\S+\.\S+$/;
 // regex for Twitter handles
