@@ -24,8 +24,9 @@
     ></app-input-field>
 
     <app-submit-cancel-btn-group
+      :submitText="submitText"
       :working="working"
-      :disableSubmit="false"
+      :disableSubmit="!snippetIsDirty"
       :onCancelClick="onCancel"
     ></app-submit-cancel-btn-group>
 
@@ -70,6 +71,18 @@
       snippet: {
         type: Object,
         required: true
+      },
+      // text to display on submit button
+      submitText: {
+        type: String,
+        required: false,
+        default: 'Submit'
+      },
+      // whether the Snippet has unsaved changes (only necessary on 'edit' page)
+      snippetIsDirty: {
+        type: Boolean,
+        required: false,
+        default: true
       }
     },
 

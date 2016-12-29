@@ -13,11 +13,13 @@
         <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
         <app-snippet-form
+          submitText="Update"
           :snippet="snippet"
           :working="working"
           :errors="errors"
           :onSubmit="onSubmit"
           :onCancel="onCancel"
+          :snippetIsDirty="snippetIsDirty"
           @formDataChanged="onFormChanged"
         >
         </app-snippet-form>
@@ -62,7 +64,12 @@
           url: ''
         },
 
+        // whether the Snippet has unsaved edits
+        snippetIsDirty: false,
+
+        // the working copy of the Snippet
         snippet: {},
+        // a copy of the Snippet, used for checking for changes
         originalSnippet: {},
       };
     },
@@ -81,18 +88,39 @@
 
     methods: {
       /**
+       * Checks if the current Snippet has unsaved edits.
+       */
+      updateDirtyState() {
+        this.snippetIsDirty = false;
+
+        // compare snippet 'title' properties
+        let titleOrig = this.originalSnippet.title;
+        let titleNew = this.snippet.title.trim();
+        if (titleNew !== titleOrig) {
+          this.snippetIsDirty = true;
+        }
+
+        // compare urls
+        let urlOrig = this.originalSnippet.url;
+        let urlNew = this.snippet.url;
+        if (urlNew && urlOrig !== urlNew) {
+          this.snippetIsDirty = true;
+        }
+      },
+
+      /**
        * Handler for input fields being changed on login form.
        */
       onFormChanged(value) {
         this.snippet.title = value.title;
         this.snippet.url = value.url;
+        this.updateDirtyState();
       },
 
       /**
        * Attempts to send the current Snippet data to the API to be saved.
        */
       onSubmit() {
-        toastr.warning('Check if Snippet is dirty before validation.', 'TODO');
         if (this.isValid()) {
           this.working = true;
           this.updateSnippet(snippetData.buildRecordData(this.snippet))
@@ -146,7 +174,11 @@
         return valid;
       },
 
+      /**
+       * Handler for click event on 'delete' button/link.
+       */
       onDelete() {
+        toastr.warning('Implement onDelete()', 'TODO');
         console.log('on delete click');
       },
 
@@ -172,10 +204,12 @@
           this.working = true;
           this.findSnippet(snippetId)
             .then((res) => {
+              // if we get a valid Snippet, save two local copies
               this.snippet = Object.assign({}, res);
               this.originalSnippet = Object.assign({}, res);
               this.working = false;
             }, (err) => {
+              // if no valid Snippet, return to the List view
               this.working = false;
               this.$router.push(localUrls.snippetsList);
             });
