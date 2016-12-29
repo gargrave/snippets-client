@@ -1,4 +1,5 @@
-const ROOT = 'http://localhost:8000';
+const ROOT = process.env.NODE_ENV === 'development' ?
+  'http://localhost:8000' : 'https://snippets-dev.herokuapp.com';
 const API_ROOT = `${ROOT}/api/v1`;
 
 // URLs for AJAX calls to the API
