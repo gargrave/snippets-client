@@ -65,21 +65,27 @@
 
 
     props: {
+      // the Snippet being displayed on this panel
       snippet: {
         type: Object,
         required: true
-      }
+      },
+      // whether any operations are currently running
+      working: {
+        type: Boolean,
+        required: true
+      },
     },
 
 
     computed: {
+      /*
+       * The class for the top-level BS panel component; will change
+       * based on the Snippet's 'color' property.
+       */
       panelClass() {
         return snippetStyles.snippetPanel(this.snippet);
       },
-
-      starButtonClass() {
-        return snippetStyles.snippetStarButton(this.snippet);
-      }
     },
 
 
@@ -90,10 +96,12 @@
        * toggle the 'pinned' value and emit an event.
        */
       onPinClick() {
-        this.$emit('quickUpdate', {
-          id: this.snippet.id,
-          pinned: !this.snippet.pinned
-        });
+        if (!this.working) {
+          this.$emit('quickUpdate', {
+            id: this.snippet.id,
+            pinned: !this.snippet.pinned
+          });
+        }
       },
 
       /**
@@ -101,10 +109,12 @@
        * toggle the 'starred' value and emit an event.
        */
       onStarClick() {
-        this.$emit('quickUpdate', {
-          id: this.snippet.id,
-          starred: !this.snippet.starred
-        });
+        if (!this.working) {
+          this.$emit('quickUpdate', {
+            id: this.snippet.id,
+            starred: !this.snippet.starred
+          });
+        }
       },
 
       /**
@@ -112,10 +122,12 @@
        * change the color value and emit an event.
        */
       onColorSelected(value) {
-        this.$emit('quickUpdate', {
-          id: this.snippet.id,
-          color: value
-        });
+        if (!this.working) {
+          this.$emit('quickUpdate', {
+            id: this.snippet.id,
+            color: value
+          });
+        }
       },
 
       /**
@@ -123,14 +135,22 @@
        * toggle the 'archived' value and emit an event.
        */
       onArchiveClick() {
-        this.$emit('quickUpdate', {
-          id: this.snippet.id,
-          archived: !this.snippet.archived
-        });
+        if (!this.working) {
+          this.$emit('quickUpdate', {
+            id: this.snippet.id,
+            archived: !this.snippet.archived
+          });
+        }
       },
 
+      /**
+       * Handler for clicking on the 'go to detail' button;
+       * routes the view to the selected Snippet's 'detail' page
+       */
       onDetailClick() {
-        this.$router.push(`${localUrls.snippetsList}/${this.snippet.id}`);
+        if (!this.working) {
+          this.$router.push(`${localUrls.snippetsList}/${this.snippet.id}`);
+        }
       }
     }
   };

@@ -20,8 +20,7 @@
           :onSubmit="onSubmit"
           :onCancel="onCancel"
           :snippetIsDirty="snippetIsDirty"
-          @formDataChanged="onFormChanged"
-        >
+          @formDataChanged="onFormChanged">
         </app-snippet-form>
       </div>
     </div>
@@ -76,6 +75,10 @@
 
 
     computed: {
+      /*
+       * The class for the top-level BS panel component; will change
+       * based on the Snippet's 'color' property.
+       */
       panelClass() {
         return snippetStyles.snippetPanel(this.snippet);
       },
@@ -155,7 +158,7 @@
           url: ''
         };
 
-        // validate username
+        // validate title
         params = {minLength: 3};
         const titleVal = validate(this.snippet.title, params);
         if (!titleVal.valid) {
@@ -163,7 +166,7 @@
           valid = false;
         }
 
-        // validate password
+        // validate url
         params = {required: true, format: 'url'};
         const urlVal = validate(this.snippet.url, params);
         if (!urlVal.valid) {
@@ -179,7 +182,6 @@
        */
       onDelete() {
         toastr.warning('Implement onDelete()', 'TODO');
-        console.log('on delete click');
       },
 
       ...mapActions([

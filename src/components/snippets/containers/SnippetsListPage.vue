@@ -9,6 +9,7 @@
     <app-snippet-list-detail
       v-for="snippet in snippets"
       :snippet="snippet"
+      :working="working"
       @quickUpdate="onQuickUpdate"
     ></app-snippet-list-detail>
 

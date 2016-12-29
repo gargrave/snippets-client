@@ -14,7 +14,7 @@
     data() {
       return {
         panelClass: 'panel panel-default snippet-panel new-snippet-link-panel snippet-color-white'
-      }
+      };
     },
 
 

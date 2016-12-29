@@ -70,7 +70,7 @@
         this.newSnippet = {
           title: value.title,
           url: value.url
-        }
+        };
       },
 
       /**
