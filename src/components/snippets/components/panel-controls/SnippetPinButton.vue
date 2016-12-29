@@ -2,7 +2,7 @@
   <span
     type="button"
     aria-hidden="true"
-    :class="archiveButtonClass"
+    :class="pinButtonClass"
     @click="onClick"
   >
   </span>
@@ -10,7 +10,7 @@
 
 
 <script>
-  import snippetStyles from '../helpers/snippetStyles';
+  import snippetStyles from '../../helpers/snippetStyles';
 
   export default {
     props: {
@@ -22,15 +22,15 @@
 
 
     computed: {
-      archiveButtonClass() {
-        return snippetStyles.snippetArchiveButton(this.snippet);
+      pinButtonClass() {
+        return snippetStyles.snippetPinButton(this.snippet);
       }
     },
 
 
     methods: {
       onClick() {
-        this.$emit('archiveClicked');
+        this.$emit('pinClicked');
       }
     }
   };

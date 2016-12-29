@@ -25,8 +25,8 @@
 
 
 <script>
-  import snippetData from '../helpers/snippetData';
-  import snippetStyles from '../helpers/snippetStyles';
+  import snippetData from '../../helpers/snippetData';
+  import snippetStyles from '../../helpers/snippetStyles';
 
   export default {
     computed: {

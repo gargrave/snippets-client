@@ -2,15 +2,14 @@
   <span
     type="button"
     aria-hidden="true"
-    :class="pinButtonClass"
+    :class="starButtonClass"
     @click="onClick"
-  >
-  </span>
+  ></span>
 </template>
 
 
 <script>
-  import snippetStyles from '../helpers/snippetStyles';
+  import snippetStyles from '../../helpers/snippetStyles';
 
   export default {
     props: {
@@ -22,15 +21,15 @@
 
 
     computed: {
-      pinButtonClass() {
-        return snippetStyles.snippetPinButton(this.snippet);
+      starButtonClass() {
+        return snippetStyles.snippetStarButton(this.snippet);
       }
     },
 
 
     methods: {
       onClick() {
-        this.$emit('pinClicked');
+        this.$emit('starClicked');
       }
     }
   };

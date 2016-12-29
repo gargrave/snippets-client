@@ -19,12 +19,10 @@
       ></app-snippet-pin-button>
 
       <!-- star/unstar button -->
-      <!-- TODO: move to separate component -->
-      <span
-        aria-hidden="true"
-        :class="starButtonClass"
-        @click="onStarClick">
-      </span>
+      <app-snippet-star-button
+        :snippet="snippet"
+        @starClicked="onStarClick"
+      ></app-snippet-star-button>
 
       <!-- color picker dropdown menu -->
       <app-snippet-color-picker
@@ -52,15 +50,17 @@
 <script>
   import {localUrls} from '../../../appData/urls';
   import snippetStyles from '../helpers/snippetStyles';
-  import SnippetArchiveButton from '../components/SnippetArchiveButton.vue';
-  import SnippetPinButton from '../components/SnippetPinButton.vue';
-  import SnippetColorPicker from '../components/SnippetColorPicker.vue';
+  import SnippetArchiveButton from '../components/panel-controls/SnippetArchiveButton.vue';
+  import SnippetColorPicker from '../components/panel-controls/SnippetColorPicker.vue';
+  import SnippetPinButton from '../components/panel-controls/SnippetPinButton.vue';
+  import SnippetStarButton from '../components/panel-controls/SnippetStarButton.vue';
 
   export default {
     components: {
       appSnippetPinButton: SnippetPinButton,
-      appSnippetArchiveButton: SnippetArchiveButton,
       appSnippetColorPicker: SnippetColorPicker,
+      appSnippetStarButton: SnippetStarButton,
+      appSnippetArchiveButton: SnippetArchiveButton,
     },
 
 
