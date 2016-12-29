@@ -30,7 +30,7 @@
 
     methods: {
       onClick() {
-        console.log('SnippetPinButton.onClick()');
+        this.$emit('pinClicked');
       }
     }
   };

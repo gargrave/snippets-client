@@ -61,8 +61,17 @@
             snippet.id = foundSnippet.id;
 
             // update any properties that were changed
-            if (value.color) {
+            if (value.pinned !== undefined) {
+              snippet.pinned = value.pinned;
+            }
+            if (value.starred !== undefined) {
+              snippet.starred = value.starred;
+            }
+            if (value.color !== undefined) {
               snippet.color = value.color;
+            }
+            if (value.archived !== undefined) {
+              snippet.archived = value.archived;
             }
 
             // call the action to save changes to the API

@@ -30,7 +30,7 @@
 
     methods: {
       onClick() {
-        console.log('SnippetArchiveButton.onClick()');
+        this.$emit('archiveClicked');
       }
     }
   };

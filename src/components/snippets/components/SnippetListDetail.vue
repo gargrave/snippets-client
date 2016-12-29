@@ -15,9 +15,11 @@
       <!-- pin/unpin button -->
       <app-snippet-pin-button
         :snippet="snippet"
+        @pinClicked="onPinClick"
       ></app-snippet-pin-button>
 
       <!-- star/unstar button -->
+      <!-- TODO: move to separate component -->
       <span
         aria-hidden="true"
         :class="starButtonClass"
@@ -27,12 +29,12 @@
       <!-- color picker dropdown menu -->
       <app-snippet-color-picker
         @colorSelected="onColorSelected"
-      >
-      </app-snippet-color-picker>
+      ></app-snippet-color-picker>
 
       <!-- archive/unarchive button -->
       <app-snippet-archive-button
         :snippet="snippet"
+        @archiveClicked="onArchiveClick"
       ></app-snippet-archive-button>
 
       <!-- goto detail view button -->
@@ -82,14 +84,48 @@
 
 
     methods: {
-      onStarClick() {
-        console.log('onStarClick');
+      // TODO: make sure we are not currently working before running any of these
+      /**
+       * Handler for changing a Snippet's 'pinned' state;
+       * toggle the 'pinned' value and emit an event.
+       */
+      onPinClick() {
+        this.$emit('quickUpdate', {
+          id: this.snippet.id,
+          pinned: !this.snippet.pinned
+        });
       },
 
-      onColorSelected(value, event) {
+      /**
+       * Handler for changing a Snippet's 'starred' state;
+       * toggle the 'starred' value and emit an event.
+       */
+      onStarClick() {
+        this.$emit('quickUpdate', {
+          id: this.snippet.id,
+          starred: !this.snippet.starred
+        });
+      },
+
+      /**
+       * Handler for changing a Snippet's color;
+       * change the color value and emit an event.
+       */
+      onColorSelected(value) {
         this.$emit('quickUpdate', {
           id: this.snippet.id,
           color: value
+        });
+      },
+
+      /**
+       * Handler for changing a Snippet's 'archived' state;
+       * toggle the 'archived' value and emit an event.
+       */
+      onArchiveClick() {
+        this.$emit('quickUpdate', {
+          id: this.snippet.id,
+          archived: !this.snippet.archived
         });
       },
 
