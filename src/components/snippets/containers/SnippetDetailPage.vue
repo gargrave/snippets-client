@@ -113,39 +113,6 @@
       },
 
       /**
-       * Handler for input fields being changed on login form.
-       */
-      onFormChanged(value) {
-        this.snippet.title = value.title;
-        this.snippet.url = value.url;
-        this.updateDirtyState();
-      },
-
-      /**
-       * Attempts to send the current Snippet data to the API to be saved.
-       */
-      onSubmit() {
-        if (this.isValid()) {
-          this.working = true;
-          this.updateSnippet(snippetData.buildRecordData(this.snippet))
-            .then((res) => {
-              this.working = false;
-              this.$router.push(localUrls.snippetsList);
-            }, (err) => {
-              this.apiError = err;
-              this.working = false;
-            });
-        }
-      },
-
-      /**
-       * Callback for 'cancel' button; rereoute to Snippets list page.
-       */
-      onCancel() {
-        this.$router.push(localUrls.snippetsList);
-      },
-
-      /**
        * Validates the user data currently entered into the form.
        *
        * @returns {boolean} Whether the data validates correctly.
@@ -176,6 +143,39 @@
         }
 
         return valid;
+      },
+
+      /**
+       * Handler for input fields being changed on login form.
+       */
+      onFormChanged(value) {
+        this.snippet.title = value.title;
+        this.snippet.url = value.url;
+        this.updateDirtyState();
+      },
+
+      /**
+       * Attempts to send the current Snippet data to the API to be saved.
+       */
+      onSubmit() {
+        if (this.isValid()) {
+          this.working = true;
+          this.updateSnippet(snippetData.buildRecordData(this.snippet))
+            .then((res) => {
+              this.working = false;
+              this.$router.push(localUrls.snippetsList);
+            }, (err) => {
+              this.apiError = err;
+              this.working = false;
+            });
+        }
+      },
+
+      /**
+       * Callback for 'cancel' button; rereoute to Snippets list page.
+       */
+      onCancel() {
+        this.$router.push(localUrls.snippetsList);
       },
 
       /**
