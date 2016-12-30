@@ -175,7 +175,7 @@
        * Callback for 'cancel' button; rereoute to Snippets list page.
        */
       onCancel() {
-        this.$router.push(localUrls.snippetsList);
+        this.$router.go(-1);
       },
 
       /**
