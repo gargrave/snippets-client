@@ -35,7 +35,13 @@ export default {
       state.snippets = [...state.snippets.filter(
         s => s.id !== snippet.id
       ), snippet];
-    }
+    },
+
+    [SNIPPETS.DELETE](state, snippetId) {
+      state.snippets = state.snippets.filter(
+        s => s.id !== snippetId
+      );
+    },
   },
 
 
@@ -147,6 +153,27 @@ export default {
               reject('There was an error updating the Snippet.');
             } else {
               commit(SNIPPETS.UPDATE, res.body);
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
+    deleteSnippet({getters, commit}, snippetId) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+        }
+
+        request
+          .delete(apiUrls.snippets + `${snippetId}/`)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            if (err) {
+              reject('There was an error deleting the Snippet.');
+            } else {
+              commit(SNIPPETS.DELETE, snippetId);
               resolve(res.body);
             }
           });

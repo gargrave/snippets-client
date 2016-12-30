@@ -21,6 +21,7 @@
           :onCancel="onCancel"
           :snippetIsDirty="snippetIsDirty"
           @formDataChanged="onFormChanged">
+
         </app-snippet-form>
       </div>
     </div>
@@ -181,12 +182,25 @@
        * Handler for click event on 'delete' button/link.
        */
       onDelete() {
-        toastr.warning('Implement onDelete()', 'TODO');
+        // TODO replace this alert
+        if (confirm('Delete this Snippet?')) {
+          this.working = true;
+          this.deleteSnippet(this.snippet.id)
+            .then((res) => {
+              toastr.success('Snippet deleted');
+              this.working = false;
+              this.$router.push(localUrls.snippetsList);
+            }, (err) => {
+              this.apiError = err;
+              this.working = false;
+            });
+        }
       },
 
       ...mapActions([
         'findSnippet',
-        'updateSnippet'
+        'updateSnippet',
+        'deleteSnippet',
       ])
     },
 
