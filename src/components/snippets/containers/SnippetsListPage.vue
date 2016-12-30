@@ -10,7 +10,7 @@
       <div v-if="pinnedSnippets.length">
         <app-snippet-list-detail
           v-for="snippet in pinnedSnippets"
-          :isArchivedView="isArchivedView"
+          :hidePinButton="!isMainListView"
           :snippet="snippet"
           :working="working"
           @quickUpdate="onQuickUpdate">
@@ -21,7 +21,7 @@
       <!-- unpinned Snippets list -->
       <app-snippet-list-detail
         v-for="snippet in unpinnedSnippets"
-        :isArchivedView="isArchivedView"
+        :hidePinButton="!isMainListView"
         :snippet="snippet"
         :working="working"
         @quickUpdate="onQuickUpdate">
@@ -75,8 +75,6 @@
       },
 
       isMainListView() {
-        console.log('this.filterBy:');
-        console.log(this.filterBy);
         return this.filterBy === '' || !this.filterBy;
       },
 
@@ -113,7 +111,7 @@
           if (this.isArchivedView) {
             fetchCall = this.fetchArchivedSnippets;
           } else if (this.isStarredView) {
-            toastr.warning('implement starred view', 'TODO');
+            fetchCall = this.fetchStarredSnippets;
           }
         }
 
@@ -144,12 +142,22 @@
             if (value.pinned !== undefined) {
               snippet.pinned = value.pinned;
             }
-            if (value.starred !== undefined) {
-              snippet.starred = value.starred;
-            }
+
             if (value.color !== undefined) {
               snippet.color = value.color;
             }
+
+            // for updating 'starred' status
+            // Snippet will need to be removed from current view-list IF
+            // we are currently viewing the starred list and the Snippet is being un-starred
+            if (value.starred !== undefined) {
+              snippet.starred = value.starred;
+              removeAfterUpdate = !value.starred && this.isStarredView;
+            }
+
+            // for update 'archived' status
+            // Snippet will need to be removed from current view-list UNLESS we are viewing the 'starred' list
+            // show a toast to confirm completion
             if (value.archived !== undefined) {
               if (value.archived) {
                 snippet.pinned = false;
@@ -158,7 +166,7 @@
                 toast = 'Snippet restored';
               }
               snippet.archived = value.archived;
-              removeAfterUpdate = true;
+              removeAfterUpdate = !this.isStarredView;
             }
 
             // call the action to save changes to the API
@@ -179,6 +187,7 @@
 
       ...mapActions([
         'fetchSnippets',
+        'fetchStarredSnippets',
         'fetchArchivedSnippets',
         'updateSnippet',
       ])

@@ -6,6 +6,7 @@ const API_ROOT = `${ROOT}/api/v1`;
 export const apiUrls = {
   login: `${ROOT}/api-token-auth/`,
   snippets: `${API_ROOT}/snippets/`,
+  starredSnippets: `${API_ROOT}/snippets/starred/`,
   archivedSnippets: `${API_ROOT}/snippets/archived/`,
 };
 

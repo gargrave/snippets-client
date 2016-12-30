@@ -2,19 +2,31 @@
   <div :class="panelClass">
 
     <div class="panel-heading">
-      <h3 class="panel-title">{{ snippet.title }}</h3>
+      <h3 class="panel-title snippet-title">
+        <a
+          :href="snippet.url"
+          target="_blank"
+          rel="noopener noreferrer">
+          {{ snippet.title }}
+        </a>
+      </h3>
     </div><!-- /panel-heading -->
 
 
     <div class="panel-body">
-      {{ snippet.url }}
+      <a
+        :href="snippet.url"
+        target="_blank"
+        rel="noopener noreferrer">
+        {{ snippet.url }}
+      </a>
     </div><!-- /panel-body -->
 
 
     <div class="panel-footer snippet-controls">
       <!-- pin/unpin button -->
       <app-snippet-pin-button
-        v-if="!isArchivedView"
+        v-if="!hidePinButton"
         :snippet="snippet"
         @pinClicked="onPinClick">
       </app-snippet-pin-button>
@@ -78,7 +90,7 @@
       },
       // whether we are viewing the archived list
       // we will show fewer options if this is the case
-      isArchivedView: {
+      hidePinButton: {
         type: Boolean,
         required: false,
         default: false

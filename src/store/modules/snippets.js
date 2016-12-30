@@ -31,8 +31,6 @@ export default {
     },
 
     [SNIPPETS.UPDATE](state, {snippet, removeAfterUpdate}) {
-      console.log('removeAfterUpdate:');
-      console.log(removeAfterUpdate);
       if (removeAfterUpdate) {
         state.snippets = [...state.snippets.filter(
           s => s.id !== snippet.id
@@ -56,7 +54,7 @@ export default {
     /**
      * Fetches the full list of user's Snippets from the API.
      */
-    fetchSnippets({getters, commit}, archived = false) {
+    fetchSnippets({getters, commit}, alternateUrl) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -64,7 +62,7 @@ export default {
           return;
         }
 
-        const url = archived ? apiUrls.archivedSnippets : apiUrls.snippets;
+        const url = alternateUrl || apiUrls.snippets;
         request
           .get(url)
           .set('Authorization', `Token ${authToken}`)
@@ -79,8 +77,12 @@ export default {
       });
     },
 
+    fetchStarredSnippets({dispatch, commit}) {
+      return dispatch('fetchSnippets', apiUrls.starredSnippets);
+    },
+
     fetchArchivedSnippets({dispatch, commit}) {
-      return dispatch('fetchSnippets', true);
+      return dispatch('fetchSnippets', apiUrls.archivedSnippets);
     },
 
     /**

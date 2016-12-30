@@ -14,12 +14,12 @@
     padding: 10px 16px;
   }
 
-  .snippet-title {
+  .panel-body, .panel-heading {
     a {
-      color: #333 !important;
-      text-decoration: none !important;
+      text-decoration: none;
+      color: $basicTextColor;
       &:hover {
-        text-decoration: underline !important;
+        text-decoration: underline;
       }
     }
   }
