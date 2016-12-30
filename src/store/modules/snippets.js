@@ -30,11 +30,18 @@ export default {
       state.snippets.push(snippet);
     },
 
-    [SNIPPETS.UPDATE](state, snippet) {
-      // state.snippets.push(snippet);
-      state.snippets = [...state.snippets.filter(
-        s => s.id !== snippet.id
-      ), snippet];
+    [SNIPPETS.UPDATE](state, {snippet, removeAfterUpdate}) {
+      console.log('removeAfterUpdate:');
+      console.log(removeAfterUpdate);
+      if (removeAfterUpdate) {
+        state.snippets = [...state.snippets.filter(
+          s => s.id !== snippet.id
+        )];
+      } else {
+        state.snippets = [...state.snippets.filter(
+          s => s.id !== snippet.id
+        ), snippet];
+      }
     },
 
     [SNIPPETS.DELETE](state, snippetId) {
@@ -142,7 +149,7 @@ export default {
       });
     },
 
-    updateSnippet({getters, commit}, snippet) {
+    updateSnippet({getters, commit}, {snippet, removeAfterUpdate}) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -157,8 +164,9 @@ export default {
             if (err) {
               reject('There was an error updating the Snippet.');
             } else {
-              commit(SNIPPETS.UPDATE, res.body);
-              resolve(res.body);
+              const snippet = res.body;
+              commit(SNIPPETS.UPDATE, {snippet, removeAfterUpdate});
+              resolve(snippet);
             }
           });
       });

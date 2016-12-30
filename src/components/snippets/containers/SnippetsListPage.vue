@@ -30,6 +30,7 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
+  import toastr from 'toastr';
 
   import {localUrls} from '../../../appData/urls';
   import snippetData from '../helpers/snippetData';
@@ -50,6 +51,9 @@
 
         // error messages returned from API (e.g. invalid data)
         apiError: '',
+
+        // the filter (if any) for the current list view
+        filterBy: '',
       };
     },
 
@@ -73,18 +77,19 @@
 
     watch: {
       '$route'(newValue, oldValue) {
-        this.rebuildSnippetsListForRoute();
+        this.rebuildSnippetsList();
       }
     },
 
 
     methods: {
-      rebuildSnippetsListForRoute() {
+      rebuildSnippetsList() {
         let fetchCall = this.fetchSnippets;
+
         // check if we need to request a filtered list
-        const filterBy = this.$route.params.filterBy;
-        if (filterBy) {
-          if (filterBy === 'archived') {
+        this.filterBy = this.$route.params.filterBy;
+        if (this.filterBy) {
+          if (this.filterBy === 'archived') {
             fetchCall = this.fetchArchivedSnippets;
           }
         }
@@ -103,6 +108,8 @@
         if (!this.working) {
           const foundSnippet = this.snippets.find(s => s.id === value.id);
           if (foundSnippet) {
+            let removeAfterUpdate = false;
+            let toast = '';
             // create a new object and set its 'id' property
             let snippet = Object.assign({}, snippetData.buildRecordData(foundSnippet));
             snippet.id = foundSnippet.id;
@@ -118,13 +125,23 @@
               snippet.color = value.color;
             }
             if (value.archived !== undefined) {
+              if (value.archived) {
+                snippet.pinned = false;
+                toast = 'Snippet archived';
+              } else {
+                toast = 'Snippet restored';
+              }
               snippet.archived = value.archived;
+              removeAfterUpdate = true;
             }
 
             // call the action to save changes to the API
             this.working = true;
-            this.updateSnippet(snippet)
+            this.updateSnippet({snippet, removeAfterUpdate})
               .then((res) => {
+                if (toast) {
+                  toastr.success(toast);
+                }
                 this.working = false;
               }, (err) => {
                 this.apiError = err;
@@ -144,7 +161,7 @@
 
     created() {
       if (this.isLoggedIn) {
-        this.rebuildSnippetsListForRoute();
+        this.rebuildSnippetsList();
       } else {
         this.$router.push(localUrls.login);
       }
