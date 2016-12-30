@@ -6,6 +6,7 @@ const API_ROOT = `${ROOT}/api/v1`;
 export const apiUrls = {
   login: `${ROOT}/api-token-auth/`,
   snippets: `${API_ROOT}/snippets/`,
+  archivedSnippets: `${API_ROOT}/snippets/archived/`,
 };
 
 // URLs for local routing (i.e. react-router)
@@ -13,6 +14,7 @@ export const localUrls = {
   account: '/account',
   login: '/account/login',
   snippetsList: '/snippets',
+  snippetsFilteredList: '/snippets/filter/:filterBy',
   snippetCreate: '/snippets/new',
-  snippetDetail: '/snippets/:id'
+  snippetDetail: '/snippets/:id',
 };

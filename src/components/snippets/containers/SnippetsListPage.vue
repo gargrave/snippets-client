@@ -71,7 +71,34 @@
     },
 
 
+    watch: {
+      '$route'(newValue, oldValue) {
+        this.rebuildSnippetsListForRoute();
+      }
+    },
+
+
     methods: {
+      rebuildSnippetsListForRoute() {
+        let fetchCall = this.fetchSnippets;
+        // check if we need to request a filtered list
+        const filterBy = this.$route.params.filterBy;
+        if (filterBy) {
+          if (filterBy === 'archived') {
+            fetchCall = this.fetchArchivedSnippets;
+          }
+        }
+
+        this.working = true;
+        fetchCall()
+          .then((res) => {
+            this.working = false;
+          }, (err) => {
+            this.apiError = err;
+            this.working = false;
+          });
+      },
+
       onQuickUpdate(value) {
         if (!this.working) {
           const foundSnippet = this.snippets.find(s => s.id === value.id);
@@ -109,21 +136,15 @@
 
       ...mapActions([
         'fetchSnippets',
-        'updateSnippet'
+        'fetchArchivedSnippets',
+        'updateSnippet',
       ])
     },
 
 
     created() {
       if (this.isLoggedIn) {
-        this.working = true;
-        this.fetchSnippets()
-          .then((res) => {
-            this.working = false;
-          }, (err) => {
-            this.apiError = err;
-            this.working = false;
-          });
+        this.rebuildSnippetsListForRoute();
       } else {
         this.$router.push(localUrls.login);
       }

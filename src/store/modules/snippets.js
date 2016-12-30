@@ -49,7 +49,7 @@ export default {
     /**
      * Fetches the full list of user's Snippets from the API.
      */
-    fetchSnippets({getters, commit}) {
+    fetchSnippets({getters, commit}, archived = false) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -57,8 +57,9 @@ export default {
           return;
         }
 
+        const url = archived ? apiUrls.archivedSnippets : apiUrls.snippets;
         request
-          .get(apiUrls.snippets)
+          .get(url)
           .set('Authorization', `Token ${authToken}`)
           .end((err, res) => {
             if (err) {
@@ -69,6 +70,10 @@ export default {
             }
           });
       });
+    },
+
+    fetchArchivedSnippets({dispatch, commit}) {
+      return dispatch('fetchSnippets', true);
     },
 
     /**

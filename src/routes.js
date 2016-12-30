@@ -26,6 +26,10 @@ export const routes = [
     path: localUrls.snippetsList,
     component: SnippetsListPage,
     name: 'snippets-list'
+  },{
+    path: localUrls.snippetsFilteredList,
+    component: SnippetsListPage,
+    name: 'snippets-filtered-list'
   },
   {
     path: localUrls.snippetCreate,
