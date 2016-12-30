@@ -14,6 +14,7 @@
     <div class="panel-footer snippet-controls">
       <!-- pin/unpin button -->
       <app-snippet-pin-button
+        v-if="!isArchivedView"
         :snippet="snippet"
         @pinClicked="onPinClick">
       </app-snippet-pin-button>
@@ -75,6 +76,13 @@
         type: Boolean,
         required: true
       },
+      // whether we are viewing the archived list
+      // we will show fewer options if this is the case
+      isArchivedView: {
+        type: Boolean,
+        required: false,
+        default: false
+      }
     },
 
 

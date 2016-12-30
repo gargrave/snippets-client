@@ -1,28 +1,32 @@
 <template>
   <div>
-    <app-new-snippet-panel></app-new-snippet-panel>
+    <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
 
     <!-- API error display -->
     <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-    <!-- pinned Snippets list -->
-    <div v-if="pinnedSnippets.length">
+    <div v-if="!refreshing">
+      <!-- pinned Snippets list -->
+      <div v-if="pinnedSnippets.length">
+        <app-snippet-list-detail
+          v-for="snippet in pinnedSnippets"
+          :isArchivedView="isArchivedView"
+          :snippet="snippet"
+          :working="working"
+          @quickUpdate="onQuickUpdate">
+        </app-snippet-list-detail>
+        <hr class="snippets-hr">
+      </div><!-- /pinned Snippets list -->
+
+      <!-- unpinned Snippets list -->
       <app-snippet-list-detail
-        v-for="snippet in pinnedSnippets"
+        v-for="snippet in unpinnedSnippets"
+        :isArchivedView="isArchivedView"
         :snippet="snippet"
         :working="working"
         @quickUpdate="onQuickUpdate">
       </app-snippet-list-detail>
-      <hr class="snippets-hr">
     </div>
-
-    <!-- unpinned Snippets list -->
-    <app-snippet-list-detail
-      v-for="snippet in unpinnedSnippets"
-      :snippet="snippet"
-      :working="working"
-      @quickUpdate="onQuickUpdate">
-    </app-snippet-list-detail>
 
   </div>
 </template>
@@ -49,6 +53,9 @@
         // whether any operations are currently running
         working: false,
 
+        // whether the list of Snippets is currently being refreshed
+        refreshing: false,
+
         // error messages returned from API (e.g. invalid data)
         apiError: '',
 
@@ -65,6 +72,20 @@
 
       unpinnedSnippets() {
         return this.snippets.filter(s => s.pinned === false);
+      },
+
+      isMainListView() {
+        console.log('this.filterBy:');
+        console.log(this.filterBy);
+        return this.filterBy === '' || !this.filterBy;
+      },
+
+      isArchivedView() {
+        return this.filterBy === 'archived';
+      },
+
+      isStarredView() {
+        return this.filterBy === 'starred';
       },
 
       ...mapGetters([
@@ -89,18 +110,23 @@
         // check if we need to request a filtered list
         this.filterBy = this.$route.params.filterBy;
         if (this.filterBy) {
-          if (this.filterBy === 'archived') {
+          if (this.isArchivedView) {
             fetchCall = this.fetchArchivedSnippets;
+          } else if (this.isStarredView) {
+            toastr.warning('implement starred view', 'TODO');
           }
         }
 
         this.working = true;
+        this.refreshing = true;
         fetchCall()
           .then((res) => {
             this.working = false;
+            this.refreshing = false;
           }, (err) => {
             this.apiError = err;
             this.working = false;
+            this.refreshing = false;
           });
       },
 
