@@ -3,12 +3,7 @@
     <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
 
     <!-- loading icon -->
-    <div class="loading-icon" v-if="refreshing">
-      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-      <br>
-      <span class="sr-only">Loading...</span>
-    </div>
-
+    <app-loading-spinner v-if="refreshing"></app-loading-spinner>
     <div v-else>
       <!-- API error display -->
       <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
@@ -45,11 +40,13 @@
 
   import {localUrls} from '../../../appData/urls';
   import snippetData from '../helpers/snippetData';
+  import LoadingSpinner from '../../common/components/LoadingSpinner.vue';
   import NewSnippetPanel from '../components/NewSnippetPanel.vue';
   import SnippetListDetail from '../components/SnippetListDetail.vue';
 
   export default {
     components: {
+      appLoadingSpinner: LoadingSpinner,
       appNewSnippetPanel: NewSnippetPanel,
       appSnippetListDetail: SnippetListDetail
     },
