@@ -1,6 +1,5 @@
 import {localUrls} from './appData/urls';
 
-import Home from './components/Home.vue';
 import LoginPage from './components/account/containers/LoginPage.vue';
 import SnippetCreatePage from './components/snippets/containers/SnippetCreatePage.vue';
 import SnippetDetailPage from './components/snippets/containers/SnippetDetailPage.vue';
@@ -8,7 +7,7 @@ import SnippetsListPage from './components/snippets/containers/SnippetsListPage.
 
 
 export const routes = [
-  {path: '/', component: Home, name: 'home'},
+  {path: '/', redirect: {name: 'snippets-list'}},
 
   /*=============================================
    = Auth routes
@@ -44,5 +43,5 @@ export const routes = [
   },
 
   // catch-all redirect to home page
-  {path: '*', redirect: {name: 'home'}},
+  {path: '*', redirect: {name: 'snippets-list'}},
 ];
