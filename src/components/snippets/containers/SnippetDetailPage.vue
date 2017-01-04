@@ -1,7 +1,10 @@
 <template>
   <div>
+    <!-- loading icon -->
+    <app-loading-icon v-if="refreshing"></app-loading-icon>
+
     <!-- Snippet detail panel -->
-    <div :class="panelClass">
+    <div :class="panelClass" v-else>
       <div class="panel-heading">
         <h4 class="panel-title">
           {{ originalSnippet.title }}
@@ -42,10 +45,12 @@
   import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
+  import LoadingIcon from '../../common/components/LoadingSpinner.vue';
   import SnippetForm from '../components/SnippetForm.vue';
 
   export default {
     components: {
+      appLoadingIcon: LoadingIcon,
       appSnippetForm: SnippetForm
     },
 
@@ -54,6 +59,9 @@
       return {
         // whether any operations are currently running
         working: false,
+
+        // whether the Snippet data is currently being refreshed
+        refreshing: false,
 
         // error messages returned from API (e.g. invalid data)
         apiError: '',
@@ -218,15 +226,18 @@
           this.$router.push(localUrls.snippetsList);
         } else {
           this.working = true;
+          this.refreshing = true;
           this.findSnippet(snippetId)
             .then((res) => {
               // if we get a valid Snippet, save two local copies
               this.snippet = Object.assign({}, res);
               this.originalSnippet = Object.assign({}, res);
               this.working = false;
+              this.refreshing = false;
             }, (err) => {
               // if no valid Snippet, return to the List view
               this.working = false;
+              this.refreshing = false;
               this.$router.push(localUrls.snippetsList);
             });
         }
