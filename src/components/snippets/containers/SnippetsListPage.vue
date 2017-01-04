@@ -119,6 +119,7 @@
           }
         }
 
+        this.apiError = '';
         this.working = true;
         this.refreshing = true;
         fetchCall()
@@ -174,6 +175,7 @@
             }
 
             // call the action to save changes to the API
+            this.apiError = '';
             this.working = true;
             this.updateSnippet({snippet, removeAfterUpdate})
               .then((res) => {
