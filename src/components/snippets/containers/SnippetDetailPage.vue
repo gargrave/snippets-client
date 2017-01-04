@@ -168,7 +168,9 @@
       onSubmit() {
         if (this.isValid()) {
           this.working = true;
-          this.updateSnippet(snippetData.buildRecordData(this.snippet))
+          this.updateSnippet({
+            snippet: snippetData.buildRecordData(this.snippet)
+          })
             .then((res) => {
               this.working = false;
               this.$router.push(localUrls.snippetsList);
