@@ -32,6 +32,11 @@
   font-weight: bold;
 }
 
+.navmenu-nav>li>a.active, .navmenu-nav>li>a.active:focus {
+  color: $basicTextColor;
+  background-color: $bgBorderColor;
+}
+
 /*=============================================
  = tablet- resolutions
  =============================================*/

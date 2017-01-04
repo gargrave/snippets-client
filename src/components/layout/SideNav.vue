@@ -6,13 +6,31 @@
       <ul class="nav navmenu-nav">
         <li class="nav-header">Navigation</li>
         <li>
-          <router-link to="/snippets">My Snippets</router-link>
+          <!-- link to Snippets page-->
+          <router-link
+            to="/snippets"
+            active-class="active"
+            exact>
+            My Snippets
+          </router-link>
         </li>
         <li>
-          <router-link to="/snippets/filter/starred">Starred</router-link>
+          <!-- link to starred Snippets page-->
+          <router-link
+            to="/snippets/filter/starred"
+            active-class="active"
+            exact>
+            Starred
+          </router-link>
         </li>
         <li>
-          <router-link to="/snippets/filter/archived">Archived</router-link>
+          <!-- link to archived Snippets page-->
+          <router-link
+            to="/snippets/filter/archived"
+            active-class="active"
+            exact>
+            Archived
+          </router-link>
         </li>
       </ul>
 
@@ -32,12 +50,17 @@
 
           <ul class="dropdown-menu navmenu-nav">
             <li>
-              <router-link to="/account">
+              <!-- link to profile page -->
+              <router-link
+                to="/account"
+                active-class="active"
+                extact>
                 <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
                 Profile
               </router-link>
             </li>
             <li>
+              <!-- logout link -->
               <a href="#" @click.prevent="logout">
                 <span class="fa fa-sign-out fa-lg"></span>&nbsp;&nbsp;
                 Logout
@@ -54,10 +77,22 @@
     <ul id="sidenav-notloggedin" class="nav navmenu-nav" v-else>
       <li class="nav-header">Account</li>
       <li>
-        <router-link to="/account/login">Login</router-link>
+        <!-- link to login page -->
+        <router-link
+          to="/account/login"
+          active-class="active"
+          extact>
+          Login
+        </router-link>
       </li>
       <li>
-        <router-link to="/account/create">New Account</router-link>
+        <!-- link to account creation page -->
+        <router-link
+          to="/account/create"
+          active-class="active"
+          extact>
+          New Account
+        </router-link>
       </li>
     </ul><!-- /#sidenav-notloggedin -->
 
