@@ -109,19 +109,51 @@ export default {
     },
 
     /**
+     * Reqeusts an individual Snippet with the specified ID from the API.
+     */
+    fetchSnippetById({getters, commit}, id) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+          return;
+        }
+
+        const url = `${apiUrls.snippets}${id}`;
+        request
+          .get(url)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            if (err) {
+              reject(`No Snippet found with id: ${id}.`);
+            } else {
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
+    /**
      * Finds and returns an individual Snippet based on the specified ID.
-     * Note that if the full Snippets list has not been loaded yet, a chained
-     * API call will be made first to do so.
+     * Note that if the Snippet cannot be found in the local list, a call to
+     * the API will be made requesting the single Snippet instance.
      */
     findSnippet({state, dispatch, commit}, snippetId) {
       return new Promise((resolve, reject) => {
         dispatch('getCachedOrFetchSnippets')
           .then((res) => {
-            const snippet = apiHelper.findRecordById(state.snippets, snippetId);
+            // check for a copy of this Snippet in our local data
+            let snippet = apiHelper.findRecordById(state.snippets, snippetId);
             if (snippet) {
               resolve(snippet);
             } else {
-              reject(`No Snippet found with id: ${snippetId}.`);
+              // if the Snippet is not stored locally, make a call to the API
+              dispatch('fetchSnippetById', snippetId)
+                .then((snippet) => {
+                  resolve(snippet);
+                }, (err2) => {
+                  reject(err2);
+                });
             }
           }, (err) => {
             reject('There was an error loading your Snippets.');
