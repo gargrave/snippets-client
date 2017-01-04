@@ -1,9 +1,11 @@
 <template>
   <div>
+    <h2 class="page-title">Login</h2>
+
     <div class="panel panel-primary snippet-panel">
 
       <div class="panel-heading">
-        <h3 class="panel-title">Login</h3>
+        <h3 class="panel-title">User Details</h3>
       </div><!-- /panel-heading -->
 
       <div class="panel-body">

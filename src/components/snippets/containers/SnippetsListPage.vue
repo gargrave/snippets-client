@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2 class="page-title">{{ pageTitle }}</h2>
+
     <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
 
     <!-- loading icon -->
@@ -64,12 +66,22 @@
         apiError: '',
 
         // the filter (if any) for the current list view
-        filterBy: '',
+        filterBy: ''
       };
     },
 
 
     computed: {
+      // the title of the current page
+      pageTitle() {
+        if (this.isArchivedView) {
+          return 'Archived Snippets';
+        } else if (this.isStarredView) {
+          return 'Starred Snippets';
+        }
+        return 'My Snippets';
+      },
+
       pinnedSnippets() {
         return this.snippets.filter(s => s.pinned === true);
       },
