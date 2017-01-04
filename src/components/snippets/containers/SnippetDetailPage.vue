@@ -7,9 +7,9 @@
     <div :class="panelClass" v-else>
       <div class="panel-heading">
         <h4 class="panel-title">
-          {{ originalSnippet.title }}
+          Details: {{ originalSnippet.title }}
         </h4>
-      </div>
+      </div><!-- /panel-heading -->
 
       <div class="panel-body">
         <!-- API error display -->
@@ -26,13 +26,29 @@
           @formDataChanged="onFormChanged">
 
         </app-snippet-form>
+      </div><!-- /panel-body -->
+    </div><!-- /panel -->
+
+    <hr class="snippets-hr">
+
+    <!-- actions panel -->
+    <div :class="panelClass">
+
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          Options
+        </h4>
+      </div><!-- /panel-heading -->
+
+      <div class="panel-body">
+        <button
+          type="button"
+          class="btn btn-danger btn-block"
+          @click.prevent="onDelete">
+          Delete
+        </button>
       </div>
     </div>
-
-
-    <!-- delete Snippet link -->
-    <a href="" @click.prevent="onDelete">Delete this Snippet</a>
-    <br/>
   </div>
 </template>
 
