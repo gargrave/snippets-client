@@ -45,7 +45,7 @@
   import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
-  import LoadingIcon from '../../common/components/LoadingSpinner.vue';
+  import LoadingIcon from '../../common/components/LoadingIcon.vue';
   import SnippetForm from '../components/SnippetForm.vue';
 
   export default {
