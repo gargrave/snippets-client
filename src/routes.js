@@ -26,7 +26,8 @@ export const routes = [
     path: localUrls.snippetsList,
     component: SnippetsListPage,
     name: 'snippets-list'
-  },{
+  },
+  {
     path: localUrls.snippetsFilteredList,
     component: SnippetsListPage,
     name: 'snippets-filtered-list'
@@ -41,4 +42,7 @@ export const routes = [
     component: SnippetDetailPage,
     name: 'snippet-detail'
   },
+
+  // catch-all redirect to home page
+  {path: '*', redirect: {name: 'home'}},
 ];
