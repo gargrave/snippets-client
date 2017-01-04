@@ -25,6 +25,11 @@
   color: #e50000;
 }
 
+.loading-icon {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
 // increase font size for forms on small devices
 input[type="text"], input[type="number"], input[type="password"],
 textarea, select, select.form-control {

@@ -2,10 +2,17 @@
   <div>
     <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
 
-    <!-- API error display -->
-    <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+    <!-- loading icon -->
+    <div class="loading-icon" v-if="refreshing">
+      <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+      <br>
+      <span class="sr-only">Loading...</span>
+    </div>
 
-    <div v-if="!refreshing">
+    <div v-else>
+      <!-- API error display -->
+      <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+
       <!-- pinned Snippets list -->
       <div v-if="pinnedSnippets.length">
         <app-snippet-list-detail
