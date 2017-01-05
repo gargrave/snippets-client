@@ -193,6 +193,7 @@
           })
             .then((res) => {
               this.working = false;
+              toastr.success('Snippet updated');
               this.$router.push(localUrls.snippetsList);
             }, (err) => {
               this.apiError = err;
