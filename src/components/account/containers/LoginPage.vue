@@ -23,7 +23,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           {{ apiError }}
-        </div>
+        </div><!-- /alert -->
 
         <!-- login form -->
         <app-login-form
@@ -33,8 +33,7 @@
           @formDataChanged="onFormChanged"
         ></app-login-form>
       </div><!-- /panel-body -->
-
-    </div>
+    </div><!-- /panel -->
   </div>
 </template>
 
