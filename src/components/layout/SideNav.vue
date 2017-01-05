@@ -54,7 +54,7 @@
               <router-link
                 to="/account"
                 active-class="active"
-                extact>
+                exact>
                 <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
                 Profile
               </router-link>
@@ -79,18 +79,18 @@
       <li>
         <!-- link to login page -->
         <router-link
-          to="/account/login"
+          :to="{name: 'login'}"
           active-class="active"
-          extact>
+          exact>
           Login
         </router-link>
       </li>
       <li>
         <!-- link to account creation page -->
         <router-link
-          to="/account/create"
+          :to="{name: 'account-create'}"
           active-class="active"
-          extact>
+          exact>
           New Account
         </router-link>
       </li>
