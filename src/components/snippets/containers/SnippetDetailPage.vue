@@ -4,51 +4,55 @@
     <app-loading-icon v-if="refreshing"></app-loading-icon>
 
     <!-- Snippet detail panel -->
-    <div :class="panelClass" v-else>
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          Details: {{ originalSnippet.title }}
-        </h4>
-      </div><!-- /panel-heading -->
+    <div v-else>
+      <h2 class="page-title">{{ originalSnippet.title }}</h2>
 
-      <div class="panel-body">
-        <!-- API error display -->
-        <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+      <div :class="panelClass">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            Details
+          </h4>
+        </div><!-- /panel-heading -->
 
-        <app-snippet-form
-          submitText="Update"
-          :snippet="snippet"
-          :working="working"
-          :errors="errors"
-          :onSubmit="onSubmit"
-          :onCancel="onCancel"
-          :snippetIsDirty="snippetIsDirty"
-          @formDataChanged="onFormChanged">
+        <div class="panel-body">
+          <!-- API error display -->
+          <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-        </app-snippet-form>
-      </div><!-- /panel-body -->
-    </div><!-- /panel -->
+          <app-snippet-form
+            submitText="Update"
+            :snippet="snippet"
+            :working="working"
+            :errors="errors"
+            :onSubmit="onSubmit"
+            :onCancel="onCancel"
+            :snippetIsDirty="snippetIsDirty"
+            @formDataChanged="onFormChanged">
 
-    <hr class="snippets-hr">
+          </app-snippet-form>
+        </div><!-- /panel-body -->
+      </div><!-- /panel -->
 
-    <!-- actions panel -->
-    <div :class="panelClass">
+      <hr class="snippets-hr">
 
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          Options
-        </h4>
-      </div><!-- /panel-heading -->
+      <!-- actions panel -->
+      <div :class="panelClass">
 
-      <div class="panel-body">
-        <button
-          type="button"
-          class="btn btn-danger btn-block"
-          @click.prevent="onDelete">
-          Delete
-        </button>
-      </div>
-    </div>
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            Options
+          </h4>
+        </div><!-- /panel-heading -->
+
+        <div class="panel-body">
+          <button
+            type="button"
+            class="btn btn-danger btn-block"
+            @click.prevent="onDelete">
+            Delete
+          </button>
+        </div><!-- /panel-body -->
+      </div><!-- /panel -->
+    </div><!-- /v-else -->
   </div>
 </template>
 
