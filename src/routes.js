@@ -1,6 +1,7 @@
 import {localUrls} from './appData/urls';
 
 import AccountPage from './components/account/containers/AccountPage.vue';
+import AccountCreatePage from './components/account/containers/AccountCreatePage.vue';
 import LoginPage from './components/account/containers/LoginPage.vue';
 import SnippetCreatePage from './components/snippets/containers/SnippetCreatePage.vue';
 import SnippetDetailPage from './components/snippets/containers/SnippetDetailPage.vue';
@@ -22,6 +23,11 @@ export const routes = [
     path: localUrls.account,
     component: AccountPage,
     name: 'account'
+  },
+  {
+    path: localUrls.accountCreate,
+    component: AccountCreatePage,
+    name: 'account-create'
   },
 
   /*=============================================

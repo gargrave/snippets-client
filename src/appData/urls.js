@@ -13,6 +13,7 @@ export const apiUrls = {
 // URLs for local routing (i.e. react-router)
 export const localUrls = {
   account: '/account',
+  accountCreate: '/account/new',
   login: '/account/login',
   snippetsList: '/snippets',
   snippetsFilteredList: '/snippets/filter/:filterBy',
