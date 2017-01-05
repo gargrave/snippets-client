@@ -20,6 +20,7 @@
 <script>
   import {mapGetters} from 'vuex';
   import dateHelper from '../../../utils/dateHelper';
+  import {localUrls} from '../../../appData/urls';
 
   export default {
     computed: {
@@ -28,8 +29,18 @@
       },
 
       ...mapGetters({
-        user: 'userData'
+        user: 'userData',
+        isLoggedIn: 'isLoggedIn'
       })
+    },
+
+
+    created() {
+      if (this.isLoggedIn) {
+        this.rebuildSnippetsList();
+      } else {
+        this.$router.push(localUrls.login);
+      }
     }
   };
 </script>
