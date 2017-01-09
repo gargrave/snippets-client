@@ -36,9 +36,7 @@
 
 
     created() {
-      if (this.isLoggedIn) {
-        this.rebuildSnippetsList();
-      } else {
+      if (!this.isLoggedIn) {
         this.$router.push(localUrls.login);
       }
     }
