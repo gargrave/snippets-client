@@ -7,7 +7,7 @@ import {USER} from '../mutation-types';
 export default {
   state: {
     user: {
-      uid: '',
+      pk: '',
       authToken: '',
       username: '',
       firstName: '',
@@ -47,18 +47,19 @@ export default {
      login authenticated user;
      save provided user details in the store
      */
-    [USER.LOGIN](state, newUserData) {
-      state.user = {
-        uid: newUserData.uid,
-        authToken: newUserData.authToken,
-        username: newUserData.username,
-        firstName: newUserData.firstName,
-        lastName: newUserData.lastName,
-        email: newUserData.email,
-        dateJoined: newUserData.dateJoined,
-        lastLogin: newUserData.lastLogin
+    [USER.LOGIN](state, user) {
+      const userData = {
+        pk: user.pk,
+        authToken: user.authToken,
+        username: user.username,
+        firstName: user.first_name || '',
+        lastName: user.last_name || '',
+        email: user.email,
+        dateJoined: user.dateJoined || '',
+        lastLogin: user.lastLogin || ''
       };
-      localStorage.setItem('user', JSON.stringify(newUserData));
+      state.user = userData;
+      localStorage.setItem('user', JSON.stringify(userData));
     },
 
     /*
@@ -67,7 +68,7 @@ export default {
      */
     [USER.LOGOUT](state) {
       state.user = {
-        uid: '',
+        pk: '',
         authToken: '',
         username: '',
         firstName: '',
@@ -85,21 +86,52 @@ export default {
       return new Promise((resolve, reject) => {
         request.post(apiUrls.login)
           .send(credentials)
-          .end((err, res) => {
-            if (err) {
+          .end((err1, res1) => {
+            if (err1) {
               // if error, reject with error message
               reject('Unable to log in with provided credentials.');
             } else {
               // if no error, login locally with returned user data
-              commit(USER.LOGIN, res.body);
-              resolve();
+              const authToken = res1.body.key;
+              if (authToken) {
+                request.get(apiUrls.user)
+                  .set('Authorization', `Token ${authToken}`)
+                  .end((err2, res2) => {
+                    if (err2) {
+                      reject('Unable to log in with provided credentials.');
+                    } else {
+                      let user = res2.body;
+                      user.authToken = authToken;
+                      commit(USER.LOGIN, user);
+                      resolve();
+                    }
+                  })
+              } else {
+                reject('Unable to log in with provided credentials.');
+              }
             }
           });
       });
     },
 
-    logout({commit}) {
-      commit(USER.LOGOUT);
+    logout({getters, commit}) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+        }
+
+        request.post(apiUrls.logout)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            if (err) {
+              reject();
+            } else {
+              commit(USER.LOGOUT);
+              resolve();
+            }
+          });
+      });
     },
 
     checkForStoredLogin({commit}) {

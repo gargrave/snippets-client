@@ -61,7 +61,7 @@
             </li>
             <li>
               <!-- logout link -->
-              <a href="#" @click.prevent="logout">
+              <a href="#" @click.prevent="onLogout">
                 <span class="fa fa-sign-out fa-lg"></span>&nbsp;&nbsp;
                 Logout
               </a>
@@ -118,14 +118,16 @@
         toastr.warning('TODO: Implement onExpandCollapse()', 'Not implemented');
       },
 
-      logout() {
-        this.storeLogout();
-        this.$router.push('/account/login');
+      onLogout() {
+        this.logout().then((res) => {
+          toastr.success('Logged out');
+          this.$router.push('/account/login');
+        });
       },
 
-      ...mapActions({
-        storeLogout: 'logout'
-      })
+      ...mapActions([
+        'logout'
+      ])
     }
   };
 </script>

@@ -4,7 +4,9 @@ const API_ROOT = `${ROOT}/api/v1`;
 
 // URLs for AJAX calls to the API
 export const apiUrls = {
-  login: `${ROOT}/api-token-auth/`,
+  login: `${ROOT}/rest-auth/login/`,
+  logout: `${ROOT}/rest-auth/logout/`,
+  user: `${ROOT}/rest-auth/user/`,
   snippets: `${API_ROOT}/snippets/`,
   starredSnippets: `${API_ROOT}/snippets/starred/`,
   archivedSnippets: `${API_ROOT}/snippets/archived/`,
