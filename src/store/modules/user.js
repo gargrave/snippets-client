@@ -105,7 +105,7 @@ export default {
                       commit(USER.LOGIN, user);
                       resolve();
                     }
-                  })
+                  });
               } else {
                 reject('Unable to log in with provided credentials.');
               }
@@ -125,7 +125,8 @@ export default {
           .set('Authorization', `Token ${authToken}`)
           .end((err, res) => {
             if (err) {
-              reject();
+              commit(USER.LOGOUT);
+              resolve();
             } else {
               commit(USER.LOGOUT);
               resolve();
