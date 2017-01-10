@@ -60,7 +60,8 @@
       type="button"
       @click.prevent="onCancel"
       :disabled="working"
-    >Cancel</button>
+    >Cancel
+    </button>
 
   </form>
 </template>
@@ -144,11 +145,6 @@
         this.userData.passwordConfirm = value;
         this.$emit('formDataChanged', this.userData);
       }
-    },
-
-    updated() {
-      console.log('this.userData.email:');
-      console.log(this.userData.email);
     }
   };
 </script>

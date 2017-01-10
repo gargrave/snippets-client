@@ -23,7 +23,11 @@
 
 
 <script>
+  import {mapActions} from 'vuex';
+  import toastr from 'toastr';
+
   import {localUrls} from '../../../appData/urls';
+  import validate from '../../../utils/validate';
   import AccountCreateForm from '../components/AccountCreateForm.vue';
 
   export default {
@@ -49,7 +53,7 @@
         },
 
         // model for user login data
-        credentials: {
+        userData: {
           email: '',
           username: '',
           password: '',
@@ -64,11 +68,18 @@
        * Handler for input fields being changed on login form.
        */
       onFormChanged(value) {
-        console.log('TODO: implement onFormChanged()');
-//        this.credentials = {
-//          username: value.username,
-//          password: value.password
-//        };
+        const previousUsername = this.userData.username;
+
+        this.userData = {
+          email: value.email,
+          username: value.username,
+          password: value.password,
+          passwordConfirm: value.passwordConfirm
+        };
+
+        if (previousUsername !== value.username) {
+          // TODO: check if username exists
+        }
       },
 
       /**
@@ -77,17 +88,17 @@
        */
       onSubmit() {
         if (this.isValid()) {
-          console.log('TODO: implement onSubmit()');
-//          this.working = true;
-//
-//          this.login(this.credentials)
-//            .then(() => {
-//              this.$router.push(localUrls.snippetsList);
-//              this.working = false;
-//            }, (err) => {
-//              this.apiError = err;
-//              this.working = false;
-//            });
+          this.working = true;
+
+          this.createUser(this.userData)
+            .then(() => {
+              this.$router.push(localUrls.account);
+              toastr.success('Account created');
+              this.working = false;
+            }, (err) => {
+              this.apiError = err;
+              this.working = false;
+            });
         }
       },
 
@@ -104,40 +115,54 @@
        * @returns {boolean} Whether the data validates correctly.
        */
       isValid() {
-        console.log('TODO: implement isValid()');
-        console.log('TODO: check that email is valid');
-        console.log('TODO: check that email does not exist');
-        console.log('TODO: check that username is valid');
-        console.log('TODO: check that username does not exist');
-        console.log('TODO: check that passwords are valid');
-        console.log('TODO: check that passwords match');
-        return true;
-//        let valid = true;
-//        let params;
-//
-//        this.errors = {
-//          username: '',
-//          password: ''
-//        };
-//
-//        // validate username
-//        params = {required: true, minLength: 2};
-//        const userVal = validate(this.credentials.username, params);
-//        if (!userVal.valid) {
-//          this.errors.username = userVal.error;
-//          valid = false;
-//        }
-//
-//        // validate password
-//        params = {required: true, minLength: 8};
-//        const passVal = validate(this.credentials.password, params);
-//        if (!passVal.valid) {
-//          this.errors.password = passVal.error;
-//          valid = false;
-//        }
-//
-//        return valid;
+        let valid = true;
+        let params;
+
+        this.errors = {
+          email: '',
+          username: '',
+          password: '',
+          passwordConfirm: ''
+        };
+
+        // validate email
+        params = {required: true, format: 'email'};
+        const emailVal = validate(this.userData.email, params);
+        if (!emailVal.valid) {
+          this.errors.email = emailVal.error;
+          valid = false;
+        }
+
+        // validate username
+        params = {required: true, minLength: 2};
+        const userVal = validate(this.userData.username, params);
+        if (!userVal.valid) {
+          this.errors.username = userVal.error;
+          valid = false;
+        }
+
+        // validate password
+        params = {required: true, minLength: 8};
+        const passVal = validate(this.userData.password, params);
+        if (!passVal.valid) {
+          this.errors.password = passVal.error;
+          valid = false;
+        }
+
+        // validate confirmation password (only check that they match)
+        const p1 = this.userData.password;
+        const p2 = this.userData.passwordConfirm;
+        if (p1 !== p2 || p2 === '') {
+          this.errors.passwordConfirm = 'Passwords do not match.';
+          valid = false;
+        }
+
+        return valid;
       },
+
+      ...mapActions([
+        'createUser'
+      ])
     }
   };
 </script>

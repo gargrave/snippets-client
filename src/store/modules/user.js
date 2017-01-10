@@ -172,6 +172,39 @@ export default {
       });
     },
 
+    createUser({dispatch, commit}, userData) {
+      return new Promise((resolve, reject) => {
+        const payload = {
+          email: userData.email,
+          username: userData.username,
+          password1: userData.password,
+          password2: userData.passwordConfirm
+        };
+
+        request.post(apiUrls.register)
+          .send(payload)
+          .end((err, res) => {
+            if (err) {
+              // if error, reject with error message
+              reject('Unable to create account.');
+            } else {
+              // if no error, login locally with returned user data
+              const authToken = res.body.key;
+              if (authToken) {
+                dispatch('loadUserDataFromToken', authToken)
+                  .then((res) => {
+                    resolve();
+                  }, (err) => {
+                    reject(err);
+                  });
+              } else {
+                reject('Unable to create account.');
+              }
+            }
+          });
+      });
+    },
+
     /**
      * Attempts to "re-login" from credentials stored in localStorage. Should be
      * called first upon re-loading the app.
