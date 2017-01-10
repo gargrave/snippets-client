@@ -55,11 +55,28 @@ export default {
         firstName: user.first_name || '',
         lastName: user.last_name || '',
         email: user.email,
-        dateJoined: user.dateJoined || '',
-        lastLogin: user.lastLogin || ''
+        dateJoined: user.date_joined || '',
+        lastLogin: user.last_login || ''
       };
       state.user = userData;
       localStorage.setItem('user', JSON.stringify(userData));
+    },
+
+    /*
+     login authenticated user with data from localStorage
+     */
+    [USER.LOGIN_FROM_LOCALSTORAGE](state, user) {
+      const userData = {
+        pk: user.pk,
+        authToken: user.authToken,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dateJoined: user.dateJoined,
+        lastLogin: user.lastLogin
+      };
+      state.user = userData;
     },
 
     /*
@@ -138,7 +155,7 @@ export default {
     checkForStoredLogin({commit}) {
       let storedLogin = localStorage.getItem('user');
       if (storedLogin) {
-        commit(USER.LOGIN, JSON.parse(storedLogin));
+        commit(USER.LOGIN_FROM_LOCALSTORAGE, JSON.parse(storedLogin));
       }
     }
   }
