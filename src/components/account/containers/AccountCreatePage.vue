@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2 class="page-title">New Account</h2>
+    <!-- 'working' icon -->
+    <app-loading-icon v-if="working"></app-loading-icon>
 
     <div class="panel panel-primary snippet-panel">
 
@@ -18,6 +20,7 @@
         </app-account-create-form>
       </div><!-- /panel-body -->
     </div><!-- /panel -->
+
   </div>
 </template>
 
@@ -28,10 +31,12 @@
 
   import {localUrls} from '../../../appData/urls';
   import validate from '../../../utils/validate';
+  import LoadingIcon from '../../common/components/LoadingIcon';
   import AccountCreateForm from '../components/AccountCreateForm.vue';
 
   export default {
     components: {
+      appLoadingIcon: LoadingIcon,
       appAccountCreateForm: AccountCreateForm
     },
 
@@ -89,6 +94,12 @@
       onSubmit() {
         if (this.isValid()) {
           this.working = true;
+          this.errors = {
+            email: '',
+            username: '',
+            password: '',
+            passwordConfirm: ''
+          };
 
           this.createUser(this.userData)
             .then(() => {
@@ -96,7 +107,16 @@
               toastr.success('Account created');
               this.working = false;
             }, (err) => {
-              this.apiError = err;
+              this.apiError = 'Unable to create account';
+              // show any errors returned from the API
+              // these will be errors that we cannot validate on the front-end,
+              // like 'username already in use' or 'password is too simple'
+              this.errors = {
+                email: err.email ? err.email[0] : '',
+                username: err.username ? err.username[0] : '',
+                password: err.password1 ? err.password1[0] : '',
+                passwordConfirm: err.password2 ? err.password2[0] : ''
+              };
               this.working = false;
             });
         }

@@ -134,6 +134,10 @@ export default {
       });
     },
 
+    /**
+     * Attempts to fetch user data from the API with the supplied auth token.
+     * If the attempt is successful, the returned data is committed to localStorage.
+     */
     loadUserDataFromToken({commit}, authToken) {
       return new Promise((resolve, reject) => {
         request.get(apiUrls.user)
@@ -172,6 +176,10 @@ export default {
       });
     },
 
+    /**
+     * Attempts to create a new user with the supplied data. If a new user
+     * is successfully created, the user is automatically logged in.
+     */
     createUser({dispatch, commit}, userData) {
       return new Promise((resolve, reject) => {
         const payload = {
@@ -185,10 +193,11 @@ export default {
           .send(payload)
           .end((err, res) => {
             if (err) {
-              // if error, reject with error message
-              reject('Unable to create account.');
+              // if error(s), reject with all error messages
+              reject(err.response.body);
             } else {
-              // if no error, login locally with returned user data
+              // if no error, the API should have sent us the token,
+              // which we can now use to fetch the new user's data
               const authToken = res.body.key;
               if (authToken) {
                 dispatch('loadUserDataFromToken', authToken)
@@ -198,7 +207,7 @@ export default {
                     reject(err);
                   });
               } else {
-                reject('Unable to create account.');
+                reject('Unable to login to new account.');
               }
             }
           });
