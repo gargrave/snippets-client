@@ -108,33 +108,44 @@ export default {
      * @param credentials - An object with 'username' and 'password' props
      * @returns {Promise}
      */
-    login({commit}, credentials) {
+    login({dispatch, commit}, credentials) {
       return new Promise((resolve, reject) => {
         request.post(apiUrls.login)
           .send(credentials)
-          .end((err1, res1) => {
-            if (err1) {
+          .end((err, res) => {
+            if (err) {
               // if error, reject with error message
               reject('Unable to log in with provided credentials.');
             } else {
               // if no error, login locally with returned user data
-              const authToken = res1.body.key;
+              const authToken = res.body.key;
               if (authToken) {
-                request.get(apiUrls.user)
-                  .set('Authorization', `Token ${authToken}`)
-                  .end((err2, res2) => {
-                    if (err2) {
-                      reject('Unable to log in with provided credentials.');
-                    } else {
-                      let user = res2.body;
-                      user.authToken = authToken;
-                      commit(USER.LOGIN, user);
-                      resolve();
-                    }
+                dispatch('loadUserDataFromToken', authToken)
+                  .then((res) => {
+                    resolve();
+                  }, (err) => {
+                    reject(err);
                   });
               } else {
                 reject('Unable to log in with provided credentials.');
               }
+            }
+          });
+      });
+    },
+
+    loadUserDataFromToken({commit}, authToken) {
+      return new Promise((resolve, reject) => {
+        request.get(apiUrls.user)
+          .set('Authorization', `Token ${authToken}`)
+          .end((err, res) => {
+            if (err) {
+              reject('Unable to log in with provided credentials.');
+            } else {
+              let user = res.body;
+              user.authToken = authToken;
+              commit(USER.LOGIN, user);
+              resolve();
             }
           });
       });
