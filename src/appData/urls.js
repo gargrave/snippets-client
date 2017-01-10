@@ -7,6 +7,7 @@ export const apiUrls = {
   login: `${ROOT}/rest-auth/login/`,
   logout: `${ROOT}/rest-auth/logout/`,
   user: `${ROOT}/rest-auth/user/`,
+  register: `${ROOT}/rest-auth/registration/`,
   snippets: `${API_ROOT}/snippets/`,
   starredSnippets: `${API_ROOT}/snippets/starred/`,
   archivedSnippets: `${API_ROOT}/snippets/archived/`,

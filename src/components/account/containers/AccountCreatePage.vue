@@ -12,6 +12,7 @@
         <app-account-create-form
           :working="working"
           :onSubmit="onSubmit"
+          :onCancel="onCancel"
           :errors="errors"
           @formDataChanged="onFormChanged">
         </app-account-create-form>
@@ -22,6 +23,7 @@
 
 
 <script>
+  import {localUrls} from '../../../appData/urls';
   import AccountCreateForm from '../components/AccountCreateForm.vue';
 
   export default {
@@ -40,16 +42,18 @@
 
         // local validation errors (e.g. missing field)
         errors: {
+          email: '',
           username: '',
           password: '',
-          passwordConfirm: '',
+          passwordConfirm: ''
         },
 
         // model for user login data
         credentials: {
+          email: '',
           username: '',
           password: '',
-          passwordConfirm: '',
+          passwordConfirm: ''
         }
       };
     },
@@ -88,12 +92,25 @@
       },
 
       /**
+       * Handler for form's 'cancel' button; redirect to login page.
+       */
+      onCancel() {
+        this.$router.push(localUrls.login);
+      },
+
+      /**
        * Validates the user data currently entered into the form.
        *
        * @returns {boolean} Whether the data validates correctly.
        */
       isValid() {
         console.log('TODO: implement isValid()');
+        console.log('TODO: check that email is valid');
+        console.log('TODO: check that email does not exist');
+        console.log('TODO: check that username is valid');
+        console.log('TODO: check that username does not exist');
+        console.log('TODO: check that passwords are valid');
+        console.log('TODO: check that passwords match');
         return true;
 //        let valid = true;
 //        let params;

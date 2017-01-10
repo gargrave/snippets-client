@@ -1,6 +1,16 @@
 <template>
   <form @submit.prevent="onSubmit" novalidate>
 
+    <!-- email input -->
+    <app-input-field
+      inputType="text"
+      label="Email"
+      name="email"
+      placeholder="Email"
+      :error="errors.email"
+      @valueChanged="onEmailChange"
+    ></app-input-field>
+
     <!-- user name input -->
     <app-input-field
       inputType="text"
@@ -21,7 +31,32 @@
       @valueChanged="onPasswordChange"
     ></app-input-field>
 
-    <input class="btn btn-primary" type="submit" value="Submit" :disabled="working">
+    <!-- password confirm input -->
+    <app-input-field
+      inputType="password"
+      label="Re-enter Password"
+      name="passwordConfirm"
+      placeholder="Re-enter Password"
+      :error="errors.passwordConfirm"
+      @valueChanged="onPasswordConfirmChange"
+    ></app-input-field>
+
+
+    <!-- submit button -->
+    <input
+      class="btn btn-primary"
+      type="submit"
+      value="Submit"
+      :disabled="working"
+    >
+
+    <!-- cancel button -->
+    <button
+      class="btn btn-default pull-right"
+      type="button"
+      @click.prevent="onCancel"
+    >Cancel</button>
+
   </form>
 </template>
 
@@ -46,6 +81,11 @@
         type: Function,
         required: true
       },
+      // callback for clicking cancel button
+      onCancel: {
+        type: Function,
+        required: true
+      },
       // any validation error messages
       errors: {
         type: Object,
@@ -58,14 +98,24 @@
       return {
         // the current data entered into the form
         loginUser: {
+          email: '',
           username: '',
-          password: ''
+          password: '',
+          passwordConfirm: ''
         }
       };
     },
 
 
     methods: {
+      /**
+       * Handler for 'email' input field being edited.
+       */
+      onEmailChange(value, event) {
+        this.loginUser.email = value;
+        this.$emit('formDataChanged', this.loginUser);
+      },
+
       /**
        * Handler for 'user name' input field being edited.
        */
@@ -79,6 +129,14 @@
        */
       onPasswordChange(value, event) {
         this.loginUser.password = value;
+        this.$emit('formDataChanged', this.loginUser);
+      },
+
+      /**
+       * Handler for 'confirm password' input field being edited.
+       */
+      onPasswordConfirmChange(value, event) {
+        this.loginUser.passwordConfirm = value;
         this.$emit('formDataChanged', this.loginUser);
       }
     }
