@@ -6,6 +6,7 @@ import {USER} from '../mutation-types';
 
 export default {
   state: {
+    // full user data
     user: {
       pk: '',
       authToken: '',
@@ -66,7 +67,7 @@ export default {
      login authenticated user with data from localStorage
      */
     [USER.LOGIN_FROM_LOCALSTORAGE](state, user) {
-      const userData = {
+      state.user = {
         pk: user.pk,
         authToken: user.authToken,
         username: user.username,
@@ -76,7 +77,6 @@ export default {
         dateJoined: user.dateJoined,
         lastLogin: user.lastLogin
       };
-      state.user = userData;
     },
 
     /*
@@ -99,6 +99,15 @@ export default {
   },
 
   actions: {
+    /**
+     * Attempts to login the user with the provided details.
+     *
+     * Note that, upon successful login, an extra API call is made to fetch
+     * the full user data.
+     *
+     * @param credentials - An object with 'username' and 'password' props
+     * @returns {Promise}
+     */
     login({commit}, credentials) {
       return new Promise((resolve, reject) => {
         request.post(apiUrls.login)
@@ -131,6 +140,11 @@ export default {
       });
     },
 
+    /**
+     * Attempts to log out the current user. A request will be sent to the API
+     * to logout, but the local data will be cleared and the Promise will resolve
+     * no matter what response the API sends.
+     */
     logout({getters, commit}) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
@@ -141,17 +155,16 @@ export default {
         request.post(apiUrls.logout)
           .set('Authorization', `Token ${authToken}`)
           .end((err, res) => {
-            if (err) {
-              commit(USER.LOGOUT);
-              resolve();
-            } else {
-              commit(USER.LOGOUT);
-              resolve();
-            }
+            commit(USER.LOGOUT);
+            resolve();
           });
       });
     },
 
+    /**
+     * Attempts to "re-login" from credentials stored in localStorage. Should be
+     * called first upon re-loading the app.
+     */
     checkForStoredLogin({commit}) {
       let storedLogin = localStorage.getItem('user');
       if (storedLogin) {
