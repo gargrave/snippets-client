@@ -7,6 +7,7 @@
       label="Username"
       name="username"
       placeholder="Username"
+      :value="loginUser.username"
       :error="errors.username"
       @valueChanged="onUsernameChange"
     ></app-input-field>
@@ -17,6 +18,7 @@
       label="Password"
       name="password"
       placeholder="Password"
+      :value="loginUser.password"
       :error="errors.password"
       @valueChanged="onPasswordChange"
     ></app-input-field>

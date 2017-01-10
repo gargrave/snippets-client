@@ -7,6 +7,7 @@
       label="Email"
       name="email"
       placeholder="Email"
+      :value="userData.email"
       :error="errors.email"
       @valueChanged="onEmailChange"
     ></app-input-field>
@@ -17,6 +18,7 @@
       label="Username"
       name="username"
       placeholder="Username"
+      :value="userData.username"
       :error="errors.username"
       @valueChanged="onUsernameChange"
     ></app-input-field>
@@ -27,6 +29,7 @@
       label="Password"
       name="password"
       placeholder="Password"
+      :value="userData.password"
       :error="errors.password"
       @valueChanged="onPasswordChange"
     ></app-input-field>
@@ -34,9 +37,10 @@
     <!-- password confirm input -->
     <app-input-field
       inputType="password"
-      label="Re-enter Password"
+      label="Confirm Password"
       name="passwordConfirm"
-      placeholder="Re-enter Password"
+      placeholder="Confirm Password"
+      :value="userData.passwordConfirm"
       :error="errors.passwordConfirm"
       @valueChanged="onPasswordConfirmChange"
     ></app-input-field>
@@ -55,6 +59,7 @@
       class="btn btn-default pull-right"
       type="button"
       @click.prevent="onCancel"
+      :disabled="working"
     >Cancel</button>
 
   </form>
@@ -97,7 +102,7 @@
     data() {
       return {
         // the current data entered into the form
-        loginUser: {
+        userData: {
           email: '',
           username: '',
           password: '',
@@ -112,37 +117,38 @@
        * Handler for 'email' input field being edited.
        */
       onEmailChange(value, event) {
-        this.loginUser.email = value;
-        this.$emit('formDataChanged', this.loginUser);
+        this.userData.email = value;
+        this.$emit('formDataChanged', this.userData);
       },
 
       /**
        * Handler for 'user name' input field being edited.
        */
       onUsernameChange(value, event) {
-        this.loginUser.username = value;
-        this.$emit('formDataChanged', this.loginUser);
+        this.userData.username = value;
+        this.$emit('formDataChanged', this.userData);
       },
 
       /**
        * Handler for 'password' input field being edited.
        */
       onPasswordChange(value, event) {
-        this.loginUser.password = value;
-        this.$emit('formDataChanged', this.loginUser);
+        this.userData.password = value;
+        this.$emit('formDataChanged', this.userData);
       },
 
       /**
        * Handler for 'confirm password' input field being edited.
        */
       onPasswordConfirmChange(value, event) {
-        this.loginUser.passwordConfirm = value;
-        this.$emit('formDataChanged', this.loginUser);
+        this.userData.passwordConfirm = value;
+        this.$emit('formDataChanged', this.userData);
       }
+    },
+
+    updated() {
+      console.log('this.userData.email:');
+      console.log(this.userData.email);
     }
   };
 </script>
-
-
-<style>
-</style>
