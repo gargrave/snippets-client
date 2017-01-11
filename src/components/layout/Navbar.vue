@@ -2,7 +2,6 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
 
-
       <!-- navbar branding area -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
@@ -10,9 +9,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <router-link class="navbar-brand" to="/">
+        <router-link class="navbar-brand navbar-brand-link" to="/">
           {{ appTitle }}
         </router-link>
+        <span
+          class="navbar-brand unlinked-navbar-brand"
+          v-if="appBreadcrumbTitle">
+          | {{ appBreadcrumbTitle }}
+        </span>
       </div><!-- /navbar-header -->
 
 
@@ -25,7 +29,7 @@
             <a href="#" class="dropdown-toggle"
                data-toggle="dropdown" role="button"
                aria-haspopup="true" aria-expanded="false">
-              {{ user.username }} <span class="caret"></span>
+              {{ userData.username }} <span class="caret"></span>
             </a>
 
             <ul class="dropdown-menu">
@@ -36,7 +40,6 @@
                   Profile
                 </router-link>
               </li>
-
 
               <!-- logout link -->
               <li>
@@ -69,11 +72,12 @@
 
   export default {
     computed: {
-      ...mapGetters({
-        appTitle: 'appTitle',
-        user: 'userData',
-        isLoggedIn: 'isLoggedIn'
-      })
+      ...mapGetters([
+        'appTitle',
+        'appBreadcrumbTitle',
+        'userData',
+        'isLoggedIn'
+      ])
     },
 
 
@@ -91,3 +95,16 @@
     }
   };
 </script>
+
+
+<style scoped>
+  .navbar-brand-link {
+    padding-right: 5px;
+  }
+
+  .navbar-brand.unlinked-navbar-brand,
+  .navbar-brand.unlinked-navbar-brand:hover {
+    color: #777;
+    margin-left: -15px;
+  }
+</style>

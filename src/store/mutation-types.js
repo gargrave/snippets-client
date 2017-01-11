@@ -1,3 +1,7 @@
+export const APP = {
+  SET_BREADCRUMB_TITLE: 'APP_SET_BREADCRUMB_TITLE',
+};
+
 export const USER = {
   LOGIN: 'USER_LOGIN',
   LOGOUT: 'USER_LOGOUT'
