@@ -1,6 +1,8 @@
 import request from 'superagent';
 
 import {apiUrls} from '../../appData/urls';
+import errors from '../../appData/errors';
+import apiHelper from '../../utils/apiHelper';
 import {USER} from '../mutation-types';
 
 
@@ -60,23 +62,8 @@ export default {
         lastLogin: user.last_login || ''
       };
       state.user = userData;
-      localStorage.setItem('user', JSON.stringify(userData));
-    },
-
-    /*
-     login authenticated user with data from localStorage
-     */
-    [USER.LOGIN_FROM_LOCALSTORAGE](state, user) {
-      state.user = {
-        pk: user.pk,
-        authToken: user.authToken,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        dateJoined: user.dateJoined,
-        lastLogin: user.lastLogin
-      };
+      localStorage.setItem('token', user.authToken);
+      // localStorage.setItem('user', JSON.stringify(userData));
     },
 
     /*
@@ -144,7 +131,18 @@ export default {
           .set('Authorization', `Token ${authToken}`)
           .end((err, res) => {
             if (err) {
-              reject('Unable to log in with provided credentials.');
+              // check if the error has a 'detail' property we can use
+              const errorFromApi = apiHelper.getErrorObject(err);
+              if (errorFromApi) {
+                // if so, check what it is and respond accordingly
+                const error = err.response.body.detail;
+                if (error.indexOf(errors.API_INVALID_TOKEN) !== -1) {
+                  commit(USER.LOGOUT);
+                  reject(errors.INVALID_TOKEN);
+                }
+              } else {
+                reject('Unable to log in with provided credentials.');
+              }
             } else {
               let user = res.body;
               user.authToken = authToken;
@@ -218,11 +216,20 @@ export default {
      * Attempts to "re-login" from credentials stored in localStorage. Should be
      * called first upon re-loading the app.
      */
-    checkForStoredLogin({commit}) {
-      let storedLogin = localStorage.getItem('user');
-      if (storedLogin) {
-        commit(USER.LOGIN_FROM_LOCALSTORAGE, JSON.parse(storedLogin));
-      }
+    checkForStoredLogin({dispatch, commit}) {
+      return new Promise((resolve, reject) => {
+        let storedToken = localStorage.getItem('token');
+        if (storedToken) {
+          dispatch('loadUserDataFromToken', storedToken)
+            .then((res) => {
+              resolve(res);
+            }, (err) => {
+              reject(err);
+            });
+        } else {
+          reject();
+        }
+      });
     }
   }
 };

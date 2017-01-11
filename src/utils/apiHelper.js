@@ -5,5 +5,12 @@ export default {
       return Object.assign({}, record[0]);
     }
     return null;
+  },
+
+  getErrorObject(err) {
+    if (err.response.body && err.response.body.detail) {
+      return err.response.body.detail;
+    }
+    return null;
   }
 };

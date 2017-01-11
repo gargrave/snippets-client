@@ -147,16 +147,20 @@
       },
 
       ...mapActions([
-        'login'
+        'login',
+        'checkForStoredLogin'
       ])
     },
 
 
     created() {
       // if we already logged in, redirect to account/profile page
-      if (this.isLoggedIn) {
-        this.$router.push(localUrls.account);
-      }
+      this.checkForStoredLogin()
+        .then((res) => {
+          this.$router.push(localUrls.account);
+        }, (err) => {
+          this.apiError = err;
+        });
     }
   };
 </script>

@@ -6,10 +6,10 @@
 
     <!-- loading icon -->
     <app-loading-icon v-if="refreshing"></app-loading-icon>
-    <div v-else>
-      <!-- API error display -->
-      <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
+    <!-- API error display -->
+    <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+    <div v-else>
       <!-- pinned Snippets list -->
       <div v-if="pinnedSnippets.length">
         <app-snippet-list-detail
@@ -41,6 +41,7 @@
   import toastr from 'toastr';
 
   import {localUrls} from '../../../appData/urls';
+  import errors from '../../../appData/errors';
   import snippetData from '../helpers/snippetData';
   import LoadingIcon from '../../common/components/LoadingIcon.vue';
   import NewSnippetPanel from '../components/NewSnippetPanel.vue';
@@ -208,16 +209,21 @@
         'fetchStarredSnippets',
         'fetchArchivedSnippets',
         'updateSnippet',
+        'checkForStoredLogin'
       ])
     },
 
 
     created() {
-      if (this.isLoggedIn) {
-        this.rebuildSnippetsList();
-      } else {
-        this.$router.push(localUrls.login);
-      }
+      this.checkForStoredLogin()
+        .then((res) => {
+          this.rebuildSnippetsList();
+        }, (err) => {
+          if (err === errors.INVALID_TOKEN) {
+            toastr.info('Please login again.', 'Invalid auth token');
+          }
+          this.$router.push(localUrls.login);
+        });
     }
   };
 </script>

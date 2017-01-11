@@ -18,7 +18,10 @@
 
 
 <script>
-  import {mapGetters} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
+  import toastr from 'toastr';
+
+  import errors from '../../../appData/errors';
   import dateHelper from '../../../utils/dateHelper';
   import {localUrls} from '../../../appData/urls';
 
@@ -29,16 +32,29 @@
       },
 
       ...mapGetters({
-        user: 'userData',
-        isLoggedIn: 'isLoggedIn'
+        user: 'userData'
       })
     },
 
 
+    methods: {
+      ...mapActions([
+        'checkForStoredLogin'
+      ])
+    },
+
+
     created() {
-      if (!this.isLoggedIn) {
-        this.$router.push(localUrls.login);
-      }
+      // redirect to login page if not logged in
+      this.checkForStoredLogin()
+        .then((res) => {
+          // no action needed if successful
+        }, (err) => {
+          if (err === errors.INVALID_TOKEN) {
+            toastr.info('Please login again.', 'Invalid auth token');
+          }
+          this.$router.push(localUrls.login);
+        });
     }
   };
 </script>

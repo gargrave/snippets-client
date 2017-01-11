@@ -33,12 +33,6 @@
       ...mapActions([
         'checkForStoredLogin'
       ])
-    },
-
-
-    created() {
-      // auto-login if we have user data stored in localStorage
-      this.checkForStoredLogin();
     }
   };
 </script>
