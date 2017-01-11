@@ -8,7 +8,7 @@
         <li>
           <!-- link to Snippets page-->
           <router-link
-            to="/snippets"
+            :to="{name: 'snippets-list'}"
             active-class="active"
             exact>
             My Snippets
@@ -52,7 +52,7 @@
             <li>
               <!-- link to profile page -->
               <router-link
-                to="/account"
+                :to="{name: 'account'}"
                 active-class="active"
                 exact>
                 <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
