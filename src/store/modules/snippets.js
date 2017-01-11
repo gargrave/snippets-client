@@ -1,7 +1,7 @@
 import request from 'superagent';
 
-import {apiUrls} from '../../appData/urls';
-import {SNIPPETS} from '../mutation-types';
+import { apiUrls } from '../../appData/urls';
+import { SNIPPETS } from '../mutation-types';
 import apiHelper from '../../utils/apiHelper';
 
 
@@ -30,7 +30,7 @@ export default {
       state.snippets.push(snippet);
     },
 
-    [SNIPPETS.UPDATE](state, {snippet, removeAfterUpdate}) {
+    [SNIPPETS.UPDATE](state, { snippet, removeAfterUpdate }) {
       if (removeAfterUpdate) {
         state.snippets = [...state.snippets.filter(
           s => s.id !== snippet.id
@@ -54,7 +54,7 @@ export default {
     /**
      * Fetches the full list of user's Snippets from the API.
      */
-    fetchSnippets({getters, commit}, alternateUrl) {
+    fetchSnippets({ getters, commit }, alternateUrl) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -77,11 +77,11 @@ export default {
       });
     },
 
-    fetchStarredSnippets({dispatch, commit}) {
+    fetchStarredSnippets({ dispatch, commit }) {
       return dispatch('fetchSnippets', apiUrls.starredSnippets);
     },
 
-    fetchArchivedSnippets({dispatch, commit}) {
+    fetchArchivedSnippets({ dispatch, commit }) {
       return dispatch('fetchSnippets', apiUrls.archivedSnippets);
     },
 
@@ -93,7 +93,7 @@ export default {
      * This is useful for operations that need to make sure the Snippets have been
      * loaded before proceeding (e.g. 'find by ID').
      */
-    getCachedOrFetchSnippets({state, dispatch, commit}) {
+    getCachedOrFetchSnippets({ state, dispatch, commit }) {
       return new Promise((resolve, reject) => {
         if (state.snippets.length) {
           resolve(state.snippets);
@@ -111,7 +111,7 @@ export default {
     /**
      * Reqeusts an individual Snippet with the specified ID from the API.
      */
-    fetchSnippetById({getters, commit}, id) {
+    fetchSnippetById({ getters, commit }, id) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -138,7 +138,7 @@ export default {
      * Note that if the Snippet cannot be found in the local list, a call to
      * the API will be made requesting the single Snippet instance.
      */
-    findSnippet({state, dispatch, commit}, snippetId) {
+    findSnippet({ state, dispatch, commit }, snippetId) {
       return new Promise((resolve, reject) => {
         dispatch('getCachedOrFetchSnippets')
           .then((res) => {
@@ -161,7 +161,7 @@ export default {
       });
     },
 
-    createSnippet({getters, commit}, snippet) {
+    createSnippet({ getters, commit }, snippet) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -183,7 +183,7 @@ export default {
       });
     },
 
-    updateSnippet({getters, commit}, {snippet, removeAfterUpdate}) {
+    updateSnippet({ getters, commit }, { snippet, removeAfterUpdate }) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -199,14 +199,14 @@ export default {
               reject('There was an error updating the Snippet.');
             } else {
               const snippet = res.body;
-              commit(SNIPPETS.UPDATE, {snippet, removeAfterUpdate});
+              commit(SNIPPETS.UPDATE, { snippet, removeAfterUpdate });
               resolve(snippet);
             }
           });
       });
     },
 
-    deleteSnippet({getters, commit}, snippetId) {
+    deleteSnippet({ getters, commit }, snippetId) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {

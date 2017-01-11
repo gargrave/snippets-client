@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex';
+  import { mapActions } from 'vuex';
 
   import Navbar from './components/layout/Navbar.vue';
   import SideNav from './components/layout/SideNav.vue';

@@ -6,24 +6,30 @@
       <div class="panel-body">
 
         <ul class="list-group">
-          <li class="list-group-item"><h4>User name: {{ user.username }}</h4></li>
-          <li class="list-group-item"><h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4></li>
-          <li class="list-group-item"><h4>Member since: {{ dateJoined }}</h4></li>
+          <li class="list-group-item">
+            <h4>User name: {{ user.username }}</h4>
+          </li>
+          <li class="list-group-item">
+            <h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4>
+          </li>
+          <li class="list-group-item">
+            <h4>Member since: {{ dateJoined }}</h4>
+          </li>
         </ul>
 
       </div><!-- /panel-body -->
-    </div>
+    </div><!-- /panel -->
   </div>
 </template>
 
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import toastr from 'toastr';
 
   import errors from '../../../appData/errors';
   import dateHelper from '../../../utils/dateHelper';
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
 
   export default {
     computed: {

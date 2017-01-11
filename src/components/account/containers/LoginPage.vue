@@ -30,8 +30,9 @@
           :working="working"
           :onSubmit="onSubmit"
           :errors="errors"
-          @formDataChanged="onFormChanged"
-        ></app-login-form>
+          @formDataChanged="onFormChanged">
+        </app-login-form>
+
       </div><!-- /panel-body -->
     </div><!-- /panel -->
   </div>
@@ -39,11 +40,11 @@
 
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import request from 'superagent';
   import toastr from 'toastr';
 
-  import {apiUrls, localUrls} from '../../../appData/urls';
+  import { apiUrls, localUrls } from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import LoginForm from '../components/LoginForm.vue';
 
@@ -128,7 +129,7 @@
         };
 
         // validate username
-        params = {required: true, minLength: 2};
+        params = { required: true, minLength: 2 };
         const userVal = validate(this.credentials.username, params);
         if (!userVal.valid) {
           this.errors.username = userVal.error;
@@ -136,7 +137,7 @@
         }
 
         // validate password
-        params = {required: true, minLength: 8};
+        params = { required: true, minLength: 8 };
         const passVal = validate(this.credentials.password, params);
         if (!passVal.valid) {
           this.errors.password = passVal.error;
@@ -164,7 +165,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

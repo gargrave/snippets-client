@@ -9,9 +9,7 @@
 
       <div :class="panelClass">
         <div class="panel-heading">
-          <h4 class="panel-title">
-            Details
-          </h4>
+          <h4 class="panel-title">Details</h4>
         </div><!-- /panel-heading -->
 
         <div class="panel-body">
@@ -27,8 +25,8 @@
             :onCancel="onCancel"
             :snippetIsDirty="snippetIsDirty"
             @formDataChanged="onFormChanged">
-
           </app-snippet-form>
+
         </div><!-- /panel-body -->
       </div><!-- /panel -->
 
@@ -51,6 +49,7 @@
             Delete
           </button>
         </div><!-- /panel-body -->
+
       </div><!-- /panel -->
     </div><!-- /v-else -->
   </div>
@@ -58,10 +57,10 @@
 
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import toastr from 'toastr';
 
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
@@ -155,7 +154,7 @@
         };
 
         // validate title
-        params = {minLength: 3};
+        params = { minLength: 3 };
         const titleVal = validate(this.snippet.title, params);
         if (!titleVal.valid) {
           this.errors.title = titleVal.error;
@@ -163,7 +162,7 @@
         }
 
         // validate url
-        params = {required: true, format: 'url'};
+        params = { required: true, format: 'url' };
         const urlVal = validate(this.snippet.url, params);
         if (!urlVal.valid) {
           this.errors.url = urlVal.error;
@@ -268,7 +267,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

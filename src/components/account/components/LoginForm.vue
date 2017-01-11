@@ -9,8 +9,8 @@
       placeholder="Username"
       :value="loginUser.username"
       :error="errors.username"
-      @valueChanged="onUsernameChange"
-    ></app-input-field>
+      @valueChanged="onUsernameChange">
+    </app-input-field>
 
     <!-- password input -->
     <app-input-field
@@ -20,10 +20,15 @@
       placeholder="Password"
       :value="loginUser.password"
       :error="errors.password"
-      @valueChanged="onPasswordChange"
-    ></app-input-field>
+      @valueChanged="onPasswordChange">
+    </app-input-field>
 
-    <input class="btn btn-primary" type="submit" value="Submit" :disabled="working">
+    <input
+      class="btn btn-primary"
+      type="submit"
+      value="Submit"
+      :disabled="working">
+
   </form>
 </template>
 
@@ -86,7 +91,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

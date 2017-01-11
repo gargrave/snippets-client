@@ -37,10 +37,10 @@
 
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import toastr from 'toastr';
 
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
   import errors from '../../../appData/errors';
   import snippetData from '../helpers/snippetData';
   import LoadingIcon from '../../common/components/LoadingIcon.vue';
@@ -190,7 +190,7 @@
             // call the action to save changes to the API
             this.apiError = '';
             this.working = true;
-            this.updateSnippet({snippet, removeAfterUpdate})
+            this.updateSnippet({ snippet, removeAfterUpdate })
               .then((res) => {
                 if (toast) {
                   toastr.success(toast);
@@ -227,7 +227,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

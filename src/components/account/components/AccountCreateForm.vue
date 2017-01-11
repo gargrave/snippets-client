@@ -9,8 +9,8 @@
       placeholder="Email"
       :value="userData.email"
       :error="errors.email"
-      @valueChanged="onEmailChange"
-    ></app-input-field>
+      @valueChanged="onEmailChange">
+    </app-input-field>
 
     <!-- user name input -->
     <app-input-field
@@ -20,8 +20,8 @@
       placeholder="Username"
       :value="userData.username"
       :error="errors.username"
-      @valueChanged="onUsernameChange"
-    ></app-input-field>
+      @valueChanged="onUsernameChange">
+    </app-input-field>
 
     <!-- password input -->
     <app-input-field
@@ -31,8 +31,8 @@
       placeholder="Password"
       :value="userData.password"
       :error="errors.password"
-      @valueChanged="onPasswordChange"
-    ></app-input-field>
+      @valueChanged="onPasswordChange">
+    </app-input-field>
 
     <!-- password confirm input -->
     <app-input-field
@@ -42,8 +42,8 @@
       placeholder="Confirm Password"
       :value="userData.passwordConfirm"
       :error="errors.passwordConfirm"
-      @valueChanged="onPasswordConfirmChange"
-    ></app-input-field>
+      @valueChanged="onPasswordConfirmChange">
+    </app-input-field>
 
 
     <!-- submit button -->
@@ -51,16 +51,15 @@
       class="btn btn-primary"
       type="submit"
       value="Submit"
-      :disabled="working"
-    >
+      :disabled="working">
 
     <!-- cancel button -->
     <button
       class="btn btn-default pull-right"
       type="button"
       @click.prevent="onCancel"
-      :disabled="working"
-    >Cancel
+      :disabled="working">
+      Cancel
     </button>
 
   </form>

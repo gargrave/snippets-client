@@ -1,9 +1,9 @@
 import request from 'superagent';
 
-import {apiUrls} from '../../appData/urls';
+import { apiUrls } from '../../appData/urls';
 import errors from '../../appData/errors';
 import apiHelper from '../../utils/apiHelper';
-import {USER} from '../mutation-types';
+import { USER } from '../mutation-types';
 
 
 export default {
@@ -95,7 +95,7 @@ export default {
      * @param credentials - An object with 'username' and 'password' props
      * @returns {Promise}
      */
-    login({dispatch, commit}, credentials) {
+    login({ dispatch, commit }, credentials) {
       return new Promise((resolve, reject) => {
         request.post(apiUrls.login)
           .send(credentials)
@@ -125,7 +125,7 @@ export default {
      * Attempts to fetch user data from the API with the supplied auth token.
      * If the attempt is successful, the returned data is committed to localStorage.
      */
-    loadUserDataFromToken({commit}, authToken) {
+    loadUserDataFromToken({ commit }, authToken) {
       return new Promise((resolve, reject) => {
         request.get(apiUrls.user)
           .set('Authorization', `Token ${authToken}`)
@@ -158,7 +158,7 @@ export default {
      * to logout, but the local data will be cleared and the Promise will resolve
      * no matter what response the API sends.
      */
-    logout({getters, commit}) {
+    logout({ getters, commit }) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
@@ -178,7 +178,7 @@ export default {
      * Attempts to create a new user with the supplied data. If a new user
      * is successfully created, the user is automatically logged in.
      */
-    createUser({dispatch, commit}, userData) {
+    createUser({ dispatch, commit }, userData) {
       return new Promise((resolve, reject) => {
         const payload = {
           email: userData.email,
@@ -216,7 +216,7 @@ export default {
      * Attempts to "re-login" from credentials stored in localStorage. Should be
      * called first upon re-loading the app.
      */
-    checkForStoredLogin({dispatch, commit}) {
+    checkForStoredLogin({ dispatch, commit }) {
       return new Promise((resolve, reject) => {
         let storedToken = localStorage.getItem('token');
         if (storedToken) {

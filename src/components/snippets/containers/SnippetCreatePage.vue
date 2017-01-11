@@ -16,19 +16,18 @@
           :errors="errors"
           :onSubmit="onSubmit"
           :onCancel="onCancel"
-          @formDataChanged="onFormChanged"
-        >
+          @formDataChanged="onFormChanged">
         </app-snippet-form>
+
       </div><!-- /panel-body -->
     </div><!-- /panel -->
   </div>
 </template>
 
-
 <script>
-  import {mapActions} from 'vuex';
+  import { mapActions } from 'vuex';
 
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import SnippetForm from '../components/SnippetForm.vue';
@@ -117,7 +116,7 @@
         };
 
         // validate username
-        params = {minLength: 3};
+        params = { minLength: 3 };
         const titleVal = validate(this.newSnippet.title, params);
         if (!titleVal.valid) {
           this.errors.title = titleVal.error;
@@ -125,7 +124,7 @@
         }
 
         // validate password
-        params = {required: true, format: 'url'};
+        params = { required: true, format: 'url' };
         const urlVal = validate(this.newSnippet.url, params);
         if (!urlVal.valid) {
           this.errors.url = urlVal.error;
@@ -141,7 +140,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

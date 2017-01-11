@@ -11,6 +11,7 @@
       </div><!-- /panel-heading -->
 
       <div class="panel-body">
+
         <app-account-create-form
           :working="working"
           :onSubmit="onSubmit"
@@ -18,18 +19,18 @@
           :errors="errors"
           @formDataChanged="onFormChanged">
         </app-account-create-form>
+
       </div><!-- /panel-body -->
     </div><!-- /panel -->
-
   </div>
 </template>
 
 
 <script>
-  import {mapActions} from 'vuex';
+  import { mapActions } from 'vuex';
   import toastr from 'toastr';
 
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
   import validate from '../../../utils/validate';
   import LoadingIcon from '../../common/components/LoadingIcon';
   import AccountCreateForm from '../components/AccountCreateForm.vue';
@@ -146,7 +147,7 @@
         };
 
         // validate email
-        params = {required: true, format: 'email'};
+        params = { required: true, format: 'email' };
         const emailVal = validate(this.userData.email, params);
         if (!emailVal.valid) {
           this.errors.email = emailVal.error;
@@ -154,7 +155,7 @@
         }
 
         // validate username
-        params = {required: true, minLength: 2};
+        params = { required: true, minLength: 2 };
         const userVal = validate(this.userData.username, params);
         if (!userVal.valid) {
           this.errors.username = userVal.error;
@@ -162,7 +163,7 @@
         }
 
         // validate password
-        params = {required: true, minLength: 8};
+        params = { required: true, minLength: 8 };
         const passVal = validate(this.userData.password, params);
         if (!passVal.valid) {
           this.errors.password = passVal.error;
@@ -186,7 +187,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

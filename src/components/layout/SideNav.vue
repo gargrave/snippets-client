@@ -76,8 +76,8 @@
     <!-- not logged in; show login links -->
     <ul id="sidenav-notloggedin" class="nav navmenu-nav" v-else>
       <li class="nav-header">Account</li>
+      <!-- link to login page -->
       <li>
-        <!-- link to login page -->
         <router-link
           :to="{name: 'login'}"
           active-class="active"
@@ -85,8 +85,8 @@
           Login
         </router-link>
       </li>
+      <!-- link to account creation page -->
       <li>
-        <!-- link to account creation page -->
         <router-link
           :to="{name: 'account-create'}"
           active-class="active"
@@ -101,7 +101,7 @@
 
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import toastr from 'toastr';
 
   export default {
