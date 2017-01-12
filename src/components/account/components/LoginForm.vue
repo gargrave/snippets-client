@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginForm" :model="user" :rules="rules">
+  <el-form ref="form" :model="user" :rules="rules">
 
     <!-- user name input -->
     <el-form-item label="Username" prop="username">
@@ -17,7 +17,8 @@
         type="password"
         name="password"
         placeholder="Password"
-        v-model="user.password">
+        v-model="user.password"
+        auto-complete="off">
       </el-input>
     </el-form-item>
 
@@ -30,10 +31,13 @@
         Login
       </el-button>
 
-      <!-- cancel button -->
+      <!-- 'new account' button -->
       <el-button
-        :disabled="working">
-        Cancel
+        type="default"
+        style="float: right;"
+        :disabled="working"
+        @click="onCancel">
+        Signup
       </el-button>
     </el-form-item>
 
@@ -77,11 +81,15 @@
 
     methods: {
       onSubmit() {
-        this.$refs['loginForm'].validate((valid) => {
+        this.$refs['form'].validate((valid) => {
           if (valid) {
             this.$emit('submitted', this.user);
           }
         });
+      },
+
+      onCancel() {
+        this.$emit('cancelled');
       }
     }
   };

@@ -1,8 +1,13 @@
 <template>
-  <div>
+  <section>
     <h2 class="page-title">Login</h2>
 
-    <el-card class="box-card">
+    <el-card
+      class="box-card"
+      v-loading="working"
+      element-loading-text="Logging in..."
+      style="width: 100%">
+
       <div class="text item">
 
         <!-- error message display -->
@@ -17,13 +22,14 @@
         <!-- login form -->
         <app-login-form
           :working="working"
-          @submitted="onFormSubmitted">
+          @submitted="onFormSubmitted"
+          @cancelled="onFormCancelled">
         </app-login-form>
 
       </div><!-- /.text item -->
     </el-card>
 
-  </div>
+  </section>
 </template>
 
 
@@ -61,6 +67,7 @@
         };
 
         this.working = true;
+        this.apiError = '';
         this.login(user)
           .then(() => {
             this.$router.push(localUrls.snippetsList);
@@ -69,6 +76,11 @@
             this.apiError = err;
             this.working = false;
           });
+      },
+
+      onFormCancelled(value, event) {
+        console.log('onFormCancelled');
+        this.$router.push(localUrls.accountCreate);
       },
 
       ...mapActions([
