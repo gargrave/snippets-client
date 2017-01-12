@@ -1,61 +1,52 @@
 <template>
-  <form @submit.prevent="onSubmit" novalidate>
+  <el-form ref="loginForm" :model="user" :rules="rules">
 
     <!-- user name input -->
-    <app-input-field
-      inputType="text"
-      label="Username"
-      name="username"
-      placeholder="Username"
-      :value="loginUser.username"
-      :error="errors.username"
-      @valueChanged="onUsernameChange">
-    </app-input-field>
+    <el-form-item label="Username" prop="username">
+      <el-input
+        type="text"
+        name="username"
+        placeholder="Username"
+        v-model="user.username">
+      </el-input>
+    </el-form-item>
 
     <!-- password input -->
-    <app-input-field
-      inputType="password"
-      label="Password"
-      name="password"
-      placeholder="Password"
-      :value="loginUser.password"
-      :error="errors.password"
-      @valueChanged="onPasswordChange">
-    </app-input-field>
+    <el-form-item label="Password" prop="password">
+      <el-input
+        type="password"
+        name="password"
+        placeholder="Password"
+        v-model="user.password">
+      </el-input>
+    </el-form-item>
 
-    <input
-      class="btn btn-primary"
-      type="submit"
-      value="Submit"
-      :disabled="working">
+    <el-form-item>
+      <!-- submit button -->
+      <el-button
+        type="primary"
+        :disabled="working"
+        @click="onSubmit">
+        Login
+      </el-button>
 
-  </form>
+      <!-- cancel button -->
+      <el-button
+        :disabled="working">
+        Cancel
+      </el-button>
+    </el-form-item>
+
+  </el-form>
 </template>
 
 
 <script>
-  import TextInput from '../../common/components/InputField.vue';
-
   export default {
-    components: {
-      appInputField: TextInput
-    },
-
-
     props: {
       // whether any operations are currently running
       working: {
         type: Boolean,
-        required: true
-      },
-      // callback for form's "submit" event
-      onSubmit: {
-        type: Function,
-        required: true
-      },
-      // any validation error messages
-      errors: {
-        type: Object,
         required: true
       }
     },
@@ -64,29 +55,33 @@
     data() {
       return {
         // the current data entered into the form
-        loginUser: {
+        user: {
           username: '',
           password: ''
+        },
+
+        // validation rules
+        rules: {
+          username: [
+            { required: true, message: 'Username is required.', trigger: 'blur' },
+            { min: 2, max: 24, message: 'Must be between 2 and 24 characters long.', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: 'Password is required.', trigger: 'blur' },
+            { min: 8, max: 50, message: 'Must be at least 8 characters long.', trigger: 'blue' }
+          ]
         }
       };
     },
 
 
     methods: {
-      /**
-       * Handler for 'user name' input field being edited.
-       */
-      onUsernameChange(value, event) {
-        this.loginUser.username = value;
-        this.$emit('formDataChanged', this.loginUser);
-      },
-
-      /**
-       * Handler for 'password' input field being edited.
-       */
-      onPasswordChange(value, event) {
-        this.loginUser.password = value;
-        this.$emit('formDataChanged', this.loginUser);
+      onSubmit() {
+        this.$refs['loginForm'].validate((valid) => {
+          if (valid) {
+            this.$emit('submitted', this.user);
+          }
+        });
       }
     }
   };
