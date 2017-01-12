@@ -28,11 +28,9 @@
 
 
 <script>
-  import { mapActions, mapGetters } from 'vuex';
-  import request from 'superagent';
-  import toastr from 'toastr';
+  import { mapActions } from 'vuex';
 
-  import { apiUrls, localUrls } from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
   import LoginForm from '../components/LoginForm.vue';
 
   export default {
@@ -49,13 +47,6 @@
         // error messages returned from API (e.g. invalid login)
         apiError: ''
       };
-    },
-
-
-    computed: {
-      ...mapGetters([
-        'isLoggedIn'
-      ])
     },
 
 
