@@ -16,11 +16,12 @@ body {
   background-color: $bgColor;
 }
 
-.main-content-area > div > h1, h2 {
+.main-content-area > div > h1 {
   text-align: center;
 }
 
 h2.page-title {
+  text-align: center;
   margin-top: 10px;
   margin-bottom: 20px;
 }

@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <h2 class="pageTitle">Account Details</h2>
+  <section>
+    <h2 class="page-title">Account Details</h2>
 
-    <div class="panel panel-default snippet-panel">
-      <div class="panel-body">
-
-        <ul class="list-group">
-          <li class="list-group-item">
+    <el-card class="box-card">
+      <div class="text item">
+        <ul>
+          <li>
             <h4>User name: {{ user.username }}</h4>
           </li>
-          <li class="list-group-item">
+          <li>
             <h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4>
           </li>
-          <li class="list-group-item">
+          <li>
             <h4>Member since: {{ dateJoined }}</h4>
           </li>
         </ul>
+      </div><!-- /. text item -->
+    </el-card>
 
-      </div><!-- /panel-body -->
-    </div><!-- /panel -->
-  </div>
+  </section>
 </template>
 
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import toastr from 'toastr';
 
   import errors from '../../../appData/errors';
   import dateHelper from '../../../utils/dateHelper';
@@ -57,17 +55,14 @@
           // no action needed if successful
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
-            toastr.info('Please login again.', 'Invalid auth token');
+            this.$notify({
+              title: 'Invalid auth token',
+              message: 'Please login again.',
+              type: 'warning'
+            });
           }
           this.$router.push(localUrls.login);
         });
     }
   };
 </script>
-
-
-<style scoped>
-  .list-group {
-    margin-bottom: 0;
-  }
-</style>
