@@ -1,0 +1,33 @@
+@import 'variables';
+
+.box-card {
+  max-width: $panelMaxWidth;
+  margin-left: auto;
+  margin-right: auto;
+
+  .el-card__body {
+    padding: 0 20px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    padding: 12px 0;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  .clearfix:after {
+      clear: both
+  }
+}
+
+.el-alert {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
