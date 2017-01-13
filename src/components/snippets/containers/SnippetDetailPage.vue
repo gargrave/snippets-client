@@ -110,7 +110,7 @@
 
         const updatedSnippet = snippetData.buildRecordData(this.snippet);
         updatedSnippet.title = value.title.trim() || snippetData.DEFAULT_TITLE;
-        updatedSnippet.url = value.url.trim()
+        updatedSnippet.url = value.url.trim();
 
         if (updatedSnippet.title === this.originalSnippet.title &&
             updatedSnippet.url === this.originalSnippet.url) {

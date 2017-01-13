@@ -96,7 +96,7 @@
             { type: 'url', message: 'Must be a valid URL.', trigger: 'blur,change' }
           ]
         }
-      }
+      };
     },
 
 

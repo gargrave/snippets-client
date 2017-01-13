@@ -79,7 +79,6 @@
       },
 
       onFormCancelled(value, event) {
-        console.log('onFormCancelled');
         this.$router.push(localUrls.accountCreate);
       },
 
