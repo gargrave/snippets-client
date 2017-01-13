@@ -26,8 +26,9 @@
       <!-- submit button -->
       <el-button
         type="primary"
+        native-type="submit"
         :disabled="working"
-        @click="onSubmit">
+        @click.prevent="onSubmit">
         Login
       </el-button>
 
