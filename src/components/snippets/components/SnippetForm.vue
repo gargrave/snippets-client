@@ -1,7 +1,49 @@
 <template>
-  <form @submit.prevent="onSubmit" novalidate>
+  <el-form ref="form" :model="snippet" :rules="rules">
 
     <!-- snippet title input -->
+    <el-form-item label="Title" prop="title">
+      <el-input
+        type="text"
+        name="title"
+        placeholder="Snippet Title (optional)"
+        v-model="snippet.title">
+      </el-input>
+    </el-form-item>
+
+    <!-- snippet url input -->
+    <el-form-item label="URL" prop="url">
+      <el-input
+        type="text"
+        name="url"
+        placeholder="Snippet URL"
+        v-model="snippet.url">
+      </el-input>
+    </el-form-item>
+
+    <el-form-item>
+      <!-- submit button -->
+      <el-button
+        type="primary"
+        :disabled="working"
+        @click="onSubmit">
+        Submit
+      </el-button>
+
+      <!-- cancel button -->
+      <el-button
+        type="default"
+        style="float: right;"
+        :disabled="working"
+        @click="onCancel">
+        Cancel
+      </el-button>
+    </el-form-item>
+
+  </el-form>
+<!--
+  <form @submit.prevent="onSubmit" novalidate>
+
     <app-input-field
       inputType="text"
       label="Title"
@@ -12,7 +54,6 @@
       @valueChanged="onTitleChange"
     ></app-input-field>
 
-    <!-- snippet url input -->
     <app-input-field
       inputType="text"
       label="URL"
@@ -31,6 +72,7 @@
     ></app-submit-cancel-btn-group>
 
   </form>
+-->
 </template>
 
 
@@ -50,21 +92,6 @@
       // whether any operations are currently running
       working: {
         type: Boolean,
-        required: true
-      },
-      // any validation error messages
-      errors: {
-        type: Object,
-        required: true
-      },
-      // handler for submission
-      onSubmit: {
-        type: Function,
-        required: true
-      },
-      // handler for cancelling submission
-      onCancel: {
-        type: Function,
         required: true
       },
       // snippet being created/edited (e.g. for detail/edit view)
@@ -87,17 +114,34 @@
     },
 
 
+    data() {
+      return {
+        // validation rules
+        rules: {
+          title: [
+            { max: 255, message: 'Must be no more than 255 characters long.', trigger: 'blur' }
+          ],
+          url: [
+            { required: true, message: 'URL is required.', trigger: 'blur' },
+            { max: 200, message: 'Must be no more than 200 characters long.', trigger: 'blur' },
+            { type: 'url', message: 'Must be a valid URL.', trigger: 'blur,change' }
+          ]
+        }
+      }
+    },
+
+
     methods: {
-      onTitleChange(value, event) {
-        const updatedSnippet = Object.assign({}, this.snippet);
-        updatedSnippet.title = value;
-        this.$emit('formDataChanged', updatedSnippet);
+      onSubmit() {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.$emit('submitted', this.snippet);
+          }
+        });
       },
 
-      onUrlChange(value, event) {
-        const updatedSnippet = Object.assign({}, this.snippet);
-        updatedSnippet.url = value;
-        this.$emit('formDataChanged', updatedSnippet);
+      onCancel() {
+        this.$emit('cancelled');
       }
     }
   };

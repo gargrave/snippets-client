@@ -1,34 +1,43 @@
 <template>
-  <div>
-    <!-- 'New Snippet' panel -->
-    <div class="panel panel-default snippet-panel snippet-color-white new-snippet-form-panel">
-      <div class="panel-heading">
-        <h3 class="panel-title">New Snippet</h3>
-      </div>
+  <section>
 
-      <div class="panel-body">
-        <!-- API error display -->
-        <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+    <h2 class="page-title">New Snippet</h2>
 
+    <el-card
+      class="box-card"
+      v-loading="working"
+      element-loading-text="Saving Snippet..."
+      style="width: 100%">
+
+      <div class="text item">
+
+        <!-- error message display -->
+        <el-alert
+          title="Snippet Creation Error"
+          type="error"
+          v-if="apiError"
+          :description="apiError"
+          :closable="false">
+        </el-alert>
+
+        <!-- snippet form -->
         <app-snippet-form
-          :snippet="newSnippet"
           :working="working"
-          :errors="errors"
-          :onSubmit="onSubmit"
-          :onCancel="onCancel"
-          @formDataChanged="onFormChanged">
+          :snippet="newSnippet"
+          @submitted="onFormSubmitted"
+          @cancelled="onFormCancelled">
         </app-snippet-form>
 
-      </div><!-- /panel-body -->
-    </div><!-- /panel -->
-  </div>
+      </div><!-- /.text item -->
+    </el-card>
+
+  </section>
 </template>
 
 <script>
   import { mapActions } from 'vuex';
 
   import { localUrls } from '../../../appData/urls';
-  import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import SnippetForm from '../components/SnippetForm.vue';
 
@@ -46,12 +55,6 @@
         // error messages returned from API (e.g. invalid data)
         apiError: '',
 
-        // local validation errors (e.g. missing field)
-        errors: {
-          title: '',
-          url: ''
-        },
-
         // models for new snippet
         newSnippet: {
           title: '',
@@ -63,75 +66,28 @@
 
     methods: {
       /**
-       * Handler for input fields being changed on login form.
+       * Attempts to submit the current user data to the API to login.
        */
-      onFormChanged(value) {
-        this.newSnippet = {
-          title: value.title,
-          url: value.url
+      onFormSubmitted(value, event) {
+        const snippet = {
+          title: value.title.trim() ||  snippetData.DEFAULT_TITLE,
+          url: value.url.trim()
         };
+
+        this.working = true;
+        this.apiError = '';
+        this.createSnippet(snippet)
+          .then(() => {
+            this.$router.push(localUrls.snippetsList);
+            this.working = false;
+          }, (err) => {
+            this.apiError = err;
+            this.working = false;
+          });
       },
 
-      /**
-       * Attempts to send the current Snippet data to the API to be saved.
-       */
-      onSubmit() {
-        if (this.isValid()) {
-          const snippet = {
-            title: this.newSnippet.title.trim() || snippetData.DEFAULT_TITLE,
-            url: this.newSnippet.url.trim()
-          };
-
-          this.working = true;
-          this.createSnippet(snippet)
-            .then((res) => {
-              this.working = false;
-              this.$router.push(localUrls.snippetsList);
-            }, (err) => {
-              this.apiError = err;
-              this.working = false;
-            });
-        }
-      },
-
-      /**
-       * Callback for 'cancel' button; rereoute to Snippets list page.
-       */
-      onCancel() {
+      onFormCancelled(value, event) {
         this.$router.push(localUrls.snippetsList);
-      },
-
-      /**
-       * Validates the user data currently entered into the form.
-       *
-       * @returns {boolean} Whether the data validates correctly.
-       */
-      isValid() {
-        let valid = true;
-        let params;
-
-        this.errors = {
-          title: '',
-          url: ''
-        };
-
-        // validate username
-        params = { minLength: 3 };
-        const titleVal = validate(this.newSnippet.title, params);
-        if (!titleVal.valid) {
-          this.errors.title = titleVal.error;
-          valid = false;
-        }
-
-        // validate password
-        params = { required: true, format: 'url' };
-        const urlVal = validate(this.newSnippet.url, params);
-        if (!urlVal.valid) {
-          this.errors.url = urlVal.error;
-          valid = false;
-        }
-
-        return valid;
       },
 
       ...mapActions([
