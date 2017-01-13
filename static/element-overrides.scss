@@ -31,3 +31,12 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/*=============================================
+ = tablet- resolutions
+ =============================================*/
+@media (max-width: 768px) {
+  .el-message-box {
+    width: 100%;
+  }
+}
