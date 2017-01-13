@@ -47,13 +47,13 @@
       </el-input>
     </el-form-item>
 
-
     <el-form-item>
       <!-- submit button -->
       <el-button
         type="primary"
+        native-type="submit"
         :disabled="working"
-        @click="onSubmit">
+        @click.prevent="onSubmit">
         Submit
       </el-button>
 
@@ -116,7 +116,7 @@
         rules: {
           email: [
             { required: true, message: 'Email is required.', trigger: 'blur' },
-            { type: 'email', message: 'Please enter a valid email address.', trigger: 'blur' }
+            { type: 'email', message: 'Must be a valid email address.', trigger: 'blur' }
           ],
           username: [
             { required: true, message: 'Username is required.', trigger: 'blur' },
