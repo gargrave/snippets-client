@@ -25,9 +25,10 @@
       <!-- submit button -->
       <el-button
         type="primary"
+        native-type="submit"
         :disabled="working"
-        @click="onSubmit">
-        Submit
+        @click.prevent="onSubmit">
+        {{ submitText }}
       </el-button>
 
       <!-- cancel button -->
@@ -36,43 +37,11 @@
         style="float: right;"
         :disabled="working"
         @click="onCancel">
-        Cancel
+        {{ cancelText }}
       </el-button>
     </el-form-item>
 
   </el-form>
-<!--
-  <form @submit.prevent="onSubmit" novalidate>
-
-    <app-input-field
-      inputType="text"
-      label="Title"
-      name="title"
-      placeholder="Snippet Title (optional)"
-      :value="snippet.title"
-      :error="errors.title"
-      @valueChanged="onTitleChange"
-    ></app-input-field>
-
-    <app-input-field
-      inputType="text"
-      label="URL"
-      name="url"
-      placeholder="Snippet URL"
-      :value="snippet.url"
-      :error="errors.url"
-      @valueChanged="onUrlChange"
-    ></app-input-field>
-
-    <app-submit-cancel-btn-group
-      :submitText="submitText"
-      :working="working"
-      :disableSubmit="!snippetIsDirty"
-      :onCancelClick="onCancel"
-    ></app-submit-cancel-btn-group>
-
-  </form>
--->
 </template>
 
 
@@ -105,11 +74,11 @@
         required: false,
         default: 'Submit'
       },
-      // whether the Snippet has unsaved changes (only necessary on 'edit' page)
-      snippetIsDirty: {
-        type: Boolean,
+      // text to display on cancel/back button
+      cancelText: {
+        type: String,
         required: false,
-        default: true
+        default: 'Cancel'
       }
     },
 

@@ -1,75 +1,71 @@
 <template>
-  <div>
-    <!-- loading icon -->
-    <app-loading-icon v-if="refreshing"></app-loading-icon>
+  <section>
 
-    <!-- Snippet detail panel -->
-    <div v-else>
-      <h2 class="page-title">{{ originalSnippet.title }}</h2>
+    <h2 class="page-title">{{ originalSnippet.title }}</h2>
 
-      <div :class="panelClass">
-        <div class="panel-heading">
-          <h4 class="panel-title">Details</h4>
-        </div><!-- /panel-heading -->
+    <el-card
+      class="box-card"
+      v-loading="working"
+      element-loading-text="Working..."
+      style="width: 100%">
 
-        <div class="panel-body">
-          <!-- API error display -->
-          <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+      <div class="text item">
 
-          <app-snippet-form
-            submitText="Update"
-            :snippet="snippet"
-            :working="working"
-            :errors="errors"
-            :onSubmit="onSubmit"
-            :onCancel="onCancel"
-            :snippetIsDirty="snippetIsDirty"
-            @formDataChanged="onFormChanged">
-          </app-snippet-form>
+        <!-- error message display -->
+        <el-alert
+          title="Snippet Creation Error"
+          type="error"
+          v-if="apiError"
+          :description="apiError"
+          :closable="false">
+        </el-alert>
 
-        </div><!-- /panel-body -->
-      </div><!-- /panel -->
+        <!-- snippet form -->
+        <app-snippet-form
+          submitText="Save"
+          cancelText="Back"
+          :working="working"
+          :snippet="snippet"
+          @submitted="onFormSubmitted"
+          @cancelled="onFormCancelled">
+        </app-snippet-form>
 
-      <hr class="snippets-hr">
+      </div><!-- /.text item -->
+    </el-card>
 
-      <!-- actions panel -->
-      <div :class="panelClass">
+    <hr class="snippets-hr">
 
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            Options
-          </h4>
-        </div><!-- /panel-heading -->
+    <el-card
+      class="box-card"
+      v-loading="working"
+      element-loading-text="Working..."
+      style="width: 100%">
+      <div class="text item">
 
-        <div class="panel-body">
-          <button
-            type="button"
-            class="btn btn-danger btn-block"
-            @click.prevent="onDelete">
-            Delete
-          </button>
-        </div><!-- /panel-body -->
+        <el-button
+          type="danger"
+          class="block-btn"
+          @click="onDelete">
+          Delete
+        </el-button>
 
-      </div><!-- /panel -->
-    </div><!-- /v-else -->
-  </div>
+      </div><!-- /.text item -->
+    </el-card>
+
+  </section>
 </template>
 
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import toastr from 'toastr';
 
   import { localUrls } from '../../../appData/urls';
-  import validate from '../../../utils/validate';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
-  import LoadingIcon from '../../common/components/LoadingIcon.vue';
   import SnippetForm from '../components/SnippetForm.vue';
 
   export default {
     components: {
-      appLoadingIcon: LoadingIcon,
       appSnippetForm: SnippetForm
     },
 
@@ -85,17 +81,9 @@
         // error messages returned from API (e.g. invalid data)
         apiError: '',
 
-        // local validation errors (e.g. missing field)
-        errors: {
-          title: '',
-          url: ''
-        },
-
-        // whether the Snippet has unsaved edits
-        snippetIsDirty: false,
-
         // the working copy of the Snippet
         snippet: {},
+
         // a copy of the Snippet, used for checking for changes
         originalSnippet: {},
       };
@@ -103,14 +91,6 @@
 
 
     computed: {
-      /*
-       * The class for the top-level BS panel component; will change
-       * based on the Snippet's 'color' property.
-       */
-      panelClass() {
-        return snippetStyles.snippetPanel(this.snippet);
-      },
-
       ...mapGetters([
         'isLoggedIn'
       ])
@@ -119,81 +99,32 @@
 
     methods: {
       /**
-       * Checks if the current Snippet has unsaved edits.
+       * Attempts to submit the current user data to the API to login.
        */
-      updateDirtyState() {
-        this.snippetIsDirty = false;
-
-        // compare snippet 'title' properties
-        let titleOrig = this.originalSnippet.title;
-        let titleNew = this.snippet.title.trim();
-        if (titleNew !== titleOrig) {
-          this.snippetIsDirty = true;
-        }
-
-        // compare urls
-        let urlOrig = this.originalSnippet.url;
-        let urlNew = this.snippet.url;
-        if (urlNew && urlOrig !== urlNew) {
-          this.snippetIsDirty = true;
-        }
-      },
-
-      /**
-       * Validates the user data currently entered into the form.
-       *
-       * @returns {boolean} Whether the data validates correctly.
-       */
-      isValid() {
-        let valid = true;
-        let params;
-
-        this.errors = {
-          title: '',
-          url: ''
+      onFormSubmitted(value, event) {
+        const msgNotify = {
+          type: 'info',
+          title: 'Cannot Update',
+          message: 'No changes to save.'
         };
 
-        // validate title
-        params = { minLength: 3 };
-        const titleVal = validate(this.snippet.title, params);
-        if (!titleVal.valid) {
-          this.errors.title = titleVal.error;
-          valid = false;
-        }
+        const updatedSnippet = snippetData.buildRecordData(this.snippet);
+        updatedSnippet.title = value.title.trim() || snippetData.DEFAULT_TITLE;
+        updatedSnippet.url = value.url.trim()
 
-        // validate url
-        params = { required: true, format: 'url' };
-        const urlVal = validate(this.snippet.url, params);
-        if (!urlVal.valid) {
-          this.errors.url = urlVal.error;
-          valid = false;
-        }
-
-        return valid;
-      },
-
-      /**
-       * Handler for input fields being changed on login form.
-       */
-      onFormChanged(value) {
-        this.snippet.title = value.title;
-        this.snippet.url = value.url;
-        this.updateDirtyState();
-      },
-
-      /**
-       * Attempts to send the current Snippet data to the API to be saved.
-       */
-      onSubmit() {
-        if (this.isValid()) {
+        if (updatedSnippet.title === this.originalSnippet.title &&
+            updatedSnippet.url === this.originalSnippet.url) {
+          // if the Snippet has not changed, show a message and do not submit the update
+          this.$notify(msgNotify);
+        } else {
+          // otherwise, submit the update to the API
           this.working = true;
-          this.updateSnippet({
-            snippet: snippetData.buildRecordData(this.snippet)
-          })
-            .then((res) => {
-              this.working = false;
-              toastr.success('Snippet updated');
+          this.apiError = '';
+
+          this.updateSnippet({ snippet: updatedSnippet })
+            .then(() => {
               this.$router.push(localUrls.snippetsList);
+              this.working = false;
             }, (err) => {
               this.apiError = err;
               this.working = false;
@@ -201,10 +132,7 @@
         }
       },
 
-      /**
-       * Callback for 'cancel' button; rereoute to Snippets list page.
-       */
-      onCancel() {
+      onFormCancelled(value, event) {
         this.$router.go(-1);
       },
 
@@ -212,19 +140,33 @@
        * Handler for click event on 'delete' button/link.
        */
       onDelete() {
-        // TODO replace this alert
-        if (confirm('Delete this Snippet?')) {
-          this.working = true;
-          this.deleteSnippet(this.snippet.id)
-            .then((res) => {
-              toastr.success('Snippet deleted');
-              this.working = false;
-              this.$router.push(localUrls.snippetsList);
-            }, (err) => {
-              this.apiError = err;
-              this.working = false;
-            });
-        }
+        const msgConfirm = {
+          confirmButtonText: 'Ok',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        };
+        const msgNotify = {
+          type: 'success',
+          message: 'Snippet deleted'
+        };
+
+        this.$confirm('Delete this Snippet?', 'Confirm', msgConfirm)
+          .then(() => {
+            this.working = true;
+
+            this.deleteSnippet(this.snippet.id)
+              .then((res) => {
+                this.$notify(msgNotify);
+                this.working = false;
+                this.$router.push(localUrls.snippetsList);
+              }, (err) => {
+                this.apiError = err;
+                this.working = false;
+              });
+          })
+          .catch(() => {
+            // cancel deletion; no action needed
+          });
       },
 
       ...mapActions([
