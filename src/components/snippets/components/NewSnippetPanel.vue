@@ -1,19 +1,21 @@
 <template>
-  <div :class="panelClass" @click="onClick">
-    <div class="panel-body">
-      <h4 class="text-muted">Add a Snippet...</h4>
-    </div>
+  <div @click="onClick">
+    <el-card class="new-snippet-link-card" :body-style="bodyStyle">
+      <div class="text item">
+        <h4>Add a Snippet...</h4>
+      </div>
+    </el-card>
   </div>
 </template>
 
 
 <script>
-  import {localUrls} from '../../../appData/urls';
+  import { localUrls } from '../../../appData/urls';
 
   export default {
     data() {
       return {
-        panelClass: 'panel panel-default snippet-panel new-snippet-link-panel snippet-color-white'
+        bodyStyle: 'padding: 4px 12px;'
       };
     },
 
@@ -25,7 +27,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>
