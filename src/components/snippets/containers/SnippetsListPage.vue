@@ -2,17 +2,18 @@
   <div>
     <h2 class="page-title">{{ pageTitle }}</h2>
 
-    <!-- loading spinner -->
-    <div
-      class="snippets-list-working-spinner"
-      v-loading="refreshing"
-      element-loading-text="Working..."
-      style="width: 100%; height: 160px;"
-      v-if="refreshing">
-    </div><!-- loading spinner -->
+    <section v-if="refreshing">
+      <!-- loading spinner -->
+      <div
+        class="snippets-list-working-spinner"
+        v-loading="refreshing"
+        element-loading-text="Working..."
+        style="width: 100%; height: 160px;">
+      </div><!-- loading spinner -->
+    </section>
 
     <!-- snippets list, shown when not refreshing -->
-    <div v-else>
+    <section v-else>
       <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
 
       <!-- API error display -->
@@ -40,7 +41,7 @@
           @quickUpdate="onQuickUpdate">
         </app-snippet-list-detail>
       </div>
-    </div><!-- /snippets list -->
+    </section><!-- /snippets list -->
 
   </div>
 </template>
@@ -80,7 +81,7 @@
 
 
     computed: {
-      // the title of the current page
+      // the title of the current page; differs based on filter settings
       pageTitle() {
         if (this.isArchivedView) {
           return 'Archived Snippets';
@@ -90,22 +91,27 @@
         return 'My Snippets';
       },
 
+      /** Returns a list of Snippets with 'pinned' status of true. */
       pinnedSnippets() {
         return this.snippets.filter(s => s.pinned === true);
       },
 
+      /** Returns a list of Snippets with 'pinned' status of false. */
       unpinnedSnippets() {
         return this.snippets.filter(s => s.pinned === false);
       },
 
+      /** Returns whether we are currently viewing the 'full' Snippets list (i.e. not filtered) */
       isMainListView() {
         return this.filterBy === '' || !this.filterBy;
       },
 
+      /** Returns whether we are currently viewing the 'Archived Snippets' list. */
       isArchivedView() {
         return this.filterBy === 'archived';
       },
 
+      /** Returns whether we are currently viewing the 'Starred Snippets' list. */
       isStarredView() {
         return this.filterBy === 'starred';
       },
@@ -119,6 +125,9 @@
 
 
     watch: {
+      // watch for changes in the routes, and update the Snippets list when necessary
+      // vue-router does not rebuild routes with the same base path, so we need to do
+      // this to watch for changes in the 'filter' type
       '$route'(newValue, oldValue) {
         this.rebuildSnippetsList();
       }
