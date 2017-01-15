@@ -47,16 +47,8 @@
 
 <script>
   import snippetData from '../helpers/snippetData';
-  import InputField from '../../common/components/InputField.vue';
-  import SubmitCancelBtnGroup from '../../common/components/SubmitCancelBtnGroup.vue';
 
   export default {
-    components: {
-      appInputField: InputField,
-      appSubmitCancelBtnGroup: SubmitCancelBtnGroup
-    },
-
-
     props: {
       // whether any operations are currently running
       working: {

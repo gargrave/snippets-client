@@ -72,14 +72,7 @@
 
 
 <script>
-  import TextInput from '../../common/components/InputField.vue';
-
   export default {
-    components: {
-      appInputField: TextInput
-    },
-
-
     props: {
       // whether any operations are currently running
       working: {
