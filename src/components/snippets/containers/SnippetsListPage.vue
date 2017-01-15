@@ -154,7 +154,6 @@
         this.apiError = '';
         this.working = true;
         this.refreshing = true;
-        setTimeout(() => {
         fetchCall()
           .then((res) => {
             this.working = false;
@@ -164,7 +163,6 @@
             this.working = false;
             this.refreshing = false;
           });
-        }, 1000);
       },
 
       onQuickUpdate(value) {
