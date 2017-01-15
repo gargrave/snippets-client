@@ -48,7 +48,6 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import toastr from 'toastr';
 
   import { localUrls } from '../../../appData/urls';
   import errors from '../../../appData/errors';
@@ -206,7 +205,10 @@
             this.updateSnippet({ snippet, removeAfterUpdate })
               .then((res) => {
                 if (toast) {
-                  toastr.success(toast);
+                  this.$notify({
+                    message: toast,
+                    type: 'success'
+                  });
                 }
                 this.working = false;
               }, (err) => {
@@ -234,7 +236,11 @@
           this.rebuildSnippetsList();
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
-            toastr.info('Please login again.', 'Invalid auth token');
+            this.$notify({
+              title: 'Invalid auth token',
+              message: 'Please login again.',
+              type: 'warning'
+            });
           }
           this.$router.push(localUrls.login);
         });
