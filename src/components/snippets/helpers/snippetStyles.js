@@ -13,11 +13,11 @@ export default {
     const colorClass = snippetData.isValidColor(snippet.color) ?
       `snippet-color-${snippet.color}` :
       'snippet-color-white';
-    return `panel panel-default snippet-panel ${colorClass}`;
+    return `snippet-card ${colorClass}`;
   },
 
   snippetCreatePanel() {
-    return 'panel panel-default snippet-panel snippet-color-white new-snippet-form-panel';
+    return 'panel panel-default snippet-card snippet-color-white new-snippet-form-panel';
   },
 
   snippetStarButton(snippet) {

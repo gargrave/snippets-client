@@ -1,29 +1,27 @@
 <template>
-  <div :class="panelClass">
+  <el-card class="box-card" body-style="padding: 0;" :class="panelClass">
 
-    <div class="panel-heading">
-      <h3 class="panel-title snippet-title">
-        <a
-          :href="snippet.url"
-          target="_blank"
-          rel="noopener noreferrer">
-          {{ snippet.title }}
-        </a>
-      </h3>
-    </div><!-- /panel-heading -->
+    <div class="snippet-card-header">
+      <a
+        :href="snippet.url"
+        target="_blank"
+        rel="noopener noreferrer">
+        {{ snippet.title }}
+      </a>
+    </div><!-- /snippet-card-header -->
 
 
-    <div class="panel-body">
+    <div class="text item snippet-card-body">
       <a
         :href="snippet.url"
         target="_blank"
         rel="noopener noreferrer">
         {{ snippet.url }}
       </a>
-    </div><!-- /panel-body -->
+    </div><!-- /snippet-card-body -->
 
 
-    <div class="panel-footer snippet-controls">
+    <div class="snippet-card-footer snippet-controls">
       <!-- pin/unpin button -->
       <app-snippet-pin-button
         v-if="!hidePinButton"
@@ -54,9 +52,9 @@
         class="fa fa-cog fa-pull-right pointer snippet-control"
         @click.prevent="onDetailClick">
       </span>
-    </div><!-- /panel-footer -->
+    </div><!-- /snippet-card-footer -->
 
-  </div><!-- /panel -->
+  </el-card>
 </template>
 
 
@@ -174,7 +172,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

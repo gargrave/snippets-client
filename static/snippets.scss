@@ -14,14 +14,10 @@ $snippetTeal: rgb(167, 255, 235);
 $snippetGray: rgb(207, 216, 220);
 
 @mixin coloredSnippetPanel($color) {
-  & > .panel-body, & > a {
-    background-color: $color;
-  }
-  & > .panel-heading, & > .panel-footer, & > a:hover {
+  background-color: $color;
+
+  .snippet-card-header, .snippet-card-footer {
     background-color: desaturate(darken($color, 15), 25) !important;
-  }
-  hr {
-    border-top: 1px solid desaturate(darken($color, 15), 25) !important;
   }
 }
 
@@ -44,31 +40,33 @@ $snippetGray: rgb(207, 216, 220);
 /*=============================================
  = Basic Snippet panel styles
  =============================================*/
-.snippet-panel {
-  max-width: $panelMaxWidth;
-  margin-left: auto;
-  margin-right: auto;
+.snippet-card {
   margin-bottom: 12px;
+  word-wrap: break-word;
 
-  .panel-body {
+  .snippet-card-body {
     padding: 10px 16px;
   }
 
-  .panel-body, .panel-heading {
+  .snippet-card-header {
+    border-bottom: 0;
+    font-size: 110%;
+    font-weight: bold;
+    padding: 10px 15px;
+  }
+
+  .snippet-card-body, .snippet-card-header {
     a {
       text-decoration: none;
       color: $basicTextColor;
-      &:hover {
-        text-decoration: underline;
-      }
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   }
 
-  .panel-heading {
-    border-bottom: 0;
-  }
-
-  .panel-footer {
+  .snippet-card-footer {
     border-top: 0;
     padding: 8px 4px;
   }
@@ -129,7 +127,7 @@ $snippetGray: rgb(207, 216, 220);
  =============================================*/
 @media(min-width: 769px) {
   // reduce space in snippets controls (i.e. no extra room for touching)
-  .snippet-panel > .panel-footer {
+  .snippet-card > .panel-footer {
     border-top: 0;
     padding: 5px 2px;
   }
