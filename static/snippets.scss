@@ -72,6 +72,14 @@ $snippetGray: rgb(207, 216, 220);
   }
 }
 
+// color the background of the 'loading' icon on the snippets page
+// to match the page's background color
+.snippets-list-working-spinner {
+  .el-loading-mask {
+    background-color: $bgColor;
+  }
+}
+
 // 'add new snippet' button/link
 .new-snippet-link-panel {
   cursor: pointer;

@@ -2,35 +2,45 @@
   <div>
     <h2 class="page-title">{{ pageTitle }}</h2>
 
-    <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
+    <!-- loading spinner -->
+    <div
+      class="snippets-list-working-spinner"
+      v-loading="refreshing"
+      element-loading-text="Working..."
+      style="width: 100%; height: 160px;"
+      v-if="refreshing">
+    </div><!-- loading spinner -->
 
-    <!-- loading icon -->
-    <app-loading-icon v-if="refreshing"></app-loading-icon>
-
-    <!-- API error display -->
-    <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+    <!-- snippets list, shown when not refreshing -->
     <div v-else>
-      <!-- pinned Snippets list -->
-      <div v-if="pinnedSnippets.length">
+      <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
+
+      <!-- API error display -->
+      <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+
+      <div v-if="!refreshing">
+        <!-- pinned Snippets list -->
+        <div v-if="pinnedSnippets.length">
+          <app-snippet-list-detail
+            v-for="snippet in pinnedSnippets"
+            :hidePinButton="!isMainListView"
+            :snippet="snippet"
+            :working="working"
+            @quickUpdate="onQuickUpdate">
+          </app-snippet-list-detail>
+          <hr class="snippets-hr">
+        </div><!-- /pinned Snippets list -->
+
+        <!-- unpinned Snippets list -->
         <app-snippet-list-detail
-          v-for="snippet in pinnedSnippets"
+          v-for="snippet in unpinnedSnippets"
           :hidePinButton="!isMainListView"
           :snippet="snippet"
           :working="working"
           @quickUpdate="onQuickUpdate">
         </app-snippet-list-detail>
-        <hr class="snippets-hr">
-      </div><!-- /pinned Snippets list -->
-
-      <!-- unpinned Snippets list -->
-      <app-snippet-list-detail
-        v-for="snippet in unpinnedSnippets"
-        :hidePinButton="!isMainListView"
-        :snippet="snippet"
-        :working="working"
-        @quickUpdate="onQuickUpdate">
-      </app-snippet-list-detail>
-    </div>
+      </div>
+    </div><!-- /snippets list -->
 
   </div>
 </template>
@@ -43,13 +53,11 @@
   import { localUrls } from '../../../appData/urls';
   import errors from '../../../appData/errors';
   import snippetData from '../helpers/snippetData';
-  import LoadingIcon from '../../common/components/LoadingIcon.vue';
   import NewSnippetPanel from '../components/NewSnippetPanel.vue';
   import SnippetListDetail from '../components/SnippetListDetail.vue';
 
   export default {
     components: {
-      appLoadingIcon: LoadingIcon,
       appNewSnippetPanel: NewSnippetPanel,
       appSnippetListDetail: SnippetListDetail
     },
@@ -138,6 +146,7 @@
         this.apiError = '';
         this.working = true;
         this.refreshing = true;
+        setTimeout(() => {
         fetchCall()
           .then((res) => {
             this.working = false;
@@ -147,6 +156,7 @@
             this.working = false;
             this.refreshing = false;
           });
+        }, 1000);
       },
 
       onQuickUpdate(value) {
