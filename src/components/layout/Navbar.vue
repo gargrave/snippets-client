@@ -1,68 +1,59 @@
 <template>
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
+  <el-menu
+  default-active="1"
+  class="el-menu-demo"
+  mode="horizontal">
 
-      <!-- navbar branding area -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <router-link class="navbar-brand navbar-brand-link" to="/">
-          {{ appTitle }}
+    <!-- title/brand display -->
+    <el-menu-item index="1">
+      <router-link class="navbar-brand-link" to="/">
+        {{ appTitle }}
+      </router-link>
+      <span
+        class="unlinked-navbar-brand"
+        v-if="appBreadcrumbTitle">
+        | {{ appBreadcrumbTitle }}
+      </span>
+    </el-menu-item>
+
+    <el-submenu index="2">
+      <template slot="title">Workspace</template>
+      <el-menu-item index="2-1">
+        item one
+      </el-menu-item>
+      <el-menu-item index="2-2">
+        item two
+      </el-menu-item>
+      <el-menu-item index="2-3">
+        item three
+      </el-menu-item>
+    </el-submenu>
+
+
+    <!-- logged in; user/profile dropdown -->
+    <el-submenu index="4" style="float: right;">
+      <template slot="title">
+        {{ userData.username }}
+      </template>
+
+      <!-- link to profile page -->
+      <el-menu-item index="4-1">
+        <router-link to="/account">
+          <span class="fa fa-user fa-lg"></span>&nbsp; &nbsp;
+          Profile
         </router-link>
-        <span
-          class="navbar-brand unlinked-navbar-brand"
-          v-if="appBreadcrumbTitle">
-          | {{ appBreadcrumbTitle }}
-        </span>
-      </div><!-- /navbar-header -->
+      </el-menu-item>
 
+      <!-- logout link -->
+      <el-menu-item index="4-2">
+        <a href="" @click.prevent="onLogout">
+          <span class="fa fa-sign-out fa-lg"></span>&nbsp; &nbsp;
+          Logout
+        </a>
+      </el-menu-item>
+    </el-submenu><!-- user/profile dropdown -->
 
-      <div class="collapse navbar-collapse">
-        <!-- options for logged in users -->
-        <ul class="nav navbar-nav navbar-right" v-if="isLoggedIn">
-          <li class="dropdown">
-
-            <!-- logged in username & dropdown toggle -->
-            <a href="#" class="dropdown-toggle"
-               data-toggle="dropdown" role="button"
-               aria-haspopup="true" aria-expanded="false">
-              {{ userData.username }} <span class="caret"></span>
-            </a>
-
-            <ul class="dropdown-menu">
-              <!-- link to profile/account page -->
-              <li>
-                <router-link to="/account">
-                  <span class="fa fa-user fa-lg"></span>&nbsp; &nbsp;
-                  Profile
-                </router-link>
-              </li>
-
-              <!-- logout link -->
-              <li>
-                <a href="" @click.prevent="onLogout">
-                  <span class="fa fa-sign-out fa-lg"></span>&nbsp; &nbsp;
-                  Logout
-                </a>
-              </li>
-            </ul>
-
-          </li>
-        </ul>
-
-        <!-- options for not logged in users -->
-        <ul class="nav navbar-nav navbar-right" v-else>
-          <li>
-            <router-link to="/account/login">Login</router-link>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-  </nav>
+  </el-menu>
 </template>
 
 
@@ -98,6 +89,17 @@
 
 
 <style scoped>
+  .el-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    min-height: 50px;
+    border: 1px solid #dedede;
+    background-color: #f8f8f8;
+  }
+
   .navbar-brand-link {
     padding-right: 5px;
   }
