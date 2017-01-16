@@ -123,6 +123,7 @@
     data() {
       return {
         localUrls, // make this available to the template
+        actionsMenuUpdate: false,
         profileMenuUpdated: false
       }
     },
@@ -159,14 +160,22 @@
 
       onActionsMenuOpen() {
         this.clearActiveClasses();
+        if (!this.profileMenuUpdated) {
+          const menu = document.querySelector('#actions-menu > ul');
+          menu.style.padding = '0';
+        }
       },
 
       onProfileMenuOpen() {
         this.clearActiveClasses();
         if (!this.profileMenuUpdated) {
           const menu = document.querySelector('#profile-menu > ul');
+          menu.style.padding = '0';
           menu.style.right = '0';
           menu.style.left = 'inherit';
+          menu.style.minWidth = '130px';
+          // document.querySelectorAll('#profile-menu ul span li').forEach((li) => {
+          // });
         }
       },
 
@@ -194,26 +203,9 @@
 
 
 <style scoped>
-  li {
-    height: 30px;
-    line-height: 30px;
-  }
-
   hr {
     margin-top: 2px;
     margin-bottom: 2px;
-  }
-
-  .el-menu {
-    padding: 0;
-  }
-
-  .is-active {
-    background-color: inherit;
-  }
-
-  #actions-menu.is-active > .el-submenu__title {
-    border: 0;
   }
 
   .navbar-title {
