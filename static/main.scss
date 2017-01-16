@@ -4,58 +4,69 @@
 @import 'element-overrides';
 @import 'snippets';
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: $basicTextColor;
-  margin-top: 70px;
-}
-
 body {
-  background-color: $bgColor;
-}
-
-.main-content-area > div > h1 {
-  text-align: center;
+    background-color: $bgColor;
 }
 
 h2.page-title {
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.success-text {
-  color: #3c763d;
-}
-
-.error-msg {
-  margin-left: .5rem;
-  color: #e50000;
-}
-
-.block-btn {
-  display: block;
-  width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 // increase font size for forms on small devices
-input[type="text"], input[type="number"], input[type="password"],
-textarea, select, select.form-control {
-  font-size: 16px;
+input[type="text"],
+input[type="number"],
+input[type="password"],
+textarea,
+select,
+select.form-control {
+    font-size: 16px;
 }
+
+.active {
+  color: #2c3e50;
+  background-color: #dedede;
+}
+
+.block-btn {
+    display: block;
+    width: 100%;
+}
+
+.error-msg {
+    margin-left: .5rem;
+    color: #e50000;
+}
+
+.main-content-area>div>h1 {
+    text-align: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.success-text {
+    color: #3c763d;
+}
+
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $basicTextColor;
+    margin-top: 70px;
+}
+
 
 /*=============================================
  = tablet+ resolutions
  =============================================*/
+
 @media (min-width: 768px) {
-  body {
-    padding-left: $navMenuWidth;
-  }
-  font-size: 14px;
+    body {
+        padding-left: $navMenuWidth;
+    }
+    font-size: 14px;
 }
