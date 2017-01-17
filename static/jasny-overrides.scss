@@ -1,6 +1,5 @@
 @import 'variables';
 
-
 .sidenav {
   position: fixed;
   top: 0;
@@ -11,27 +10,6 @@
   z-index: 1030;
   border: 1px solid #dedede;
   background-color: #f8f8f8;
-}
-
-.sidenav-submenu {
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-}
-
-.sidenav-submenu > li > a {
-  position: relative;
-  display: block;
-  padding: $sidenavLinkPaddingY $sidenavLinkPaddingX;
-}
-
-.nav-header {
-  font-weight: bold;
-  position: relative;
-  display: block;
-  padding: 3px $sidenavHeaderPaddingX;
-  margin-top: 8px;
-  margin-bottom: 3px;
 }
 
 // active link in side navbar
@@ -48,4 +26,25 @@
 .sidenav-submenu > li > a.active:focus {
   color: $basicTextColor;
   background-color: $bgBorderColor;
+}
+
+.sidenav-submenu {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.sidenav-submenu > li > a {
+  position: relative;
+  display: block;
+  padding: $sidenavLinkPaddingY $sidenavLinkPaddingX;
+}
+
+.sidenav-submenu-header {
+  font-weight: bold;
+  position: relative;
+  display: block;
+  padding: 3px $sidenavHeaderPaddingX;
+  margin-top: 8px;
+  margin-bottom: 3px;
 }

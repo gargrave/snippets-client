@@ -7,7 +7,7 @@
       mode="vertical">
 
       <ul class="sidenav-submenu">
-        <li class="nav-header">Navigation</li>
+        <li class="sidenav-submenu-header">Navigation</li>
         <li>
           <!-- link to Snippets page-->
           <router-link
@@ -38,7 +38,7 @@
       </ul>
 
       <ul class="sidenav-submenu">
-        <li class="nav-header">Account</li>
+        <li class="sidenav-submenu-header">Account</li>
 
         <li>
           <!-- link to profile page -->
