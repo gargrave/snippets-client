@@ -115,6 +115,7 @@ $snippetGray: rgb(207, 216, 220);
 }
 
 .color-picker-item > a {
+  display: block;
   min-height: 32px;
   text-decoration: none !important;
 }

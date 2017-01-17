@@ -1,25 +1,22 @@
 <template>
   <span class="dropdown">
+    <el-dropdown trigger="click" @command="onColorSelect">
 
-    <!-- show/hide color picker button -->
-    <span
-      type="button"
-      data-toggle="dropdown"
-      aria-hidden="true"
-      :class="buttonClass"
-    >
-    </span>
+      <!-- show/hide color picker button -->
+      <span :class="buttonClass"></span>
 
-    <!-- color picker panel -->
-    <ul class="dropdown-menu color-picker-list">
-      <li v-for="color in validColors"
-          :class="colorPickerLiClass(color)">
-        <a :class="colorPickerAClass(color)"
-           @click.prevent="onColorSelect(color)">
-        </a>
-      </li>
-    </ul>
+      <!-- color picker panel -->
+      <el-dropdown-menu slot="dropdown" class="color-picker-list">
+        <el-dropdown-item
+          v-for="color in validColors"
+          :class="colorPickerLiClass(color)"
+          :command="color">
+          <a :class="colorPickerAClass(color)">
+          </a>
+        </el-dropdown-item>
+      </el-dropdown-menu>
 
+    </el-dropdown>
   </span>
 </template>
 
@@ -31,7 +28,7 @@
   export default {
     computed: {
       buttonClass() {
-        return 'fa fa-chevron-circle-down dropdown-toggle pointer snippet-control snippet-control-color';
+        return 'el-dropdown-link fa fa-chevron-circle-down dropdown-toggle pointer snippet-control snippet-control-color';
       },
 
       validColors() {
