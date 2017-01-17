@@ -11,13 +11,7 @@ import {store} from './store/store';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
-import '../static/jasny-bootstrap.min.css';
-import '../static/jasny-bootstrap.min.js';
 import '../static/main.scss';
-
-// we need to import the Bootstrap JS to initialize it
-import bs from 'bootstrap'; // eslint-disable-line no-unused-vars
-
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);

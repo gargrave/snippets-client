@@ -32,10 +32,10 @@
   margin-bottom: 10px;
 }
 
-/*=============================================
- = tablet- resolutions
- =============================================*/
-@media (max-width: 768px) {
+/*
+Element UI 'xs' size
+*/
+@media only screen and (max-width: 767px) {
   .el-message-box {
     width: 100%;
   }

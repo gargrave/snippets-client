@@ -1,21 +1,20 @@
 <template>
   <div id="app">
-    <app-sidenav></app-sidenav>
+    <app-sidenav class="hide-on-xs"></app-sidenav>
     <app-navbar></app-navbar>
 
-    <div class="container-fluid">
-      <main class="row">
-        <div class="col-xs-12 main-content-area">
+    <main class="_container">
+      <el-row>
+        <el-col class="main-content-area" :span="24">
           <router-view></router-view>
-        </div>
-      </main>
-    </div>
+        </el-col>
+      </el-row>
+    </main>
+
   </div>
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
-
   import Navbar from './components/layout/Navbar.vue';
   import SideNav from './components/layout/SideNav.vue';
 
@@ -26,13 +25,6 @@
     components: {
       appNavbar: Navbar,
       appSidenav: SideNav
-    },
-
-
-    methods: {
-      ...mapActions([
-        'checkForStoredLogin'
-      ])
     }
   };
 </script>

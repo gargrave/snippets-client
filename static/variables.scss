@@ -4,8 +4,7 @@ $basicTextColor: #2c3e50;
 
 $panelMaxWidth: 600px;
 
-$navMenuWidth: 200px;
-$navMenuLeftPad1: 21px;
-$navMenuLeftPad2: $navMenuLeftPad1 + 10;
-$navLinkPaddingOnDesktop: 6px;
-$navLinkPaddingOnMobile: 10px;
+$sidenavWidth: 170px;
+$sidenavHeaderPaddingX: 21px;
+$sidenavLinkPaddingX: $sidenavHeaderPaddingX + 10;
+$sidenavLinkPaddingY: 6px;

@@ -34,12 +34,19 @@ select.form-control {
     width: 100%;
 }
 
+._container {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .error-msg {
     margin-left: .5rem;
     color: #e50000;
 }
 
-.main-content-area>div>h1 {
+.main-content-area > div > h1 {
     text-align: center;
 }
 
@@ -59,19 +66,55 @@ select.form-control {
     margin-top: 70px;
 }
 
-
-/*=============================================
- = tablet+ resolutions
- =============================================*/
-
-@media (min-width: 768px) {
-    body {
-        padding-left: $navMenuWidth;
-    }
-    font-size: 14px;
+/*
+Element UI 'xs' size
+*/
+@media only screen and (max-width: 767px) {
+  .hide-on-xs {
+    display: none;
+  }
 }
 
-@media only screen and (min-width: 769px) {
+/*
+Element UI 'sm' size
+*/
+@media only screen and (min-width: 768px) {
+  body {
+    padding-left: $sidenavWidth;
+  }
+
+  // font-size: 14px;
+
+  .hide-on-xs, .hide-on-md-up  {
+    display: inherit;
+  }
+
+  .hide-on-sm-down, .hide-on-sm-up {
+    display: none;
+  }
+}
+
+/*
+Element UI 'md' size
+*/
+@media only screen and (min-width: 992px) {
+  .hide-on-sm-down, .hide-on-lg {
+    display: inherit;
+  }
+
+  .hide-on-md-down, .hide-on-md-up {
+    display: none;
+  }
+}
+
+/*
+Element UI 'lg' size
+*/
+@media only screen and (min-width: 1200px) {
+  .hide-on-md-down {
+    display: inherit;
+  }
+
   .hide-on-lg {
     display: none;
   }

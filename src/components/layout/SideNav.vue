@@ -1,9 +1,12 @@
 <template>
-  <aside class="navmenu navmenu-default navmenu-fixed-left offcanvas-xs">
+  <aside>
+    <el-menu
+      id="nav-side"
+      class="sidenav"
+      default-active="1"
+      mode="vertical">
 
-    <div id="sidenav-loggedin" v-if="isLoggedIn">
-      <!-- basic snippets navigation links -->
-      <ul class="nav navmenu-nav">
+      <ul class="sidenav-submenu">
         <li class="nav-header">Navigation</li>
         <li>
           <!-- link to Snippets page-->
@@ -34,68 +37,22 @@
         </li>
       </ul>
 
-      <!-- dev stuff (i.e. things I'm working on that don't have a proper home yet) -->
-      <ul class="nav navmenu-nav">
-        <li class="nav-header">In Dev</li>
-        <li><a href="#" @click.prevent="toggleExpanded">Expand/Collapse</a></li>
-      </ul>
-
-      <!-- user/account links -->
-      <ul class="nav navmenu-nav">
+      <ul class="sidenav-submenu">
         <li class="nav-header">Account</li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            {{ user.username }} <b class="caret"></b>
-          </a>
 
-          <ul class="dropdown-menu navmenu-nav">
-            <li>
-              <!-- link to profile page -->
-              <router-link
-                :to="{name: 'account'}"
-                active-class="active"
-                exact>
-                <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
-                Profile
-              </router-link>
-            </li>
-            <li>
-              <!-- logout link -->
-              <a href="#" @click.prevent="onLogout">
-                <span class="fa fa-sign-out fa-lg"></span>&nbsp;&nbsp;
-                Logout
-              </a>
-            </li>
-          </ul>
-
+        <li>
+          <!-- link to profile page -->
+          <router-link
+            :to="{name: 'account'}"
+            active-class="active"
+            exact>
+            <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
+            Profile
+          </router-link>
         </li>
       </ul>
-    </div><!-- /#sidenav-loggedin -->
 
-
-    <!-- not logged in; show login links -->
-    <ul id="sidenav-notloggedin" class="nav navmenu-nav" v-else>
-      <li class="nav-header">Account</li>
-      <!-- link to login page -->
-      <li>
-        <router-link
-          :to="{name: 'login'}"
-          active-class="active"
-          exact>
-          Login
-        </router-link>
-      </li>
-      <!-- link to account creation page -->
-      <li>
-        <router-link
-          :to="{name: 'account-create'}"
-          active-class="active"
-          exact>
-          New Account
-        </router-link>
-      </li>
-    </ul><!-- /#sidenav-notloggedin -->
-
+    </el-menu>
   </aside>
 </template>
 
@@ -114,10 +71,6 @@
 
 
     methods: {
-      toggleExpanded() {
-        toastr.warning('TODO: Implement onExpandCollapse()', 'Not implemented');
-      },
-
       onLogout() {
         this.logout().then((res) => {
           toastr.success('Logged out');
