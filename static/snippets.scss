@@ -128,19 +128,3 @@ $snippetGray: rgb(207, 216, 220);
   border-top: 2px dotted #c5c5c5 !important;
   max-width: $panelMaxWidth - 5;
 }
-
-
-/*=============================================
- = Large screens
- =============================================*/
-@media(min-width: 769px) {
-  // reduce space in snippets controls (i.e. no extra room for touching)
-  .snippet-card > .panel-footer {
-    border-top: 0;
-    padding: 5px 2px;
-  }
-
-  .snippet-control {
-    margin: 0 10px;
-  }
-}
