@@ -3,13 +3,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-default/index.css';
 import App from './App';
 
 import {routes} from './routes';
 import {store} from './store/store';
 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../static/bootstrap-reset.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+
 import '../static/main.scss';
 
 Vue.use(VueRouter);
