@@ -1,5 +1,6 @@
 @import 'variables';
 
+// pin the sidenav to the left side of the page
 .sidenav {
   position: fixed;
   top: 0;
@@ -12,34 +13,34 @@
   background-color: #f8f8f8;
 }
 
-// active link in side navbar
-.sidenav > .active > a,
-.sidenav > .active > a:active,
-.sidenav > .active > a:focus,
-.sidenav > .active > a:hover {
-  color: #744;
-  background-color: $bgColor;
-  font-weight: bold;
-}
-
+// set color & bg color for active links
 .sidenav-submenu > li > a.active,
 .sidenav-submenu > li > a.active:focus {
   color: $basicTextColor;
   background-color: $bgBorderColor;
 }
 
+// remove underlines from sidenav links
+.sidenav-submenu > li > a,
+.sidenav-submenu > li > a.active:focus {
+  text-decoration: none;
+}
+
+// basic sidenav sub-menu styles
 .sidenav-submenu {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
 }
 
+// links within sidenav sub-menus
 .sidenav-submenu > li > a {
   position: relative;
   display: block;
   padding: $sidenavLinkPaddingY $sidenavLinkPaddingX;
 }
 
+// headers for "sections" of sidenav sub-menus
 .sidenav-submenu-header {
   font-weight: bold;
   position: relative;
