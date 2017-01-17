@@ -6,51 +6,13 @@
       default-active="1"
       mode="vertical">
 
-      <ul class="sidenav-submenu">
-        <li class="sidenav-submenu-header">Navigation</li>
-        <li>
-          <!-- link to Snippets page-->
-          <router-link
-            :to="{name: 'snippets-list'}"
-            active-class="active"
-            exact>
-            My Snippets
-          </router-link>
-        </li>
-        <li>
-          <!-- link to starred Snippets page-->
-          <router-link
-            to="/snippets/filter/starred"
-            active-class="active"
-            exact>
-            Starred
-          </router-link>
-        </li>
-        <li>
-          <!-- link to archived Snippets page-->
-          <router-link
-            to="/snippets/filter/archived"
-            active-class="active"
-            exact>
-            Archived
-          </router-link>
-        </li>
-      </ul>
+      <app-side-nav-logged-in
+        v-if="isLoggedIn"
+        @logout="onLogout">
+      </app-side-nav-logged-in>
 
-      <ul class="sidenav-submenu">
-        <li class="sidenav-submenu-header">Account</li>
-
-        <li>
-          <!-- link to profile page -->
-          <router-link
-            :to="{name: 'account'}"
-            active-class="active"
-            exact>
-            <span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;
-            Profile
-          </router-link>
-        </li>
-      </ul>
+      <app-side-nav-not-logged-in v-else>
+      </app-side-nav-not-logged-in>
 
     </el-menu>
   </aside>
@@ -61,7 +23,16 @@
   import { mapActions, mapGetters } from 'vuex';
   import toastr from 'toastr';
 
+  import SideNavLoggedIn from './components/SideNavLoggedIn.vue';
+  import SideNavNotLoggedIn from './components/SideNavNotLoggedIn.vue';
+
   export default {
+    components: {
+      appSideNavLoggedIn: SideNavLoggedIn,
+      appSideNavNotLoggedIn: SideNavNotLoggedIn,
+    },
+
+
     computed: {
       ...mapGetters({
         user: 'userData',
