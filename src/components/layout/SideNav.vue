@@ -21,7 +21,6 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import toastr from 'toastr';
 
   import SideNavLoggedIn from './components/SideNavLoggedIn.vue';
   import SideNavNotLoggedIn from './components/SideNavNotLoggedIn.vue';
@@ -35,7 +34,6 @@
 
     computed: {
       ...mapGetters({
-        user: 'userData',
         isLoggedIn: 'isLoggedIn'
       })
     },
@@ -43,10 +41,14 @@
 
     methods: {
       onLogout() {
-        this.logout().then((res) => {
-          toastr.success('Logged out');
-          this.$router.push('/account/login');
-        });
+        this.logout()
+          .then((res) => {
+            this.$notify({
+              type: 'info',
+              message: 'Logged out'
+            });
+            this.$router.push('/account/login');
+          });
       },
 
       ...mapActions([
