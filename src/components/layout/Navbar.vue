@@ -5,6 +5,7 @@
       default-active="1"
       mode="horizontal">
 
+
       <!-- title/brand display -->
       <el-menu-item index="1" class="navbar-title">
         <router-link to="/">
@@ -13,7 +14,9 @@
       </el-menu-item><!-- title/brand display -->
 
 
-      <!-- menus for logged in users -->
+      <!--
+      Menus for logged in users
+      -->
       <section v-if="isLoggedIn">
         <!-- 'actions' dropdown menu -->
         <span @click="onActionsMenuOpen" @mouseover="onActionsMenuOpen">
@@ -57,8 +60,8 @@
             Element's submenus are tied to opening/closing based on hover in/out,
               so it can be difficult to use on mobile. This should fix that for now.
             -->
-            <span class="hide-on-lg">
-              <hr>
+            <span class="hide-on-md-up">
+              <hr class="menu-hr">
               <span @click="onCloseSubmenu($event)">
                 <el-menu-item index="2-3-0">
                   <i class="el-icon-circle-close"></i>Close
@@ -102,8 +105,8 @@
             Element's submenus are tied to opening/closing based on hover in/out,
               so it can be difficult to use on mobile. This should fix that for now.
             -->
-            <span class="hide-on-lg">
-              <hr>
+            <span class="hide-on-md-up">
+              <hr class="menu-hr">
               <span @click="onCloseSubmenu($event)">
                 <el-menu-item index="3-3-0">
                   <i class="el-icon-circle-close"></i>Close
@@ -114,6 +117,50 @@
           </el-submenu>
         </span><!-- user/profile dropdown -->
       </section><!-- menus for logged in users -->
+
+
+      <!--
+      Menus for non-authenticated users
+      -->
+      <section v-else>
+        <span @click="onActionsMenuOpen" @mouseover="onActionsMenuOpen">
+          <el-submenu index="2" id="actions-menu">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+            </template>
+
+            <el-menu-item index="2-1-0" class="submenu-section">Account</el-menu-item>
+            <!-- link to main snippets list -->
+            <span @click="gotoLink($event, '/account/login')">
+              <el-menu-item index="2-1-1">
+                Login
+              </el-menu-item>
+            </span>
+
+            <!-- link to starred snippets list -->
+            <span @click="gotoLink($event, '/account/new')">
+              <el-menu-item index="2-1-2">
+                Sign Up
+              </el-menu-item>
+            </span>
+
+            <!--
+            Manual close button
+            Element's submenus are tied to opening/closing based on hover in/out,
+              so it can be difficult to use on mobile. This should fix that for now.
+            -->
+            <span class="hide-on-lg">
+              <hr class="menu-hr">
+              <span @click="onCloseSubmenu($event)">
+                <el-menu-item index="2-3-0">
+                  <i class="el-icon-circle-close"></i>Close
+                </el-menu-item>
+              </span>
+            </span>
+
+          </el-submenu><!-- 'actions' dropdown menu -->
+        </span>
+      </section><!-- Menus for non-authenticated users -->
 
     </el-menu>
   </nav>
@@ -169,6 +216,7 @@
         if (!this.profileMenuUpdated) {
           const menu = document.querySelector('#actions-menu > ul');
           menu.style.padding = '0';
+          menu.style.minWidth = '110px';
         }
       },
 
@@ -196,8 +244,14 @@
         if (event) {
           event.target.classList.remove('is-active');
         }
-        document.querySelector('#actions-menu').classList.remove('is-active');
-        document.querySelector('#profile-menu').classList.remove('is-active');
+        let actionsMenu = document.querySelector('#actions-menu');
+        let profileMenu = document.querySelector('#profile-menu');
+        if (actionsMenu) {
+          document.querySelector('#actions-menu').classList.remove('is-active');
+        }
+        if (profileMenu) {
+          document.querySelector('#profile-menu').classList.remove('is-active');
+        }
       },
 
       ...mapActions([
@@ -209,7 +263,7 @@
 
 
 <style scoped>
-  hr {
+  .menu-hr {
     margin-top: 2px;
     margin-bottom: 2px;
   }
@@ -223,6 +277,7 @@
   .submenu-section {
     background-color: #eef1f6 !important;
     font-weight: bold;
+    cursor: default;
   }
 
   #nav-top {
