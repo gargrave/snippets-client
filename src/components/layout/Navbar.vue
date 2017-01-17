@@ -56,11 +56,13 @@
           Element's submenus are tied to opening/closing based on hover in/out,
             so it can be difficult to use on mobile. This should fix that for now.
           -->
-          <hr>
-          <span @click="onCloseSubmenu($event)">
-            <el-menu-item index="2-3-0">
-              <i class="el-icon-circle-close"></i>Close
-            </el-menu-item>
+          <span class="hide-on-lg">
+            <hr>
+            <span @click="onCloseSubmenu($event)">
+              <el-menu-item index="2-3-0">
+                <i class="el-icon-circle-close"></i>Close
+              </el-menu-item>
+            </span>
           </span>
 
         </el-submenu><!-- 'actions' dropdown menu -->
@@ -99,11 +101,13 @@
           Element's submenus are tied to opening/closing based on hover in/out,
             so it can be difficult to use on mobile. This should fix that for now.
           -->
-          <hr>
-          <span @click="onCloseSubmenu($event)">
-            <el-menu-item index="3-3-0">
-              <i class="el-icon-circle-close"></i>Close
-            </el-menu-item>
+          <span class="hide-on-lg">
+            <hr>
+            <span @click="onCloseSubmenu($event)">
+              <el-menu-item index="3-3-0">
+                <i class="el-icon-circle-close"></i>Close
+              </el-menu-item>
+            </span>
           </span>
 
         </el-submenu>

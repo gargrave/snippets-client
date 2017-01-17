@@ -70,3 +70,9 @@ select.form-control {
     }
     font-size: 14px;
 }
+
+@media only screen and (min-width: 769px) {
+  .hide-on-lg {
+    display: none;
+  }
+}
