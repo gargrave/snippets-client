@@ -1,0 +1,50 @@
+@import 'variables';
+
+.sidenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $sidenavWidth;
+  height: 100%;
+  padding-top: 70px;
+  z-index: 1030;
+  border: 1px solid #dedede;
+  background-color: #f8f8f8;
+}
+
+// active link in side navbar
+.sidenav > .active > a,
+.sidenav > .active > a:active,
+.sidenav > .active > a:focus,
+.sidenav > .active > a:hover {
+  color: #744;
+  background-color: $bgColor;
+  font-weight: bold;
+}
+
+.sidenav-submenu > li > a.active,
+.sidenav-submenu > li > a.active:focus {
+  color: $basicTextColor;
+  background-color: $bgBorderColor;
+}
+
+.sidenav-submenu {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.sidenav-submenu > li > a {
+  position: relative;
+  display: block;
+  padding: $sidenavLinkPaddingY $sidenavLinkPaddingX;
+}
+
+.sidenav-submenu-header {
+  font-weight: bold;
+  position: relative;
+  display: block;
+  padding: 3px $sidenavHeaderPaddingX;
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
