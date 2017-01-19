@@ -9,10 +9,9 @@ import App from './App';
 import {routes} from './routes';
 import {store} from './store/store';
 
-import '../static/bootstrap-reset.min.css';
+import './styles/bootstrap-reset.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-
-import '../static/main.scss';
+import './styles/main.scss';
 
 Vue.use(VueRouter);
 Vue.use(ElementUI);
