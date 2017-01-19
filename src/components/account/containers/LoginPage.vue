@@ -83,8 +83,8 @@
       },
 
       ...mapActions([
-        'login',
-        'checkForStoredLogin'
+        'checkForStoredLogin',
+        'login'
       ])
     },
 

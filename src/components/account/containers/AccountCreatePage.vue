@@ -119,8 +119,8 @@
       },
 
       ...mapActions([
-        'createUser',
-        'checkForStoredLogin'
+        'checkForStoredLogin',
+        'createUser'
       ])
     },
 
