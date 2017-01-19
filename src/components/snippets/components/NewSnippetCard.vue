@@ -1,5 +1,5 @@
 <template>
-  <div @click="onClick">
+  <div class="snippet-card-wrapper" @click="onClick">
     <el-card class="new-snippet-link-card" :body-style="bodyStyle">
       <div class="text item">
         <h4>Add a Snippet...</h4>

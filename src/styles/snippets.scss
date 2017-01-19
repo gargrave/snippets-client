@@ -64,6 +64,11 @@ $snippetGray: rgb(207, 216, 220);
   }
 }
 
+.snippet-card-wrapper {
+  max-width: $cardMaxWidth;
+  margin: 0 auto;
+}
+
 // color the background of the 'loading' icon on the snippets page
 // to match the page's background color
 .snippets-list-working-spinner {
