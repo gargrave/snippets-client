@@ -6,7 +6,7 @@
     <el-card
       class="box-card"
       v-loading="working"
-      element-loading-text="Saving Snippet..."
+      element-loading-text="Working..."
       style="width: 100%">
 
       <div class="text item">
@@ -91,8 +91,28 @@
       },
 
       ...mapActions([
+        'checkForStoredLogin',
         'createSnippet'
       ])
+    },
+
+
+    created() {
+      this.working = true;
+      this.checkForStoredLogin()
+        .then((res) => {
+          this.working = false;
+        }, (err) => {
+          if (err === errors.INVALID_TOKEN) {
+            this.$notify({
+              title: 'Invalid auth token',
+              message: 'Please login again.',
+              type: 'warning'
+            });
+            this.working = false;
+          }
+          this.$router.push(localUrls.login);
+        });
     }
   };
 </script>
