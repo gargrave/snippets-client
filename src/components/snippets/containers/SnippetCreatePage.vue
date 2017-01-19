@@ -98,6 +98,7 @@
 
 
     created() {
+      // redirect to login page if not logged in
       this.working = true;
       this.checkForStoredLogin()
         .then((res) => {
@@ -109,9 +110,9 @@
               message: 'Please login again.',
               type: 'warning'
             });
-            this.working = false;
           }
           this.$router.push(localUrls.login);
+          this.working = false;
         });
     }
   };
