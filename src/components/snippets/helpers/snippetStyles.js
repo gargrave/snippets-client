@@ -4,20 +4,20 @@ import snippetData from './snippetData';
 export default {
   /**
    * Builds and returns the style string for the top-level element, including the color
-   * of the Snippet panel, based on teh Snippet's 'color' property
+   * of the Snippet card, based on the Snippet's 'color' property
    *
-   * @param {object} snippet - The Snippet instance for the panel
+   * @param {object} snippet - The Snippet instance for the card
    * @returns {string} The style string for the top-level element
    */
-  snippetPanel(snippet) {
+  snippetCard(snippet) {
     const colorClass = snippetData.isValidColor(snippet.color) ?
       `snippet-color-${snippet.color}` :
       'snippet-color-white';
     return `snippet-card ${colorClass}`;
   },
 
-  snippetCreatePanel() {
-    return 'snippet-card snippet-color-white new-snippet-form-panel';
+  snippetCreateCard() {
+    return 'snippet-card snippet-color-white new-snippet-form-card';
   },
 
   snippetStarButton(snippet) {

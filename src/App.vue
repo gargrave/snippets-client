@@ -3,7 +3,7 @@
     <app-sidenav class="hide-on-xs"></app-sidenav>
     <app-navbar></app-navbar>
 
-    <main class="_container">
+    <main class="container">
       <el-row>
         <el-col class="main-content-area" :span="24">
           <router-view></router-view>

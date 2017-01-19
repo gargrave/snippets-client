@@ -1,8 +1,7 @@
 @import 'variables';
 
-
 /*=============================================
- = Snippet panel coloring
+ = Snippet card coloring
  =============================================*/
 $snippetWhite: rgb(250, 250, 250);
 $snippetRed: rgb(255, 138, 128);
@@ -13,7 +12,7 @@ $snippetOrange: rgb(255, 209, 128);
 $snippetTeal: rgb(167, 255, 235);
 $snippetGray: rgb(207, 216, 220);
 
-@mixin coloredSnippetPanel($color) {
+@mixin coloredSnippetCard($color) {
   background-color: $color;
 
   .snippet-card-header, .snippet-card-footer {
@@ -21,24 +20,17 @@ $snippetGray: rgb(207, 216, 220);
   }
 }
 
-.snippet-color-white { @include coloredSnippetPanel($snippetWhite); }
-
-.snippet-color-red { @include coloredSnippetPanel($snippetRed); }
-
-.snippet-color-green { @include coloredSnippetPanel($snippetGreen); }
-
-.snippet-color-blue { @include coloredSnippetPanel($snippetBlue); }
-
-.snippet-color-yellow { @include coloredSnippetPanel($snippetYellow); }
-
-.snippet-color-orange { @include coloredSnippetPanel($snippetOrange); }
-
-.snippet-color-teal { @include coloredSnippetPanel($snippetTeal); }
-
-.snippet-color-gray { @include coloredSnippetPanel($snippetGray); }
+.snippet-color-white { @include coloredSnippetCard($snippetWhite); }
+.snippet-color-red { @include coloredSnippetCard($snippetRed); }
+.snippet-color-green { @include coloredSnippetCard($snippetGreen); }
+.snippet-color-blue { @include coloredSnippetCard($snippetBlue); }
+.snippet-color-yellow { @include coloredSnippetCard($snippetYellow); }
+.snippet-color-orange { @include coloredSnippetCard($snippetOrange); }
+.snippet-color-teal { @include coloredSnippetCard($snippetTeal); }
+.snippet-color-gray { @include coloredSnippetCard($snippetGray); }
 
 /*=============================================
- = Basic Snippet panel styles
+ = Basic Snippet card styles
  =============================================*/
 .snippet-card {
   margin-bottom: 12px;
@@ -80,30 +72,15 @@ $snippetGray: rgb(207, 216, 220);
   }
 }
 
-// 'add new snippet' button/link
-.new-snippet-link-panel {
-  cursor: pointer;
-  margin-top: 6px;
-  margin-bottom: 20px;
-  .panel-body {
-    padding: 3px 15px;
-  }
-}
-
-// card/panel for "Add a Snippet..." link
+// card for "Add a Snippet..." link
 .el-card.new-snippet-link-card {
   background-color: $snippetWhite;
-  max-width: $panelMaxWidth;
+  max-width: $cardMaxWidth;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 12px;
   color: #777;
   cursor: pointer;
-}
-
-// panel for 'create new snippet'
-.new-snippet-form-panel {
-  border: 1px solid #ccc !important;
 }
 
 /*=============================================
@@ -127,5 +104,5 @@ $snippetGray: rgb(207, 216, 220);
 
 .snippets-hr {
   border-top: 2px dotted #c5c5c5 !important;
-  max-width: $panelMaxWidth - 5;
+  max-width: $cardMaxWidth - 5;
 }

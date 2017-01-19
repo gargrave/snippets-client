@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card" body-style="padding: 0;" :class="panelClass">
+  <el-card class="box-card" body-style="padding: 0;" :class="cardClass">
 
     <div class="snippet-card-header">
       <a
@@ -76,7 +76,7 @@
 
 
     props: {
-      // the Snippet being displayed on this panel
+      // the Snippet being displayed on this card
       snippet: {
         type: Object,
         required: true
@@ -98,11 +98,11 @@
 
     computed: {
       /*
-       * The class for the top-level BS panel component; will change
+       * The class for the top-level BS card component; will change
        * based on the Snippet's 'color' property.
        */
-      panelClass() {
-        return snippetStyles.snippetPanel(this.snippet);
+      cardClass() {
+        return snippetStyles.snippetCard(this.snippet);
       },
     },
 

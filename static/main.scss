@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'element-overrides';
-@import 'overrides';
 @import 'sidenav';
 @import 'snippets';
 
@@ -34,7 +33,7 @@ select.form-control {
     width: 100%;
 }
 
-._container {
+.container {
   padding-left: 10px;
   padding-right: 10px;
   margin-left: auto;
@@ -66,18 +65,18 @@ select.form-control {
     margin-top: 70px;
 }
 
-/*
-Element UI 'xs' size
-*/
+/*=========================================
+  = Element UI 'xs' size
+ ==========================================*/
 @media only screen and (max-width: 767px) {
   .hide-on-xs {
     display: none;
   }
 }
 
-/*
-Element UI 'sm' size
-*/
+/*=========================================
+ = Element UI 'sm' size
+ ==========================================*/
 @media only screen and (min-width: 768px) {
   body {
     padding-left: $sidenavWidth;
@@ -94,9 +93,9 @@ Element UI 'sm' size
   }
 }
 
-/*
-Element UI 'md' size
-*/
+/*=========================================
+ = Element UI 'md' size
+ ==========================================*/
 @media only screen and (min-width: 992px) {
   .hide-on-sm-down, .hide-on-lg {
     display: inherit;
@@ -107,9 +106,9 @@ Element UI 'md' size
   }
 }
 
-/*
-Element UI 'lg' size
-*/
+/*=========================================
+ = Element UI 'lg' size
+ ==========================================*/
 @media only screen and (min-width: 1200px) {
   .hide-on-md-down {
     display: inherit;

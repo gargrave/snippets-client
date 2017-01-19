@@ -14,7 +14,7 @@
 
     <!-- snippets list, shown when not refreshing -->
     <section v-else>
-      <app-new-snippet-panel v-if="isMainListView"></app-new-snippet-panel>
+      <app-new-snippet-card v-if="isMainListView"></app-new-snippet-card>
 
       <!-- API error display -->
       <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
@@ -53,12 +53,12 @@
   import { localUrls } from '../../../appData/urls';
   import errors from '../../../appData/errors';
   import snippetData from '../helpers/snippetData';
-  import NewSnippetPanel from '../components/NewSnippetPanel.vue';
+  import NewSnippetCard from '../components/NewSnippetCard.vue';
   import SnippetListDetail from '../components/SnippetListDetail.vue';
 
   export default {
     components: {
-      appNewSnippetPanel: NewSnippetPanel,
+      appNewSnippetCard: NewSnippetCard,
       appSnippetListDetail: SnippetListDetail
     },
 
