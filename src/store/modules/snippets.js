@@ -66,6 +66,7 @@ export default {
         request
           .get(url)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
               reject('There was an error loading your Snippets.');
@@ -123,6 +124,7 @@ export default {
         request
           .get(url)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
               reject(`No Snippet found with id: ${id}.`);
@@ -171,6 +173,7 @@ export default {
         request
           .post(apiUrls.snippets)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .send(snippet)
           .end((err, res) => {
             if (err) {
@@ -193,6 +196,7 @@ export default {
         request
           .put(apiUrls.snippets + `${snippet.id}/`)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .send(snippet)
           .end((err, res) => {
             if (err) {
@@ -216,6 +220,7 @@ export default {
         request
           .delete(apiUrls.snippets + `${snippetId}/`)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
               reject('There was an error deleting the Snippet.');

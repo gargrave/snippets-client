@@ -97,7 +97,9 @@ export default {
      */
     login({ dispatch, commit }, credentials) {
       return new Promise((resolve, reject) => {
-        request.post(apiUrls.login)
+        request
+          .post(apiUrls.login)
+          .set('Accept', 'application/json')
           .send(credentials)
           .end((err, res) => {
             if (err) {
@@ -127,8 +129,10 @@ export default {
      */
     loadUserDataFromToken({ commit }, authToken) {
       return new Promise((resolve, reject) => {
-        request.get(apiUrls.user)
+        request
+          .get(apiUrls.user)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
               // check if the error has a 'detail' property we can use
@@ -165,8 +169,10 @@ export default {
           reject('Not authenticated');
         }
 
-        request.post(apiUrls.logout)
+        request
+          .post(apiUrls.logout)
           .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
           .end((err, res) => {
             commit(USER.LOGOUT);
             resolve();
@@ -187,7 +193,9 @@ export default {
           password2: userData.passwordConfirm
         };
 
-        request.post(apiUrls.register)
+        request
+          .post(apiUrls.register)
+          .set('Accept', 'application/json')
           .send(payload)
           .end((err, res) => {
             if (err) {
