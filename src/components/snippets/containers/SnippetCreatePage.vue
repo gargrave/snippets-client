@@ -70,7 +70,7 @@
        */
       onFormSubmitted(value, event) {
         const snippet = {
-          title: value.title.trim() ||  snippetData.DEFAULT_TITLE,
+          title: value.title.trim() || snippetData.DEFAULT_TITLE,
           url: value.url.trim()
         };
 
