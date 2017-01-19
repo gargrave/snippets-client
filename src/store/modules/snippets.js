@@ -22,6 +22,10 @@ export default {
 
 
   mutations: {
+    [SNIPPETS.CLEAR_ALL](state, snippets) {
+      state.snippets = [];
+    },
+
     [SNIPPETS.FETCH_ALL](state, snippets) {
       state.snippets = snippets;
     },
@@ -61,6 +65,7 @@ export default {
           reject('Not authenticated');
           return;
         }
+        commit(SNIPPETS.CLEAR_ALL);
 
         const url = alternateUrl || apiUrls.snippets;
         request
