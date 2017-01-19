@@ -185,7 +185,6 @@
     computed: {
       ...mapGetters([
         'appTitle',
-        'appBreadcrumbTitle',
         'userData',
         'isLoggedIn'
       ]),

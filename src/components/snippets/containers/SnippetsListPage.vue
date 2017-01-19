@@ -135,16 +135,13 @@
     methods: {
       rebuildSnippetsList() {
         let fetchCall = this.fetchSnippets;
-        this.setBreadcrumbTitle('');
 
         // check if we need to request a filtered list
         this.filterBy = this.$route.params.filterBy;
         if (this.filterBy) {
           if (this.isArchivedView) {
-            this.setBreadcrumbTitle('Archived');
             fetchCall = this.fetchArchivedSnippets;
           } else if (this.isStarredView) {
-            this.setBreadcrumbTitle('Starred');
             fetchCall = this.fetchStarredSnippets;
           }
         }
@@ -152,6 +149,7 @@
         this.apiError = '';
         this.working = true;
         this.refreshing = true;
+
         fetchCall()
           .then((res) => {
             this.working = false;
@@ -226,7 +224,6 @@
 
       ...mapActions([
         'checkForStoredLogin',
-        'setBreadcrumbTitle',
         'fetchSnippets',
         'fetchStarredSnippets',
         'fetchArchivedSnippets',
