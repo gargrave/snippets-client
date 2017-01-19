@@ -13,10 +13,26 @@ $snippetTeal: rgb(167, 255, 235);
 $snippetGray: rgb(207, 216, 220);
 
 @mixin coloredSnippetCard($color) {
+  $darkened1: desaturate(darken($color, 17), 27);
+  $darkened2: desaturate(darken($color, 8), 18);
+
+  // set basic background color of the target
   background-color: $color;
 
+  // darkened color for Snippet cards' headers and footers
   .snippet-card-header, .snippet-card-footer {
-    background-color: desaturate(darken($color, 15), 25) !important;
+    background-color: $darkened1 !important;
+  }
+
+  // a darkened color for 'hover' state of color-picker items
+  // i.e. (only in the color-picker dropdowns on Snippet cards)
+  a:hover {
+    background-color: $darkened2;
+  }
+
+  // a darkened border for color each color picker item
+  &.color-picker-item {
+    border: 1px solid $darkened1;
   }
 }
 
@@ -94,12 +110,6 @@ $snippetGray: rgb(207, 216, 220);
 .snippet-control {
   margin: 0 14px;
   line-height: inherit;
-}
-
-.color-picker-item > a {
-  display: block;
-  min-height: 32px;
-  text-decoration: none !important;
 }
 
 .dropdown-menu.color-picker-list {

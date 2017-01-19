@@ -54,5 +54,20 @@
 </script>
 
 
-<style>
+<style scoped>
+  .color-picker-item, .color-picker-list {
+    padding: 0;
+    margin: 0;
+  }
+
+  .color-picker-list {
+    border: 1px solid #aaa;
+  }
+
+  .color-picker-item > a {
+    display: block;
+    min-width: 150px;
+    min-height: 38px;
+    text-decoration: none !important;
+  }
 </style>
