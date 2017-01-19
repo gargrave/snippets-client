@@ -5,7 +5,7 @@
     <el-card
       class="box-card"
       v-loading="working"
-      element-loading-text="Logging in..."
+      element-loading-text="Working..."
       style="width: 100%">
 
       <div class="text item">
@@ -91,11 +91,14 @@
 
     created() {
       // if we already logged in, redirect to account/profile page
+      this.working = true;
       this.checkForStoredLogin()
         .then((res) => {
           this.$router.push(localUrls.account);
+          this.working = false;
         }, (err) => {
           this.apiError = err;
+          this.working = false;
         });
     }
   };

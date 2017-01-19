@@ -5,7 +5,7 @@
     <el-card
       class="box-card"
       v-loading="working"
-      element-loading-text="Creating account..."
+      element-loading-text="Working..."
       style="width: 100%">
 
       <div class="text item">
@@ -119,8 +119,23 @@
       },
 
       ...mapActions([
-        'createUser'
+        'createUser',
+        'checkForStoredLogin'
       ])
+    },
+
+
+    created() {
+      // if we already logged in, redirect to account/profile page
+      this.working = true;
+      this.checkForStoredLogin()
+        .then((res) => {
+          this.$router.push(localUrls.account);
+          this.working = false;
+        }, (err) => {
+          this.apiError = err;
+          this.working = false;
+        });
     }
   };
 </script>
