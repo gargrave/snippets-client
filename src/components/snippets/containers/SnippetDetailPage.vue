@@ -60,6 +60,7 @@
   import { mapActions, mapGetters } from 'vuex';
 
   import { localUrls } from '../../../appData/urls';
+  import errors from '../../../appData/errors';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetForm from '../components/SnippetForm.vue';
@@ -170,6 +171,7 @@
       },
 
       ...mapActions([
+        'checkForStoredLogin',
         'findSnippet',
         'updateSnippet',
         'deleteSnippet',
@@ -182,30 +184,45 @@
      * to List page. If it is found, use it. Otherwise, redirect to List page.
      */
     created() {
-      if (!this.isLoggedIn) {
-        this.$router.push(localUrls.login);
-      } else {
-        const snippetId = this.$route.params.id;
-        if (!snippetId) {
-          this.$router.push(localUrls.snippetsList);
-        } else {
-          this.working = true;
-          this.refreshing = true;
-          this.findSnippet(snippetId)
-            .then((res) => {
-              // if we get a valid Snippet, save two local copies
-              this.snippet = Object.assign({}, res);
-              this.originalSnippet = Object.assign({}, res);
-              this.working = false;
-              this.refreshing = false;
-            }, (err) => {
-              // if no valid Snippet, return to the List view
-              this.working = false;
-              this.refreshing = false;
-              this.$router.push(localUrls.snippetsList);
+      this.working = true;
+      this.refreshing = true;
+      this.checkForStoredLogin()
+        .then((res) => {
+          const snippetId = this.$route.params.id;
+          if (!snippetId) {
+            this.$router.push(localUrls.snippetsList);
+          } else {
+            this.findSnippet(snippetId)
+              .then((res) => {
+                // if we get a valid Snippet, save two local copies
+                this.snippet = Object.assign({}, res);
+                this.originalSnippet = Object.assign({}, res);
+                this.working = false;
+                this.refreshing = false;
+              }, (err) => {
+                // if no valid Snippet, return to the List view
+                this.$notify({
+                  message: 'Invalid Snippet ID',
+                  type: 'info'
+                });
+                this.working = false;
+                this.refreshing = false;
+                this.$router.push(localUrls.snippetsList);
+              });
+          }
+        }, (err) => {
+          // token error; logout and redirect to login page
+          if (err === errors.INVALID_TOKEN) {
+            this.$notify({
+              title: 'Invalid auth token',
+              message: 'Please login again.',
+              type: 'warning'
             });
-        }
-      }
+          }
+          this.$router.push(localUrls.login);
+          this.working = false;
+          this.refreshing = false;
+        });
     }
   };
 </script>

@@ -227,20 +227,24 @@
       },
 
       ...mapActions([
+        'checkForStoredLogin',
         'setBreadcrumbTitle',
         'fetchSnippets',
         'fetchStarredSnippets',
         'fetchArchivedSnippets',
         'updateSnippet',
-        'checkForStoredLogin'
       ])
     },
 
 
     created() {
+      this.working = true;
+      this.refreshing = true;
       this.checkForStoredLogin()
         .then((res) => {
           this.rebuildSnippetsList();
+          this.working = false;
+          this.refreshing = false;
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
             this.$notify({
@@ -250,6 +254,8 @@
             });
           }
           this.$router.push(localUrls.login);
+          this.working = false;
+          this.refreshing = false;
         });
     }
   };
