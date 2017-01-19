@@ -2,7 +2,12 @@
   <section>
     <h2 class="page-title">Account Details</h2>
 
-    <el-card class="box-card">
+    <el-card
+      class="box-card"
+      v-loading="working"
+      element-loading-text="Working..."
+      style="width: 100%">
+
       <div class="text item">
         <ul>
           <li>
@@ -30,6 +35,14 @@
   import { localUrls } from '../../../appData/urls';
 
   export default {
+    data() {
+      return {
+        // whether any operations are currently running
+        working: false,
+      };
+    },
+
+
     computed: {
       dateJoined() {
         return dateHelper.cleanDate(this.user.dateJoined);
@@ -50,8 +63,10 @@
 
     created() {
       // redirect to login page if not logged in
+      this.working = true;
       this.checkForStoredLogin()
         .then((res) => {
+          this.working = false;
           // no action needed if successful
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
@@ -62,6 +77,7 @@
             });
           }
           this.$router.push(localUrls.login);
+          this.working = false;
         });
     }
   };
