@@ -91,13 +91,6 @@
     },
 
 
-    computed: {
-      ...mapGetters([
-        'isLoggedIn'
-      ])
-    },
-
-
     methods: {
       /**
        * Attempts to submit the current user data to the API to login.

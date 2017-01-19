@@ -117,8 +117,6 @@
       },
 
       ...mapGetters([
-        'authToken',
-        'isLoggedIn',
         'snippets'
       ])
     },
