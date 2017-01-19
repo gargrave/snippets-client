@@ -17,7 +17,7 @@ export default {
   },
 
   snippetCreatePanel() {
-    return 'panel panel-default snippet-card snippet-color-white new-snippet-form-panel';
+    return 'snippet-card snippet-color-white new-snippet-form-panel';
   },
 
   snippetStarButton(snippet) {
