@@ -27,7 +27,8 @@
             :hidePinButton="!isMainListView"
             :snippet="snippet"
             :working="working"
-            @quickUpdate="onQuickUpdate">
+            @quickUpdate="onQuickUpdate"
+            @deleteSnippet="onDeleteSnippet">
           </app-snippet-list-detail>
           <hr class="snippets-hr">
         </div><!-- /pinned Snippets list -->
@@ -38,7 +39,8 @@
           :hidePinButton="!isMainListView"
           :snippet="snippet"
           :working="working"
-          @quickUpdate="onQuickUpdate">
+          @quickUpdate="onQuickUpdate"
+          @deleteSnippet="onDeleteSnippet">
         </app-snippet-list-detail>
       </div>
     </section><!-- /snippets list -->
@@ -222,12 +224,44 @@
         }
       },
 
+      /**
+       * Attempts to delete the specified Snippet (after user confirms)
+       */
+      onDeleteSnippet(snippetId) {
+        const msgConfirm = {
+          confirmButtonText: 'Ok',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        };
+        const msgNotify = {
+          type: 'success',
+          message: 'Snippet deleted'
+        };
+
+        this.$confirm('Delete this Snippet?', 'Confirm', msgConfirm)
+          .then(() => {
+            this.working = true;
+            this.deleteSnippet(snippetId)
+              .then((res) => {
+                this.$notify(msgNotify);
+                this.working = false;
+              }, (err) => {
+                this.apiError = err;
+                this.working = false;
+              });
+          })
+          .catch(() => {
+            // cancel deletion; no action needed
+          });
+      },
+
       ...mapActions([
         'checkForStoredLogin',
         'fetchSnippets',
         'fetchStarredSnippets',
         'fetchArchivedSnippets',
         'updateSnippet',
+        'deleteSnippet',
       ])
     },
 

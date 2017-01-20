@@ -46,10 +46,15 @@
         @archiveClicked="onArchiveClick">
       </app-snippet-archive-button>
 
+      <!-- archive/unarchive button -->
+      <app-snippet-delete-button
+        @clicked="onDeleteClick">
+      </app-snippet-delete-button>
+
       <!-- goto detail view button -->
       <span
         aria-hidden="true"
-        class="fa fa-cog fa-pull-right pointer snippet-control"
+        class="fa fa-pencil fa-pull-right pointer snippet-control"
         @click.prevent="onDetailClick">
       </span>
     </div><!-- /snippet-card-footer -->
@@ -63,6 +68,7 @@
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetArchiveButton from '../components/panel-controls/SnippetArchiveButton.vue';
   import SnippetColorPicker from '../components/panel-controls/SnippetColorPicker.vue';
+  import SnippetDeleteButton from '../components/panel-controls/SnippetDeleteButton.vue';
   import SnippetPinButton from '../components/panel-controls/SnippetPinButton.vue';
   import SnippetStarButton from '../components/panel-controls/SnippetStarButton.vue';
 
@@ -70,6 +76,7 @@
     components: {
       appSnippetPinButton: SnippetPinButton,
       appSnippetColorPicker: SnippetColorPicker,
+      appSnippetDeleteButton: SnippetDeleteButton,
       appSnippetStarButton: SnippetStarButton,
       appSnippetArchiveButton: SnippetArchiveButton,
     },
@@ -157,6 +164,15 @@
             id: this.snippet.id,
             archived: !this.snippet.archived
           });
+        }
+      },
+
+      /**
+       * Triggers the event to delete this Snippet.
+       */
+      onDeleteClick() {
+        if (!this.working) {
+          this.$emit('deleteSnippet', this.snippet.id);
         }
       },
 

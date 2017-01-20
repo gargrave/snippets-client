@@ -33,25 +33,6 @@
       </div><!-- /.text item -->
     </el-card>
 
-    <hr class="snippets-hr">
-
-    <el-card
-      class="box-card"
-      v-loading="working"
-      element-loading-text="Working..."
-      style="width: 100%">
-      <div class="text item">
-
-        <el-button
-          type="danger"
-          class="block-btn"
-          @click="onDelete">
-          Delete
-        </el-button>
-
-      </div><!-- /.text item -->
-    </el-card>
-
   </section>
 </template>
 
@@ -130,44 +111,10 @@
         this.$router.go(-1);
       },
 
-      /**
-       * Handler for click event on 'delete' button/link.
-       */
-      onDelete() {
-        const msgConfirm = {
-          confirmButtonText: 'Ok',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        };
-        const msgNotify = {
-          type: 'success',
-          message: 'Snippet deleted'
-        };
-
-        this.$confirm('Delete this Snippet?', 'Confirm', msgConfirm)
-          .then(() => {
-            this.working = true;
-
-            this.deleteSnippet(this.snippet.id)
-              .then((res) => {
-                this.$notify(msgNotify);
-                this.working = false;
-                this.$router.push(localUrls.snippetsList);
-              }, (err) => {
-                this.apiError = err;
-                this.working = false;
-              });
-          })
-          .catch(() => {
-            // cancel deletion; no action needed
-          });
-      },
-
       ...mapActions([
         'checkForStoredLogin',
         'findSnippet',
         'updateSnippet',
-        'deleteSnippet',
       ])
     },
 
