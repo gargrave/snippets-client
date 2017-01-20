@@ -2,7 +2,7 @@ import env from './env';
 
 const DEV_API_ROOT_URL = 'http://localhost:8000';
 const STAGING_API_ROOT_URL = 'https://snippets-dev.herokuapp.com';
-const PROD_API_ROOT_URL = 'https://snippets-dev.herokuapp.com';
+const PROD_API_ROOT_URL = 'https://snippets-prod.herokuapp.com';
 
 let apiRoot;
 let restApiRoot;
