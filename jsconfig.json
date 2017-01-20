@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6"
+  },
+  "exclude": [
+    ".vscode",
+    "build",
+    "config",
+    "dist",
+    "node_modules"
+  ]
+}
