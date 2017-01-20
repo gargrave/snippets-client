@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "deploy_staging": "npm run build && netlify deploy -e staging",
-    "deploy_prod": "npm run build && netlify deploy -e prod",
+    "bd_staging": "npm run build && npm run deploy_staging",
+    "deploy_staging": "netlify deploy -e staging",
+    "bd_prod": "npm run build && npm run deploy_prod",
+    "deploy_prod": "netlify deploy -e prod",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
