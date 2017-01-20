@@ -10,7 +10,7 @@
 
 
 <script>
-  import { localUrls } from '../../../appData/urls';
+  import { localUrls } from '../../../app-data/urls';
 
   export default {
     data() {

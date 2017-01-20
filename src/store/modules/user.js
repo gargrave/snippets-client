@@ -1,7 +1,7 @@
 import request from 'superagent';
 
-import { apiUrls } from '../../appData/urls';
-import errors from '../../appData/errors';
+import { apiUrls } from '../../app-data/urls';
+import errors from '../../app-data/errors';
 import apiHelper from '../../utils/apiHelper';
 import { USER } from '../mutation-types';
 

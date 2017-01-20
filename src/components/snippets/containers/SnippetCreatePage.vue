@@ -37,7 +37,7 @@
 <script>
   import { mapActions } from 'vuex';
 
-  import { localUrls } from '../../../appData/urls';
+  import { localUrls } from '../../../app-data/urls';
   import snippetData from '../helpers/snippetData';
   import SnippetForm from '../components/SnippetForm.vue';
 

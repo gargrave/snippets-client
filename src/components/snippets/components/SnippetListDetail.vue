@@ -59,7 +59,7 @@
 
 
 <script>
-  import {localUrls} from '../../../appData/urls';
+  import {localUrls} from '../../../app-data/urls';
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetArchiveButton from '../components/panel-controls/SnippetArchiveButton.vue';
   import SnippetColorPicker from '../components/panel-controls/SnippetColorPicker.vue';

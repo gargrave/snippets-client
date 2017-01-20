@@ -33,4 +33,4 @@ export default {
   isDev() {
     return appEnv === ENV.DEV;
   }
-}
+};

@@ -1,6 +1,6 @@
 import request from 'superagent';
 
-import { apiUrls } from '../../appData/urls';
+import { apiUrls } from '../../app-data/urls';
 import { SNIPPETS } from '../mutation-types';
 import apiHelper from '../../utils/apiHelper';
 

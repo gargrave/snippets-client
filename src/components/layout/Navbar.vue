@@ -170,7 +170,7 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
 
-  import { localUrls } from '../../appData/urls';
+  import { localUrls } from '../../app-data/urls';
 
   export default {
     data() {
@@ -178,7 +178,7 @@
         localUrls, // make this available to the template
         actionsMenuUpdate: false,
         profileMenuUpdated: false
-      }
+      };
     },
 
 

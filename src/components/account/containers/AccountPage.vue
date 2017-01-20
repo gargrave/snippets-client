@@ -30,9 +30,9 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
 
-  import errors from '../../../appData/errors';
+  import errors from '../../../app-data/errors';
   import dateHelper from '../../../utils/dateHelper';
-  import { localUrls } from '../../../appData/urls';
+  import { localUrls } from '../../../app-data/urls';
 
   export default {
     data() {

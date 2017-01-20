@@ -50,8 +50,8 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
 
-  import { localUrls } from '../../../appData/urls';
-  import errors from '../../../appData/errors';
+  import { localUrls } from '../../../app-data/urls';
+  import errors from '../../../app-data/errors';
   import snippetData from '../helpers/snippetData';
   import NewSnippetCard from '../components/NewSnippetCard.vue';
   import SnippetListDetail from '../components/SnippetListDetail.vue';

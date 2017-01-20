@@ -59,8 +59,8 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
 
-  import { localUrls } from '../../../appData/urls';
-  import errors from '../../../appData/errors';
+  import { localUrls } from '../../../app-data/urls';
+  import errors from '../../../app-data/errors';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetForm from '../components/SnippetForm.vue';

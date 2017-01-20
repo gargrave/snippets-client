@@ -1,4 +1,4 @@
-import {localUrls} from './appData/urls';
+import {localUrls} from './app-data/urls';
 
 import AccountPage from './components/account/containers/AccountPage.vue';
 import AccountCreatePage from './components/account/containers/AccountCreatePage.vue';

@@ -76,5 +76,5 @@
         this.$emit('logout');
       }
     }
-  }
+  };
 </script>
