@@ -9,7 +9,7 @@
       <!-- title/brand display -->
       <el-menu-item index="1" class="navbar-title">
         <router-link to="/">
-          {{ appTitle }} <small>{{ appBuild }}</small>
+          {{ appTitle }} <small v-if="appBuild">{{ appBuild }}</small>
         </router-link>
       </el-menu-item><!-- title/brand display -->
 

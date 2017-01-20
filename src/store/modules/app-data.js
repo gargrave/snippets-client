@@ -14,7 +14,7 @@ export default {
     },
 
     appBuild(state) {
-      return `(${state.build})`;
+      return state.build.length ? `(${state.build})` : '';
     }
   },
 
