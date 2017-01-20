@@ -11,8 +11,7 @@
           v-for="color in validColors"
           :class="colorPickerLiClass(color)"
           :command="color">
-          <a :class="colorPickerAClass(color)">
-          </a>
+          <a :class="colorPickerAClass(color)"></a>
         </el-dropdown-item>
       </el-dropdown-menu>
 

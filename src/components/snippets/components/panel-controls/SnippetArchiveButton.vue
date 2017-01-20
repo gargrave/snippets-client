@@ -3,8 +3,7 @@
     type="button"
     aria-hidden="true"
     :class="archiveButtonClass"
-    @click="onClick"
-  >
+    @click="onClick">
   </span>
 </template>
 
@@ -14,6 +13,8 @@
 
   export default {
     props: {
+      // the Snippet tied to this button
+      // needed so the current 'archived' state can be determined
       snippet: {
         type: Object,
         required: true
@@ -35,7 +36,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>

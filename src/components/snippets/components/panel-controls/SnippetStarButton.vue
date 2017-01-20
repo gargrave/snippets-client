@@ -3,8 +3,8 @@
     type="button"
     aria-hidden="true"
     :class="starButtonClass"
-    @click="onClick"
-  ></span>
+    @click="onClick">
+  </span>
 </template>
 
 
@@ -13,6 +13,8 @@
 
   export default {
     props: {
+      // the Snippet tied to this button
+      // needed so the current 'starred' state can be determined
       snippet: {
         type: Object,
         required: true
@@ -34,7 +36,3 @@
     }
   };
 </script>
-
-
-<style>
-</style>
