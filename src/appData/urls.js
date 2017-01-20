@@ -1,20 +1,39 @@
-const ROOT = process.env.NODE_ENV === 'development' ?
-  'http://localhost:8000' : 'https://snippets-dev.herokuapp.com';
-const API_ROOT = `${ROOT}/api/v1`;
+import env from './env';
+
+const DEV_API_ROOT_URL = 'http://localhost:8000';
+const STAGING_API_ROOT_URL = 'https://snippets-dev.herokuapp.com';
+const PROD_API_ROOT_URL = 'https://snippets-dev.herokuapp.com';
+
+let apiRoot;
+let restApiRoot;
+
+(function setUrls() {
+  if (env.isProd()) {
+    apiRoot = PROD_API_ROOT_URL;
+    restApiRoot = `${apiRoot}/api/v1`;
+  } else if (env.isStaging()) {
+    apiRoot = STAGING_API_ROOT_URL;
+    restApiRoot = `${apiRoot}/api/v1`;
+  } else {
+    apiRoot = DEV_API_ROOT_URL;
+    restApiRoot = `${apiRoot}/api/v1`;
+  }
+})();
+
 
 // URLs for AJAX calls to the API
-export const apiUrls = {
-  login: `${ROOT}/rest-auth/login/`,
-  logout: `${ROOT}/rest-auth/logout/`,
-  user: `${ROOT}/rest-auth/user/`,
-  register: `${ROOT}/rest-auth/registration/`,
-  snippets: `${API_ROOT}/snippets/`,
-  starredSnippets: `${API_ROOT}/snippets/starred/`,
-  archivedSnippets: `${API_ROOT}/snippets/archived/`,
+export let apiUrls = {
+  login: `${apiRoot}/rest-auth/login/`,
+  logout: `${apiRoot}/rest-auth/logout/`,
+  user: `${apiRoot}/rest-auth/user/`,
+  register: `${apiRoot}/rest-auth/registration/`,
+  snippets: `${restApiRoot}/snippets/`,
+  starredSnippets: `${restApiRoot}/snippets/starred/`,
+  archivedSnippets: `${restApiRoot}/snippets/archived/`,
 };
 
-// URLs for local routing (i.e. react-router)
-export const localUrls = {
+// URLs for local routing (i.e. vue-router)
+export let localUrls = {
   account: '/account',
   accountCreate: '/account/new',
   login: '/account/login',
