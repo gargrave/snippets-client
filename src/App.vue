@@ -15,6 +15,9 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
+  import env from './app-data/env';
   import Navbar from './components/layout/Navbar.vue';
   import SideNav from './components/layout/SideNav.vue';
 
@@ -25,6 +28,22 @@
     components: {
       appNavbar: Navbar,
       appSidenav: SideNav
+    },
+
+
+    methods: {
+      ...mapActions([
+        'setBuild'
+      ])
+    },
+
+
+    created() {
+      if (env.isDev()) {
+        this.setBuild('dev');
+      } else if (env.isStaging()) {
+        this.setBuild('staging');
+      }
     }
   };
 </script>

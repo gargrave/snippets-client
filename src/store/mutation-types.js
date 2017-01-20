@@ -1,5 +1,5 @@
 export const APP = {
-  SET_BREADCRUMB_TITLE: 'APP_SET_BREADCRUMB_TITLE',
+  SET_BUILD: 'APP_SET_BUILD'
 };
 
 export const USER = {

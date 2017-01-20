@@ -9,7 +9,7 @@
       <!-- title/brand display -->
       <el-menu-item index="1" class="navbar-title">
         <router-link to="/">
-          {{ appTitle }}
+          {{ appTitle }} <small>{{ appBuild }}</small>
         </router-link>
       </el-menu-item><!-- title/brand display -->
 
@@ -185,12 +185,9 @@
     computed: {
       ...mapGetters([
         'appTitle',
-        'userData',
-        'isLoggedIn'
-      ]),
-
-      ...mapGetters([
-        'isLoggedIn'
+        'appBuild',
+        'isLoggedIn',
+        'userData'
       ])
     },
 
