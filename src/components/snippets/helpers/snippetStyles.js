@@ -27,7 +27,7 @@ export default {
   },
 
   snippetPinButton(snippet) {
-    let iconClass = snippet.pinned ? 'fa fa-bookmark' : 'fa fa-bookmark-o';
+    let iconClass = snippet.pinned ? 'fa fa-thumb-tack' : 'fa fa-thumb-tack fa-thumb-tack-o';
     return `${iconClass} pointer snippet-control snippet-control-pin`;
   },
 

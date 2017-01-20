@@ -36,3 +36,10 @@
     }
   };
 </script>
+
+
+<style scoped>
+  .fa-thumb-tack-o {
+    color: rgba(0, 0, 0, .35);
+  }
+</style>
