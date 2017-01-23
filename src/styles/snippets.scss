@@ -26,8 +26,8 @@ $snippetGray: rgb(207, 216, 220);
 
   // a darkened color for 'hover' state of color-picker items
   // i.e. (only in the color-picker dropdowns on Snippet cards)
-  a:hover {
-    background-color: $darkened2;
+  .snippet-card-header > a:hover {
+    background-color: $darkened1;
   }
 
   // a darkened border for color each color picker item
