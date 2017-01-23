@@ -176,7 +176,7 @@
     data() {
       return {
         localUrls, // make this available to the template
-        actionsMenuUpdate: false,
+        actionsMenuUpdated: false,
         profileMenuUpdated: false
       };
     },
@@ -209,10 +209,11 @@
 
       onActionsMenuOpen() {
         this.clearActiveClasses();
-        if (!this.profileMenuUpdated) {
+        if (!this.actionsMenuUpdated) {
           const menu = document.querySelector('#actions-menu > ul');
           menu.style.padding = '0';
           menu.style.minWidth = '110px';
+          this.actionsMenuUpdated = true;
         }
       },
 
@@ -224,6 +225,7 @@
           menu.style.right = '0';
           menu.style.left = 'inherit';
           menu.style.minWidth = '130px';
+          this.profileMenuUpdated = true;
           // document.querySelectorAll('#profile-menu ul span li').forEach((li) => {
           // });
         }
