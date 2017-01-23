@@ -118,10 +118,9 @@
         </span><!-- user/profile dropdown -->
 
 
-        <el-menu-item index="10" style="float: right;">
-          <el-button type="text" @click="onSearchClick">
-            <i class="fa fa-search" aria-hidden="true"></i>
-          </el-button>
+        <!-- button to show search dialog -->
+        <el-menu-item index="10" id="search-button">
+          <i class="fa fa-search" aria-hidden="true"></i>
         </el-menu-item>
       </section><!-- menus for logged in users -->
 
@@ -304,12 +303,34 @@
         'logout',
         'fetchSnippetsBySearch'
       ])
+    },
+
+    created() {
+      /*
+      Element UI does some weird stuff at run-time with some of its components, which
+      causes them to not bind correctly to CSS classes in some cases. Here we are manually
+      binding CSS to those elements after we ensure that they have been created.
+      */
+      const setStyles = () => {
+        const elSearchButton = document.querySelector('#search-button');
+        if (elSearchButton) {
+          elSearchButton.addEventListener('click', this.onSearchClick);
+        } else {
+          // try again really soon!
+          setTimeout(setStyles, 2);
+        }
+      }
+      setStyles();
     }
   };
 </script>
 
 
 <style scoped>
+  i {
+    color: #777;
+  }
+
   .menu-hr {
     margin-top: 2px;
     margin-bottom: 2px;
@@ -338,7 +359,7 @@
     background-color: #f8f8f8;
   }
 
-  #profile-menu {
+  #profile-menu, #search-button {
     float: right;
   }
 </style>
