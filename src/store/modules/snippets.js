@@ -7,12 +7,17 @@ import apiHelper from '../../utils/apiHelper';
 
 export default {
   state: {
+    snippetsRefreshing: false,
     snippets: [],
     currentSearch: ''
   },
 
 
   getters: {
+    snippetsRefreshing(state) {
+      return state.snippetsRefreshing;
+    },
+
     snippets(state) {
       // TODO: this is only a temporary sorting measure
       return state.snippets.sort(
@@ -32,12 +37,20 @@ export default {
       state.currentSearch = '';
     },
 
+    [SNIPPETS.FETCH_BEGIN](state) {
+      state.snippetsRefreshing = true;
+    },
+
+    [SNIPPETS.FETCH_END](state) {
+      state.snippetsRefreshing = false;
+    },
+
     [SNIPPETS.FETCH_ALL](state, snippets) {
       state.snippets = snippets;
       state.currentSearch = '';
     },
 
-    [SNIPPETS.FETCH_BY_SEARCH](state, {snippets, search}) {
+    [SNIPPETS.FETCH_BY_SEARCH](state, { snippets, search }) {
       state.snippets = snippets;
       state.currentSearch = search;
     },
@@ -78,6 +91,7 @@ export default {
           return;
         }
         commit(SNIPPETS.CLEAR_ALL);
+        commit(SNIPPETS.FETCH_BEGIN);
 
         const url = alternateUrl || apiUrls.snippets;
         request
@@ -86,9 +100,11 @@ export default {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
+              commit(SNIPPETS.FETCH_END);
               reject('There was an error loading your Snippets.');
             } else {
               commit(SNIPPETS.FETCH_ALL, res.body);
+              commit(SNIPPETS.FETCH_END);
               resolve(res.body);
             }
           });
@@ -111,6 +127,7 @@ export default {
           return;
         }
         commit(SNIPPETS.CLEAR_ALL);
+        commit(SNIPPETS.FETCH_BEGIN);
 
         const url = apiUrls.snippets;
         request
@@ -120,12 +137,14 @@ export default {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
+              commit(SNIPPETS.FETCH_END);
               reject('There was an error loading your Snippets.');
             } else {
               commit(SNIPPETS.FETCH_BY_SEARCH, {
                 snippets: res.body,
                 search: searchString
               });
+              commit(SNIPPETS.FETCH_END);
               resolve(res.body);
             }
           });

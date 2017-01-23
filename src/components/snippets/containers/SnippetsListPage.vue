@@ -5,17 +5,17 @@
       <small v-if="currentSearch">(searching)</small>
     </h2>
 
-    <section v-if="refreshing">
+    <section v-if="snippetsRefreshing">
       <!-- loading spinner -->
       <div
         class="snippets-list-working-spinner"
-        v-loading="refreshing"
+        v-loading="snippetsRefreshing"
         element-loading-text="Working..."
         style="width: 100%; height: 160px;">
       </div><!-- loading spinner -->
     </section>
 
-    <!-- snippets list, shown when not refreshing -->
+    <!-- snippets list, shown when not snippetsRefreshing -->
     <section v-else>
       <!-- search results display (when applicable) -->
       <el-alert
@@ -37,7 +37,7 @@
       <!-- API error display -->
       <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-      <div v-if="!refreshing">
+      <div v-if="!snippetsRefreshing">
         <!-- pinned Snippets list -->
         <div v-if="pinnedSnippets.length">
           <app-snippet-list-detail
@@ -88,9 +88,6 @@
         // whether any operations are currently running
         working: false,
 
-        // whether the list of Snippets is currently being refreshed
-        refreshing: false,
-
         // error messages returned from API (e.g. invalid data)
         apiError: '',
 
@@ -137,6 +134,7 @@
       },
 
       ...mapGetters([
+        'snippetsRefreshing',
         'snippets',
         'currentSearch'
       ])
@@ -169,16 +167,13 @@
 
         this.apiError = '';
         this.working = true;
-        this.refreshing = true;
 
         fetchCall()
           .then((res) => {
             this.working = false;
-            this.refreshing = false;
           }, (err) => {
             this.apiError = err;
             this.working = false;
-            this.refreshing = false;
           });
       },
 
@@ -291,7 +286,6 @@
 
     created() {
       this.working = true;
-      this.refreshing = true;
       this.checkForStoredLogin()
         .then((res) => {
           this.rebuildSnippetsList();
@@ -305,7 +299,6 @@
           }
           this.$router.push(localUrls.login);
           this.working = false;
-          this.refreshing = false;
         });
     }
   };
