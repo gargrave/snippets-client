@@ -116,6 +116,13 @@
 
           </el-submenu>
         </span><!-- user/profile dropdown -->
+
+
+        <el-menu-item index="10" style="float: right;">
+          <el-button type="text" @click="onSearchClick">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </el-button>
+        </el-menu-item>
       </section><!-- menus for logged in users -->
 
 
@@ -163,6 +170,13 @@
       </section><!-- Menus for non-authenticated users -->
 
     </el-menu>
+
+    <!-- "search" dialog; hidden by default -->
+    <app-search-dialog
+      :showing="searchingDialogShowing"
+      @submitSearch="onSearchSubmit"
+      @close="onSearchClose">
+    </app-search-dialog>
   </nav>
 </template>
 
@@ -171,13 +185,20 @@
   import { mapActions, mapGetters } from 'vuex';
 
   import { localUrls } from '../../app-data/urls';
+  import SearchDialog from '../snippets/components/dialogs/SearchDialog';
 
   export default {
+    components: {
+      appSearchDialog: SearchDialog
+    },
+
+
     data() {
       return {
         localUrls, // make this available to the template
         actionsMenuUpdated: false,
-        profileMenuUpdated: false
+        profileMenuUpdated: false,
+        searchingDialogShowing: false
       };
     },
 
@@ -187,7 +208,8 @@
         'appTitle',
         'appBuild',
         'isLoggedIn',
-        'userData'
+        'userData',
+        'currentSearch'
       ])
     },
 
@@ -207,6 +229,32 @@
         });
       },
 
+      /*=============================================
+       = search-related methods
+       =============================================*/
+      onSearchClick() {
+        this.searchingDialogShowing = !this.searchingDialogShowing;
+      },
+
+      onSearchSubmit(value, event) {
+        const search = value.trim();
+        if (search !== this.currentSearch) {
+          this.fetchSnippetsBySearch(search)
+            .then((res) => {
+              // succesful search; no action needed
+            }, (err) => {
+              // TODO handle errors
+            });
+        }
+      },
+
+      onSearchClose() {
+        this.searchingDialogShowing = false;
+      },
+
+      /*=============================================
+       = dropdown helper methods
+       =============================================*/
       onActionsMenuOpen() {
         this.clearActiveClasses();
         if (!this.actionsMenuUpdated) {
@@ -253,7 +301,8 @@
       },
 
       ...mapActions([
-        'logout'
+        'logout',
+        'fetchSnippetsBySearch'
       ])
     }
   };

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h2 class="page-title">{{ pageTitle }}</h2>
+    <h2 class="page-title">
+      {{ pageTitle }}
+      <small v-if="currentSearch">(searching)</small>
+    </h2>
 
     <section v-if="refreshing">
       <!-- loading spinner -->
@@ -14,7 +17,22 @@
 
     <!-- snippets list, shown when not refreshing -->
     <section v-else>
-      <app-new-snippet-card v-if="isMainListView"></app-new-snippet-card>
+      <!-- search results display (when applicable) -->
+      <el-alert
+        id="search-alert"
+        v-if="currentSearch"
+        type="info"
+        title=""
+        close-text="Reset"
+        @close="onClearSearch">
+        {{ snippets.length }} matching: <strong>{{ currentSearch }}</strong>
+      </el-alert>
+
+      <!-- 'add a new snippet' link -->
+      <app-new-snippet-card
+        v-if="isMainListView && !currentSearch">
+      </app-new-snippet-card>
+
 
       <!-- API error display -->
       <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
@@ -30,7 +48,7 @@
             @quickUpdate="onQuickUpdate"
             @deleteSnippet="onDeleteSnippet">
           </app-snippet-list-detail>
-          <hr class="snippets-hr">
+          <hr class="snippets-hr" v-if="unpinnedSnippets.length">
         </div><!-- /pinned Snippets list -->
 
         <!-- unpinned Snippets list -->
@@ -119,7 +137,8 @@
       },
 
       ...mapGetters([
-        'snippets'
+        'snippets',
+        'currentSearch'
       ])
     },
 
@@ -255,6 +274,10 @@
           });
       },
 
+      onClearSearch() {
+        this.rebuildSnippetsList();
+      },
+
       ...mapActions([
         'checkForStoredLogin',
         'fetchSnippets',
@@ -272,8 +295,6 @@
       this.checkForStoredLogin()
         .then((res) => {
           this.rebuildSnippetsList();
-          this.working = false;
-          this.refreshing = false;
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
             this.$notify({

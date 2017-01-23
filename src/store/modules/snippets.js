@@ -7,7 +7,8 @@ import apiHelper from '../../utils/apiHelper';
 
 export default {
   state: {
-    snippets: []
+    snippets: [],
+    currentSearch: ''
   },
 
 
@@ -17,6 +18,10 @@ export default {
       return state.snippets.sort(
         (a, b) => a.created > b.created ? -1 : 1
       );
+    },
+
+    currentSearch(state) {
+      return state.currentSearch
     }
   },
 
@@ -24,10 +29,17 @@ export default {
   mutations: {
     [SNIPPETS.CLEAR_ALL](state, snippets) {
       state.snippets = [];
+      state.currentSearch = '';
     },
 
     [SNIPPETS.FETCH_ALL](state, snippets) {
       state.snippets = snippets;
+      state.currentSearch = '';
+    },
+
+    [SNIPPETS.FETCH_BY_SEARCH](state, {snippets, search}) {
+      state.snippets = snippets;
+      state.currentSearch = search;
     },
 
     [SNIPPETS.CREATE](state, snippet) {
@@ -89,6 +101,35 @@ export default {
 
     fetchArchivedSnippets({ dispatch, commit }) {
       return dispatch('fetchSnippets', apiUrls.archivedSnippets);
+    },
+
+    fetchSnippetsBySearch({ getters, commit }, searchString) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+          return;
+        }
+        commit(SNIPPETS.CLEAR_ALL);
+
+        const url = apiUrls.snippets;
+        request
+          .get(url)
+          .query({ search: searchString })
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              reject('There was an error loading your Snippets.');
+            } else {
+              commit(SNIPPETS.FETCH_BY_SEARCH, {
+                snippets: res.body,
+                search: searchString
+              });
+              resolve(res.body);
+            }
+          });
+      });
     },
 
     /**
