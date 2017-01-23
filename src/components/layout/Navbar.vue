@@ -19,7 +19,7 @@
       -->
       <section v-if="isLoggedIn">
         <!-- 'actions' dropdown menu -->
-        <span @click="onActionsMenuOpen" @mouseover="onActionsMenuOpen">
+        <span>
           <el-submenu index="2" id="actions-menu">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -77,7 +77,7 @@
           user/profile dropdown menu
           wrapping in an extra span to allow a click handler, which el-submenu does not
         -->
-        <span @click="onProfileMenuOpen" @mouseover="onProfileMenuOpen">
+        <span>
           <el-submenu index="3" id="profile-menu">
             <template slot="title">
               <!--{{ userData.username }}-->
@@ -129,7 +129,7 @@
       Menus for non-authenticated users
       -->
       <section v-else>
-        <span @click="onActionsMenuOpen" @mouseover="onActionsMenuOpen">
+        <span>
           <el-submenu index="2" id="actions-menu">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -254,30 +254,6 @@
       /*=============================================
        = dropdown helper methods
        =============================================*/
-      onActionsMenuOpen() {
-        this.clearActiveClasses();
-        if (!this.actionsMenuUpdated) {
-          const menu = document.querySelector('#actions-menu > ul');
-          menu.style.padding = '0';
-          menu.style.minWidth = '110px';
-          this.actionsMenuUpdated = true;
-        }
-      },
-
-      onProfileMenuOpen() {
-        this.clearActiveClasses();
-        if (!this.profileMenuUpdated) {
-          const menu = document.querySelector('#profile-menu > ul');
-          menu.style.padding = '0';
-          menu.style.right = '0';
-          menu.style.left = 'inherit';
-          menu.style.minWidth = '130px';
-          this.profileMenuUpdated = true;
-          // document.querySelectorAll('#profile-menu ul span li').forEach((li) => {
-          // });
-        }
-      },
-
       gotoLink(event, link) {
         this.clearActiveClasses(event);
         this.$router.push(link);
@@ -292,10 +268,10 @@
         let actionsMenu = document.querySelector('#actions-menu');
         let profileMenu = document.querySelector('#profile-menu');
         if (actionsMenu) {
-          document.querySelector('#actions-menu').classList.remove('is-active');
+          actionsMenu.classList.remove('is-active');
         }
         if (profileMenu) {
-          document.querySelector('#profile-menu').classList.remove('is-active');
+          profileMenu.classList.remove('is-active');
         }
       },
 
@@ -313,8 +289,19 @@
       */
       const setStyles = () => {
         const elSearchButton = document.querySelector('#search-button');
+        const elProfileMenu = document.querySelector('#profile-menu > ul');
+        const elActionsMenu = document.querySelector('#actions-menu > ul');
+
         if (elSearchButton) {
           elSearchButton.addEventListener('click', this.onSearchClick);
+          // update 'profile' menu styles
+          elProfileMenu.style.padding = '0';
+          elProfileMenu.style.right = '0';
+          elProfileMenu.style.left = 'inherit';
+          elProfileMenu.style.minWidth = '130px';
+          // update 'actions' menu styles
+          elActionsMenu.style.padding = '0';
+          elActionsMenu.style.minWidth = '110px';
         } else {
           // try again really soon!
           setTimeout(setStyles, 2);
