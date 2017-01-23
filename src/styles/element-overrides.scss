@@ -40,7 +40,7 @@
 Element UI 'xs' size
 */
 @media only screen and (max-width: 767px) {
-  .el-message-box {
+  .el-message-box, .search-dialog {
     width: 100%;
   }
 }
