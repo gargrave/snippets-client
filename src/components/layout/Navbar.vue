@@ -7,7 +7,7 @@
 
 
       <!-- title/brand display -->
-      <el-menu-item index="1" class="navbar-title">
+      <el-menu-item index="1" class="navbar-title hide-on-xs">
         <router-link to="/">
           {{ appTitle }} <small v-if="appBuild">{{ appBuild }}</small>
         </router-link>
