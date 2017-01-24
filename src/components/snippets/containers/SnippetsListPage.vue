@@ -1,8 +1,8 @@
 <template>
   <div>
     <h3 class="page-title">
-      {{ pageTitle }}
-      <small v-if="currentSearch">(searching)</small>
+      <span v-if="currentSearch">Search Results</span>
+      <span v-else>{{ pageTitle }}</span>
     </h3>
 
     <section v-if="snippetsRefreshing">
@@ -270,7 +270,11 @@
       },
 
       onClearSearch() {
-        this.rebuildSnippetsList();
+        if (this.isMainListView) {
+          this.rebuildSnippetsList();
+        } else {
+          this.$router.push({ name: 'snippets-list' })
+        }
       },
 
       ...mapActions([
