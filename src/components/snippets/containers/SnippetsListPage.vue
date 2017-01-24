@@ -4,6 +4,8 @@
     <h3 class="page-title">
       <span v-if="currentSearch">Search Results</span>
       <span v-else>{{ pageTitle }}</span>
+      <!-- working icon for background tasks -->
+      <i class="fa fa-spinner fa-spin" v-if="backgroundWorking"></i>
     </h3><!-- /page title display -->
 
 
@@ -96,6 +98,9 @@
 
         // whether any operations are currently running
         working: false,
+
+        // whether any background operations (e.g. 'quick update') are running
+        backgroundWorking: false,
 
         // error messages returned from API (e.g. invalid data)
         apiError: '',
@@ -233,6 +238,15 @@
             this.apiError = '';
             this.working = true;
 
+            // set the 'backgroundWorking' flag after a short timeout
+            // this will make it so that the working icon will only show up
+            // if the request takes a bit longer
+            setTimeout(() => {
+              if (this.working) {
+                this.backgroundWorking = true;
+              }
+            }, 400);
+
             this.updateSnippet({ snippet, removeAfterUpdate })
               .then((res) => {
                 if (toast) {
@@ -242,9 +256,11 @@
                   });
                 }
                 this.working = false;
+                this.backgroundWorking = false;
               }, (err) => {
                 this.apiError = err;
                 this.working = false;
+                this.backgroundWorking = false;
               });
           }
         }
@@ -322,6 +338,11 @@
 
 
 <style scoped>
+  .fa-spinner {
+    display: block;
+    margin-top: 14px;
+  }
+
   /*
    * transition styles
    */

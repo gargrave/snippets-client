@@ -13,6 +13,14 @@
   import { localUrls } from '../../../app-data/urls';
 
   export default {
+    props: {
+      working: {
+        type: Boolean,
+        required: true
+      }
+    },
+
+
     data() {
       return {
         bodyStyle: 'padding: 4px 12px;'
@@ -22,7 +30,9 @@
 
     methods: {
       onClick() {
-        this.$router.push(localUrls.snippetCreate);
+        if (!this.working) {
+          this.$router.push(localUrls.snippetCreate);
+        }
       }
     }
   };
