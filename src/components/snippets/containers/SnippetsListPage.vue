@@ -9,15 +9,14 @@
     </h3><!-- /page title display -->
 
 
-    <section v-if="snippetsRefreshing">
-      <!-- loading spinner -->
-      <div
-        class="snippets-list-working-spinner"
-        v-loading="snippetsRefreshing"
-        element-loading-text="Working..."
-        style="width: 100%; height: 160px;">
-      </div><!-- loading spinner -->
-    </section>
+    <!-- loading spinner -->
+    <div
+      class="snippets-list-working-spinner"
+      v-loading="snippetsRefreshing || initializing"
+      v-if="snippetsRefreshing || initializing"
+      element-loading-text="Working..."
+      style="width: 100%; height: 160px;">
+    </div><!-- loading spinner -->
 
 
     <!-- snippets list, shown when not snippetsRefreshing -->
@@ -341,20 +340,5 @@
   .fa-spinner {
     display: block;
     margin-top: 14px;
-  }
-
-  /*
-   * transition styles
-   */
-  .fade-enter-active {
-    transition: opacity .3s
-  }
-
-  .fade-leave {
-    opacity: 0;
-  }
-
-  .fade-enter, .fade-leave-to {
-    opacity: 0
   }
 </style>
