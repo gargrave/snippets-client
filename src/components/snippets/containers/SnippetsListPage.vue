@@ -1,9 +1,11 @@
 <template>
   <div>
+    <!-- page title display -->
     <h3 class="page-title">
       <span v-if="currentSearch">Search Results</span>
       <span v-else>{{ pageTitle }}</span>
-    </h3>
+    </h3><!-- /page title display -->
+
 
     <section v-if="snippetsRefreshing">
       <!-- loading spinner -->
@@ -15,29 +17,31 @@
       </div><!-- loading spinner -->
     </section>
 
+
     <!-- snippets list, shown when not snippetsRefreshing -->
-    <section v-else>
-      <!-- search results display (when applicable) -->
-      <el-alert
-        id="search-alert"
-        v-if="currentSearch"
-        type="info"
-        title=""
-        close-text="Reset"
-        @close="onClearSearch">
-        {{ snippets.length }} matching: <strong>{{ currentSearch }}</strong>
-      </el-alert>
+    <transition name="fade">
+      <section v-if="!initializing && !snippetsRefreshing">
+        <!-- search results display (when applicable) -->
+        <el-alert
+          id="search-alert"
+          v-if="currentSearch"
+          type="info"
+          title=""
+          close-text="Reset"
+          @close="onClearSearch">
+          {{ snippets.length }} matching: <strong>{{ currentSearch }}</strong>
+        </el-alert>
 
-      <!-- 'add a new snippet' link -->
-      <app-new-snippet-card
-        v-if="isMainListView && !currentSearch">
-      </app-new-snippet-card>
+        <!-- 'add a new snippet' link -->
+        <app-new-snippet-card
+          v-if="isMainListView && !currentSearch"
+          working="working">
+        </app-new-snippet-card>
 
 
-      <!-- API error display -->
-      <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+        <!-- API error display -->
+        <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-      <div v-if="!snippetsRefreshing">
         <!-- pinned Snippets list -->
         <div v-if="pinnedSnippets.length">
           <app-snippet-list-detail
@@ -52,16 +56,19 @@
         </div><!-- /pinned Snippets list -->
 
         <!-- unpinned Snippets list -->
-        <app-snippet-list-detail
-          v-for="snippet in unpinnedSnippets"
-          :hidePinButton="!isMainListView"
-          :snippet="snippet"
-          :working="working"
-          @quickUpdate="onQuickUpdate"
-          @deleteSnippet="onDeleteSnippet">
-        </app-snippet-list-detail>
-      </div>
-    </section><!-- /snippets list -->
+        <div v-if="unpinnedSnippets.length">
+          <app-snippet-list-detail
+            v-for="snippet in unpinnedSnippets"
+            :hidePinButton="!isMainListView"
+            :snippet="snippet"
+            :working="working"
+            @quickUpdate="onQuickUpdate"
+            @deleteSnippet="onDeleteSnippet">
+          </app-snippet-list-detail>
+        </div>
+
+      </section><!-- /snippets list -->
+    </transition>
 
   </div>
 </template>
@@ -85,6 +92,8 @@
 
     data() {
       return {
+        initializing: true,
+
         // whether any operations are currently running
         working: false,
 
@@ -171,9 +180,11 @@
         fetchCall()
           .then((res) => {
             this.working = false;
+            this.initializing = false;
           }, (err) => {
             this.apiError = err;
             this.working = false;
+            this.initializing = false;
           });
       },
 
@@ -221,6 +232,7 @@
             // call the action to save changes to the API
             this.apiError = '';
             this.working = true;
+
             this.updateSnippet({ snippet, removeAfterUpdate })
               .then((res) => {
                 if (toast) {
@@ -307,3 +319,21 @@
     }
   };
 </script>
+
+
+<style scoped>
+  /*
+   * transition styles
+   */
+  .fade-enter-active {
+    transition: opacity .3s
+  }
+
+  .fade-leave {
+    opacity: 0;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0
+  }
+</style>
