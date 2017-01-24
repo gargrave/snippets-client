@@ -2,26 +2,32 @@
   <section>
     <h3 class="page-title">Account Details</h3>
 
-    <el-card
-      class="box-card"
+    <!-- loading spinner -->
+    <div
+      class="snippets-list-working-spinner"
       v-loading="working"
+      v-if="working"
       element-loading-text="Working..."
-      style="width: 100%">
+      style="width: 100%; height: 160px;">
+    </div><!-- loading spinner -->
 
-      <div class="text item">
-        <ul>
-          <li>
-            <h4>User name: {{ user.username }}</h4>
-          </li>
-          <li>
-            <h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4>
-          </li>
-          <li>
-            <h4>Member since: {{ dateJoined }}</h4>
-          </li>
-        </ul>
-      </div><!-- /. text item -->
-    </el-card>
+    <transition name="fade">
+      <el-card class="box-card" v-if="!working">
+        <div class="text item">
+          <ul>
+            <li>
+              <h4>User name: {{ user.username }}</h4>
+            </li>
+            <li>
+              <h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4>
+            </li>
+            <li>
+              <h4>Member since: {{ dateJoined }}</h4>
+            </li>
+          </ul>
+        </div><!-- /. text item -->
+      </el-card>
+    </transition>
 
   </section>
 </template>
