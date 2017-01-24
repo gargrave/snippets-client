@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="page-title">New Account</h2>
+    <h3 class="page-title">New Account</h3>
 
     <el-card
       class="box-card"

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2 class="page-title">
+    <h3 class="page-title">
       {{ pageTitle }}
       <small v-if="currentSearch">(searching)</small>
-    </h2>
+    </h3>
 
     <section v-if="snippetsRefreshing">
       <!-- loading spinner -->

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="page-title">Account Details</h2>
+    <h3 class="page-title">Account Details</h3>
 
     <el-card
       class="box-card"

@@ -1,7 +1,7 @@
 <template>
   <section>
 
-    <h2 class="page-title">New Snippet</h2>
+    <h3 class="page-title">New Snippet</h3>
 
     <el-card
       class="box-card"
