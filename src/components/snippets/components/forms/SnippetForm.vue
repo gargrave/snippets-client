@@ -46,7 +46,7 @@
 
 
 <script>
-  import snippetData from '../helpers/snippetData';
+  import snippetData from '../../helpers/snippetData';
 
   export default {
     props: {

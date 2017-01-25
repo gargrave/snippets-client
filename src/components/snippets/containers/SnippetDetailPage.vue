@@ -44,7 +44,7 @@
   import errors from '../../../app-data/errors';
   import snippetData from '../helpers/snippetData';
   import snippetStyles from '../helpers/snippetStyles';
-  import SnippetForm from '../components/SnippetForm.vue';
+  import SnippetForm from '../components/forms/SnippetForm.vue';
 
   export default {
     components: {

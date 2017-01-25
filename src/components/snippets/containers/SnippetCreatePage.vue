@@ -39,7 +39,7 @@
 
   import { localUrls } from '../../../app-data/urls';
   import snippetData from '../helpers/snippetData';
-  import SnippetForm from '../components/SnippetForm.vue';
+  import SnippetForm from '../components/forms/SnippetForm.vue';
 
   export default {
     components: {
