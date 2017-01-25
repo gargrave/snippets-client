@@ -33,6 +33,7 @@
           {{ snippets.length }} matching: <strong>{{ currentSearch }}</strong>
         </el-alert>
 
+
         <!-- 'add a new snippet' link -->
         <app-new-snippet-card
           v-if="isMainListView && !currentSearch"
@@ -43,30 +44,24 @@
         <!-- API error display -->
         <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
 
-        <!-- pinned Snippets list -->
-        <div v-if="pinnedSnippets.length">
-          <app-snippet-list-detail
-            v-for="snippet in pinnedSnippets"
-            :hidePinButton="!isMainListView"
-            :snippet="snippet"
-            :working="working"
-            @quickUpdate="onQuickUpdate"
-            @deleteSnippet="onDeleteSnippet">
-          </app-snippet-list-detail>
-          <hr class="snippets-hr" v-if="unpinnedSnippets.length">
-        </div><!-- /pinned Snippets list -->
 
-        <!-- unpinned Snippets list -->
-        <div v-if="unpinnedSnippets.length">
-          <app-snippet-list-detail
-            v-for="snippet in unpinnedSnippets"
-            :hidePinButton="!isMainListView"
-            :snippet="snippet"
-            :working="working"
-            @quickUpdate="onQuickUpdate"
-            @deleteSnippet="onDeleteSnippet">
-          </app-snippet-list-detail>
-        </div>
+        <!-- full Snippets list -->
+        <app-full-snippets-list
+          v-if="isMainListView"
+          :working="working"
+          :snippets="snippets"
+          @quickUpdate="onQuickUpdate"
+          @deleteSnippet="onDeleteSnippet">
+        </app-full-snippets-list>
+
+        <!-- filtered Snippets list -->
+        <app-filtered-snippets-list
+          v-else
+          :working="working"
+          :snippets="snippets"
+          @quickUpdate="onQuickUpdate"
+          @deleteSnippet="onDeleteSnippet">
+        </app-filtered-snippets-list>
 
       </section><!-- /snippets list -->
     </transition>
@@ -81,13 +76,15 @@
   import { localUrls } from '../../../app-data/urls';
   import errors from '../../../app-data/errors';
   import snippetData from '../helpers/snippetData';
+  import FullSnippetsList from '../components/list-views/FullSnippetsList';
   import NewSnippetCard from '../components/NewSnippetCard.vue';
-  import SnippetListDetail from '../components/SnippetListDetail.vue';
+  import FilteredSnippetsList from '../components/list-views/FilteredSnippetsList';
 
   export default {
     components: {
+      appFullSnippetsList: FullSnippetsList,
       appNewSnippetCard: NewSnippetCard,
-      appSnippetListDetail: SnippetListDetail
+      appFilteredSnippetsList: FilteredSnippetsList,
     },
 
 
@@ -119,16 +116,6 @@
           return 'Starred Snippets';
         }
         return 'My Snippets';
-      },
-
-      /** Returns a list of Snippets with 'pinned' status of true. */
-      pinnedSnippets() {
-        return this.snippets.filter(s => s.pinned === true);
-      },
-
-      /** Returns a list of Snippets with 'pinned' status of false. */
-      unpinnedSnippets() {
-        return this.snippets.filter(s => s.pinned === false);
       },
 
       /** Returns whether we are currently viewing the 'full' Snippets list (i.e. not filtered) */
