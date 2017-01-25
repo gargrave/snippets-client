@@ -116,6 +116,11 @@
         <el-menu-item index="10-2" id="search-button">
           <i class="fa fa-search" aria-hidden="true"></i>
         </el-menu-item>
+
+        <!-- button to show sort dialog -->
+        <el-menu-item index="10-1" id="sort-button">
+          <i class="fa fa-sort" aria-hidden="true"></i>
+        </el-menu-item>
       </section><!-- menus for logged in users -->
 
 
@@ -166,10 +171,17 @@
 
     <!-- "search" dialog; hidden by default -->
     <app-search-dialog
-      :showing="searchingDialogShowing"
+      :showing="searchDialogShowing"
       @submitSearch="onSearchSubmit"
       @close="onSearchClose">
     </app-search-dialog>
+
+    <!-- "sort" dialog; hidden by default -->
+    <app-sort-dialog
+      :showing="sortDialogShowing"
+      @close="onSortClose">
+    </app-sort-dialog>
+
   </nav>
 </template>
 
@@ -179,10 +191,12 @@
 
   import { localUrls } from '../../app-data/urls';
   import SearchDialog from '../snippets/components/dialogs/SearchDialog';
+  import SortDialog from '../snippets/components/dialogs/SortDialog';
 
   export default {
     components: {
-      appSearchDialog: SearchDialog
+      appSearchDialog: SearchDialog,
+      appSortDialog: SortDialog,
     },
 
 
@@ -191,7 +205,8 @@
         localUrls, // make this available to the template
         actionsMenuUpdated: false,
         profileMenuUpdated: false,
-        searchingDialogShowing: false
+        searchDialogShowing: false,
+        sortDialogShowing: false,
       };
     },
 
@@ -226,7 +241,7 @@
        = search-related methods
        =============================================*/
       onSearchClick() {
-        this.searchingDialogShowing = !this.searchingDialogShowing;
+        this.searchDialogShowing = !this.searchDialogShowing;
       },
 
       onSearchSubmit(value, event) {
@@ -242,7 +257,18 @@
       },
 
       onSearchClose() {
-        this.searchingDialogShowing = false;
+        this.searchDialogShowing = false;
+      },
+
+      /*=============================================
+       = sort-related methods
+       =============================================*/
+      onSortClick() {
+        this.sortDialogShowing = !this.sortDialogShowing;
+      },
+
+      onSortClose() {
+        this.sortDialogShowing = false;
       },
 
       /*=============================================
@@ -283,11 +309,13 @@
       */
       const setStyles = () => {
         const elSearchButton = document.querySelector('#search-button');
+        const elSortButton = document.querySelector('#sort-button');
         const elProfileMenu = document.querySelector('#profile-menu > ul');
         const elActionsMenu = document.querySelector('#actions-menu > ul');
 
         if (elSearchButton) {
           elSearchButton.addEventListener('click', this.onSearchClick);
+          elSortButton.addEventListener('click', this.onSortClick);
           // update 'profile' menu styles
           elProfileMenu.style.padding = '0';
           elProfileMenu.style.right = '0';
@@ -340,7 +368,7 @@
     background-color: #f8f8f8;
   }
 
-  #profile-menu, #search-button {
+  #profile-menu, #search-button, #sort-button {
     float: right;
   }
 </style>

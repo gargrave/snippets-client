@@ -7,8 +7,18 @@ export const SORT = {
   MODIFIED: 'modified'
 };
 
+export const SORT_LABELS = {
+  TITLE: 'Title',
+  URL: 'Url',
+  COLOR: 'Color',
+  CREATED: 'Date Created',
+  MODIFIED: 'Date Modified'
+};
+
+export const DEFAULT_SORT = SORT.CREATED;
+
 export default {
-  sort(snippets, sortBy, desc = true) {
+  sort(snippets, sortBy, asc = true) {
     // sort by title
     if (sortBy === SORT.TITLE) {
       snippets.sort(
@@ -45,7 +55,7 @@ export default {
     }
 
     // reverse for asc. order
-    if (!desc) {
+    if (!asc) {
       snippets.reverse();
     }
 

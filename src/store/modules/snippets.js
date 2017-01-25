@@ -3,7 +3,7 @@ import request from 'superagent';
 import { apiUrls } from '../../app-data/urls';
 import { SNIPPETS } from '../mutation-types';
 import apiHelper from '../../utils/apiHelper';
-import snippetsSorter, { SORT } from '../../utils/snippets-sorter';
+import snippetsSorter, { DEFAULT_SORT, SORT } from '../../utils/snippets-sorter';
 
 
 export default {
@@ -11,8 +11,8 @@ export default {
     snippetsRefreshing: false,
     snippets: [],
     currentSearch: '',
-    sortBy: SORT.CREATED,
-    sortDesc: true
+    sortBy: DEFAULT_SORT,
+    sortAsc: false
   },
 
 
@@ -22,11 +22,19 @@ export default {
     },
 
     snippets(state) {
-      return snippetsSorter.sort(state.snippets, state.sortBy, state.sortDesc);
+      return snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
     },
 
     currentSearch(state) {
-      return state.currentSearch
+      return state.currentSearch;
+    },
+
+    sortBy(state) {
+      return state.sortBy;
+    },
+
+    sortAsc(state) {
+      return state.sortAsc;
     }
   },
 
@@ -37,6 +45,9 @@ export default {
       state.currentSearch = '';
     },
 
+    /*=============================================
+     = Snippets fetching
+     =============================================*/
     [SNIPPETS.FETCH_BEGIN](state) {
       state.snippetsRefreshing = true;
     },
@@ -55,6 +66,9 @@ export default {
       state.currentSearch = search;
     },
 
+    /*=============================================
+     = Snippets creating/editing
+     =============================================*/
     [SNIPPETS.CREATE](state, snippet) {
       state.snippets.push(snippet);
     },
@@ -75,6 +89,14 @@ export default {
       state.snippets = state.snippets.filter(
         s => s.id !== snippetId
       );
+    },
+
+    /*=============================================
+     = Snippets sorting
+     =============================================*/
+    [SNIPPETS.SORT_BY](state, { sortBy, sortAsc }) {
+      state.sortBy = sortBy;
+      state.sortAsc = sortAsc;
     },
   },
 
@@ -295,6 +317,10 @@ export default {
             }
           });
       });
+    },
+
+    setSort({ commit }, { sortBy, sortAsc }) {
+      commit(SNIPPETS.SORT_BY, { sortBy, sortAsc });
     }
   }
 };
