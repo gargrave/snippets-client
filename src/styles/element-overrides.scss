@@ -36,11 +36,27 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
 }
 
+.el-loading-mask {
+  // lower default z-index to ensure it does not cover dialogs
+  z-index: 1000;
+}
+
+.snippets-dialog {
+  // limit max width of dialogs
+  max-width: $dialogMaxWidth;
+}
+
+.snippets-dialog .el-dialog__body {
+  // reduce the excessive padding in the body
+  padding: 20px;
+  padding-bottom: 0;
+}
+
 /*
 Element UI 'xs' size
 */
 @media only screen and (max-width: 767px) {
-  .el-message-box, .search-dialog, .full-on-xs-dialog {
+  .el-message-box, .snippets-dialog {
     width: 100%;
   }
 }

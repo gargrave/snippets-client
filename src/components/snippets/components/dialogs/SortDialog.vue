@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    custom-class="full-on-xs-dialog"
+    custom-class="snippets-dialog"
     title="Sort"
     v-model="isShowing"
     @close="onClose">

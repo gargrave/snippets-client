@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    custom-class="search-dialog"
+    custom-class="snippets-dialog"
     title="Search"
     v-model="isShowing"
     @open="onOpen"
