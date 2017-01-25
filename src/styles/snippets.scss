@@ -3,18 +3,9 @@
 /*=============================================
  = Snippet card coloring
  =============================================*/
-$snippetWhite: rgb(250, 250, 250);
-$snippetRed: rgb(255, 138, 128);
-$snippetGreen: rgb(204, 255, 144);
-$snippetBlue: rgb(128, 216, 255);
-$snippetYellow: rgb(255, 255, 141);
-$snippetOrange: rgb(255, 209, 128);
-$snippetTeal: rgb(167, 255, 235);
-$snippetGray: rgb(207, 216, 220);
-
 @mixin coloredSnippetCard($color) {
-  $darkened1: desaturate(darken($color, 17), 27);
-  $darkened2: desaturate(darken($color, 8), 18);
+  $darkened1: darkenedColor1($color);
+  $darkened2: darkenedColor2($color);
 
   // set basic background color of the target
   background-color: $color;
