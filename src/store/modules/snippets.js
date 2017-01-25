@@ -3,13 +3,16 @@ import request from 'superagent';
 import { apiUrls } from '../../app-data/urls';
 import { SNIPPETS } from '../mutation-types';
 import apiHelper from '../../utils/apiHelper';
+import snippetsSorter, { SORT } from '../../utils/snippets-sorter';
 
 
 export default {
   state: {
     snippetsRefreshing: false,
     snippets: [],
-    currentSearch: ''
+    currentSearch: '',
+    sortBy: SORT.CREATED,
+    sortDesc: true
   },
 
 
@@ -19,10 +22,7 @@ export default {
     },
 
     snippets(state) {
-      // TODO: this is only a temporary sorting measure
-      return state.snippets.sort(
-        (a, b) => a.created > b.created ? -1 : 1
-      );
+      return snippetsSorter.sort(state.snippets, state.sortBy, state.sortDesc);
     },
 
     currentSearch(state) {
