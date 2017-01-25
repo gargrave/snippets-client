@@ -69,4 +69,8 @@
     min-height: 38px;
     text-decoration: none !important;
   }
+
+  .color-picker-item:hover {
+    background-color: black;
+  }
 </style>
