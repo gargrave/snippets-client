@@ -119,7 +119,7 @@
 
         <!-- button to show sort dialog -->
         <el-menu-item index="10-1" id="sort-button">
-          <i class="fa fa-sort" aria-hidden="true"></i>
+          <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
         </el-menu-item>
       </section><!-- menus for logged in users -->
 
