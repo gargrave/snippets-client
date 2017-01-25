@@ -19,107 +19,101 @@
       -->
       <section v-if="isLoggedIn">
         <!-- 'actions' dropdown menu -->
-        <span>
-          <el-submenu index="2" id="actions-menu">
-            <template slot="title">
-              <i class="el-icon-menu"></i>
-            </template>
+        <el-submenu index="2" id="actions-menu">
+          <template slot="title">
+            <i class="el-icon-menu"></i>
+          </template>
 
-            <el-menu-item index="2-1-0" class="submenu-section">Go</el-menu-item>
-            <!-- link to main snippets list -->
-            <span @click="gotoLink($event, localUrls.snippetsList)">
-              <el-menu-item index="2-1-1">
-                My Snippets
+          <el-menu-item index="2-1-0" class="submenu-section">Go</el-menu-item>
+          <!-- link to main snippets list -->
+          <span @click="gotoLink($event, localUrls.snippetsList)">
+            <el-menu-item index="2-1-1">
+              My Snippets
+            </el-menu-item>
+          </span>
+
+          <!-- link to starred snippets list -->
+          <span @click="gotoLink($event, '/snippets/filter/starred')">
+            <el-menu-item index="2-1-2">
+              Starred Snippets
+            </el-menu-item>
+          </span>
+
+          <!-- link to archived snippets list -->
+          <span @click="gotoLink($event, '/snippets/filter/archived')">
+            <el-menu-item index="2-1-3">
+              Archived Snippets
+            </el-menu-item>
+          </span>
+
+          <el-menu-item index="2-2-0" class="submenu-section">Actions</el-menu-item>
+          <!-- link to 'create snippet' page -->
+          <span @click="gotoLink($event, localUrls.snippetCreate)">
+            <el-menu-item index="2-2-1">
+              New Snippet
+            </el-menu-item>
+          </span>
+
+          <!--
+          Manual close button
+          Element's submenus are tied to opening/closing based on hover in/out,
+            so it can be difficult to use on mobile. This should fix that for now.
+          -->
+          <span class="hide-on-md-up">
+            <hr class="menu-hr">
+            <span @click="onCloseSubmenu($event)">
+              <el-menu-item index="2-3-0">
+                <i class="el-icon-circle-close"></i>Close
               </el-menu-item>
             </span>
-
-            <!-- link to starred snippets list -->
-            <span @click="gotoLink($event, '/snippets/filter/starred')">
-              <el-menu-item index="2-1-2">
-                Starred Snippets
-              </el-menu-item>
-            </span>
-
-            <!-- link to archived snippets list -->
-            <span @click="gotoLink($event, '/snippets/filter/archived')">
-              <el-menu-item index="2-1-3">
-                Archived Snippets
-              </el-menu-item>
-            </span>
-
-            <el-menu-item index="2-2-0" class="submenu-section">Actions</el-menu-item>
-            <!-- link to 'create snippet' page -->
-            <span @click="gotoLink($event, localUrls.snippetCreate)">
-              <el-menu-item index="2-2-1">
-                New Snippet
-              </el-menu-item>
-            </span>
-
-            <!--
-            Manual close button
-            Element's submenus are tied to opening/closing based on hover in/out,
-              so it can be difficult to use on mobile. This should fix that for now.
-            -->
-            <span class="hide-on-md-up">
-              <hr class="menu-hr">
-              <span @click="onCloseSubmenu($event)">
-                <el-menu-item index="2-3-0">
-                  <i class="el-icon-circle-close"></i>Close
-                </el-menu-item>
-              </span>
-            </span>
-
-          </el-submenu><!-- 'actions' dropdown menu -->
-        </span>
+          </span>
+        </el-submenu><!-- 'actions' dropdown menu -->
 
 
         <!--
           user/profile dropdown menu
           wrapping in an extra span to allow a click handler, which el-submenu does not
         -->
-        <span>
-          <el-submenu index="3" id="profile-menu">
-            <template slot="title">
-              <!--{{ userData.username }}-->
-              <i class="el-icon-setting"></i>
-            </template>
+        <el-submenu index="3" id="profile-menu">
+          <template slot="title">
+            <!--{{ userData.username }}-->
+            <i class="el-icon-setting"></i>
+          </template>
 
-            <!-- link to profile page -->
-            <span @click="gotoLink($event, localUrls.account)">
-              <el-menu-item index="3-1">
-                <span class="fa fa-user fa-lg"></span>&nbsp; &nbsp;
-                Profile
+          <!-- link to profile page -->
+          <span @click="gotoLink($event, localUrls.account)">
+            <el-menu-item index="3-1">
+              <span class="fa fa-user fa-lg"></span>&nbsp; &nbsp;
+              Profile
+            </el-menu-item>
+          </span>
+
+          <!-- logout link -->
+          <span @click="onLogout">
+            <el-menu-item index="3-2">
+              <span class="fa fa-sign-out fa-lg"></span>&nbsp; &nbsp;
+              Logout
+            </el-menu-item>
+          </span>
+
+          <!--
+          Manual close button
+          Element's submenus are tied to opening/closing based on hover in/out,
+            so it can be difficult to use on mobile. This should fix that for now.
+          -->
+          <span class="hide-on-md-up">
+            <hr class="menu-hr">
+            <span @click="onCloseSubmenu($event)">
+              <el-menu-item index="3-3-0">
+                <i class="el-icon-circle-close"></i>Close
               </el-menu-item>
             </span>
-
-            <!-- logout link -->
-            <span @click="onLogout">
-              <el-menu-item index="3-2">
-                <span class="fa fa-sign-out fa-lg"></span>&nbsp; &nbsp;
-                Logout
-              </el-menu-item>
-            </span>
-
-            <!--
-            Manual close button
-            Element's submenus are tied to opening/closing based on hover in/out,
-              so it can be difficult to use on mobile. This should fix that for now.
-            -->
-            <span class="hide-on-md-up">
-              <hr class="menu-hr">
-              <span @click="onCloseSubmenu($event)">
-                <el-menu-item index="3-3-0">
-                  <i class="el-icon-circle-close"></i>Close
-                </el-menu-item>
-              </span>
-            </span>
-
-          </el-submenu>
-        </span><!-- user/profile dropdown -->
+          </span>
+        </el-submenu><!-- user/profile dropdown -->
 
 
         <!-- button to show search dialog -->
-        <el-menu-item index="10" id="search-button">
+        <el-menu-item index="10-2" id="search-button">
           <i class="fa fa-search" aria-hidden="true"></i>
         </el-menu-item>
       </section><!-- menus for logged in users -->
