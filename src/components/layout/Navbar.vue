@@ -17,7 +17,7 @@
       <!--
       Menus for logged in users
       -->
-      <section v-if="isLoggedIn">
+      <section v-show="isLoggedIn">
         <!-- 'actions' dropdown menu -->
         <el-submenu index="2" id="actions-menu">
           <template slot="title">
@@ -127,9 +127,9 @@
       <!--
       Menus for non-authenticated users
       -->
-      <section v-else>
+      <section v-show="!isLoggedIn">
         <span>
-          <el-submenu index="2" id="actions-menu">
+          <el-submenu index="2" id="actions-menu-not-auth">
             <template slot="title">
               <i class="el-icon-menu"></i>
             </template>
@@ -312,6 +312,7 @@
         const elSortButton = document.querySelector('#sort-button');
         const elProfileMenu = document.querySelector('#profile-menu > ul');
         const elActionsMenu = document.querySelector('#actions-menu > ul');
+        const elActionsMenuNoAuth = document.querySelector('#actions-menu-not-auth > ul');
 
         if (elSearchButton) {
           elSearchButton.addEventListener('click', this.onSearchClick);
@@ -324,6 +325,8 @@
           // update 'actions' menu styles
           elActionsMenu.style.padding = '0';
           elActionsMenu.style.minWidth = '110px';
+          elActionsMenuNoAuth.style.padding = '0';
+          elActionsMenuNoAuth.style.minWidth = '110px';
         } else {
           // try again really soon!
           setTimeout(setStyles, 2);
