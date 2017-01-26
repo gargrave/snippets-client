@@ -74,7 +74,7 @@
           user/profile dropdown menu
           wrapping in an extra span to allow a click handler, which el-submenu does not
         -->
-        <el-submenu index="3" id="profile-menu">
+        <el-submenu index="3" id="profile-menu" class="border-left">
           <template slot="title">
             <!--{{ userData.username }}-->
             <i class="el-icon-setting"></i>
@@ -113,12 +113,12 @@
 
 
         <!-- button to show search dialog -->
-        <el-menu-item index="10-2" id="search-button">
+        <el-menu-item index="10-2" id="search-button" class="border-left">
           <i class="fa fa-search" aria-hidden="true"></i>
         </el-menu-item>
 
         <!-- button to show sort dialog -->
-        <el-menu-item index="10-1" id="sort-button">
+        <el-menu-item index="10-1" id="sort-button" class="border-left">
           <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
         </el-menu-item>
       </section><!-- menus for logged in users -->
@@ -338,6 +338,22 @@
 <style scoped>
   i {
     color: #777;
+  }
+
+  .el-menu-item, .el-submenu {
+    border: 0;
+  }
+
+  .el-menu-item.border-left,
+  .el-submenu-item.border-left,
+  li.border-left {
+    border-left: #ddd solid 1px;
+  }
+
+  .el-menu-item.border-right,
+  .el-submenu-item.border-right,
+  li.border-right {
+    border-right: #ddd solid 1px;
   }
 
   .menu-hr {
