@@ -9,9 +9,9 @@ body {
 }
 
 h3.page-title {
+    max-width: $cardMaxWidth;
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin: 10px auto 15px auto;
 }
 
 // increase font size for forms on small devices
