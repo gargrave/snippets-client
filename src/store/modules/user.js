@@ -6,30 +6,54 @@ import apiHelper from '../../utils/apiHelper';
 import { PROFILE, USER } from '../mutation-types';
 
 
+function getEmptyUser() {
+  return {
+    pk: '',
+    authToken: '',
+    username: '',
+    email: '',
+    dateJoined: '',
+    lastLogin: ''
+  };
+}
+
+function getEmptyProfile() {
+  return {
+    firstName: '',
+    lastName: ''
+  };
+}
+
+
 export default {
   state: {
+    // whether we have any open calls to the User API
+    userAjaxPending: false,
+
     // whether we have any open calls to the Profile API
     profileAjaxPending: false,
 
-    // full user data
-    user: {
-      pk: '',
-      authToken: '',
-      username: '',
-      email: '',
-      dateJoined: '',
-      lastLogin: ''
-    },
+    // whether we have already queried the profile API since load
+    // this will prevent unnecessary multiple calls
+    profileHasBeenLoaded: false,
 
-    profile: {
-      firstName: '',
-      lastName: ''
-    }
+    // full user data
+    user: getEmptyUser(),
+
+    profile: getEmptyProfile()
   },
 
   getters: {
+    userAjaxPending(state) {
+      return state.userAjaxPending;
+    },
+
     profileAjaxPending(state) {
       return state.profileAjaxPending;
+    },
+
+    profileHasBeenLoaded(state) {
+      return state.profileHasBeenLoaded;
     },
 
     /**
@@ -60,6 +84,19 @@ export default {
 
 
   mutations: {
+    /*=============================================
+     = User Mutations
+     =============================================*/
+    /* Staring AJAX call to the User API */
+    [USER.AJAX_BEGIN](state) {
+      state.userAjaxPending = true;
+    },
+
+    /* Finishing AJAX call to the User API */
+    [USER.AJAX_END](state) {
+      state.userAjaxPending = false;
+    },
+
     /*
      login authenticated user;
      save provided user details in the store
@@ -83,23 +120,21 @@ export default {
      simply clear existing user data
      */
     [USER.LOGOUT](state) {
-      state.user = {
-        pk: '',
-        authToken: '',
-        username: '',
-        email: '',
-        dateJoined: '',
-        lastLogin: ''
-      };
-      state.profile = {
-      };
+      state.user = getEmptyUser();
+      state.profile = getEmptyProfile();
+      state.profileHasBeenLoaded = false;
       localStorage.clear();
     },
 
+    /*=============================================
+     = Profile Mutations
+     =============================================*/
+    /* Staring AJAX call to the Profile API */
     [PROFILE.AJAX_BEGIN](state) {
       state.profileAjaxPending = true;
     },
 
+    /* Finishing AJAX call to the Profile API */
     [PROFILE.AJAX_END](state) {
       state.profileAjaxPending = false;
     },
@@ -109,6 +144,7 @@ export default {
         firstName: profile.first_name || '',
         lastName: profile.last_name || '',
       };
+      state.profileHasBeenLoaded = true;
     }
   },
 
@@ -124,6 +160,7 @@ export default {
      */
     login({ dispatch, commit }, credentials) {
       return new Promise((resolve, reject) => {
+        commit(USER.AJAX_BEGIN);
         request
           .post(apiUrls.login)
           .set('Accept', 'application/json')
@@ -131,6 +168,7 @@ export default {
           .end((err, res) => {
             if (err) {
               // if error, reject with error message
+              commit(USER.AJAX_END);
               reject('Unable to log in with provided credentials.');
             } else {
               // if no error, login locally with returned user data
@@ -138,11 +176,14 @@ export default {
               if (authToken) {
                 dispatch('loadUserDataFromToken', authToken)
                   .then((res) => {
+                    commit(USER.AJAX_END);
                     resolve();
                   }, (err) => {
+                    commit(USER.AJAX_END);
                     reject(err);
                   });
               } else {
+                commit(USER.AJAX_END);
                 reject('Unable to log in with provided credentials.');
               }
             }
@@ -154,8 +195,9 @@ export default {
      * Attempts to fetch user data from the API with the supplied auth token.
      * If the attempt is successful, the returned data is committed to localStorage.
      */
-    loadUserDataFromToken({ dispatch, commit }, authToken) {
+    loadUserDataFromToken({ getters, dispatch, commit }, authToken) {
       return new Promise((resolve, reject) => {
+        commit(USER.AJAX_BEGIN);
         request
           .get(apiUrls.user)
           .set('Authorization', `Token ${authToken}`)
@@ -179,14 +221,21 @@ export default {
               user.authToken = authToken;
               commit(USER.LOGIN, user);
 
-              dispatch('loadUserProfile', authToken)
-                .then((res) => {
-                  // TODO: probably need better error-handling here
-                  resolve();
-                }, (err) => {
-                  // TODO: probably need better error-handling here
-                  resolve();
-                });
+              if (getters.profileHasBeenLoaded) {
+                commit(USER.AJAX_END);
+                resolve();
+              } else {
+                dispatch('loadUserProfile', authToken)
+                  .then((res) => {
+                    // TODO: probably need better error-handling here
+                    commit(USER.AJAX_END);
+                    resolve();
+                  }, (err) => {
+                    // TODO: probably need better error-handling here
+                    commit(USER.AJAX_END);
+                    resolve();
+                  });
+              }
             }
           });
       });
@@ -217,18 +266,21 @@ export default {
      * to logout, but the local data will be cleared and the Promise will resolve
      * no matter what response the API sends.
      */
-    logout({ getters, commit }) {
+    logout({ getters, dispatch, commit }) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
           reject('Not authenticated');
         }
 
+        commit(USER.AJAX_BEGIN);
         request
           .post(apiUrls.logout)
           .set('Authorization', `Token ${authToken}`)
           .set('Accept', 'application/json')
           .end((err, res) => {
+            dispatch('clearLocalSnippets');
+            commit(USER.AJAX_END);
             commit(USER.LOGOUT);
             resolve();
           });
@@ -248,6 +300,7 @@ export default {
           password2: userData.passwordConfirm
         };
 
+        commit(USER.AJAX_BEGIN);
         request
           .post(apiUrls.register)
           .set('Accept', 'application/json')
@@ -255,6 +308,7 @@ export default {
           .end((err, res) => {
             if (err) {
               // if error(s), reject with all error messages
+              commit(USER.AJAX_END);
               reject(err.response.body);
             } else {
               // if no error, the API should have sent us the token,
@@ -263,11 +317,14 @@ export default {
               if (authToken) {
                 dispatch('loadUserDataFromToken', authToken)
                   .then((res) => {
+                    commit(USER.AJAX_END);
                     resolve();
                   }, (err) => {
+                    commit(USER.AJAX_END);
                     reject(err);
                   });
               } else {
+                commit(USER.AJAX_END);
                 reject('Unable to login to new account.');
               }
             }
@@ -279,16 +336,20 @@ export default {
      * Attempts to "re-login" from credentials stored in localStorage. Should be
      * called first upon re-loading the app.
      */
-    checkForStoredLogin({ dispatch, commit }) {
+    checkForStoredLogin({ getters, dispatch, commit }) {
       return new Promise((resolve, reject) => {
         let storedToken = localStorage.getItem('token');
         if (storedToken) {
-          dispatch('loadUserDataFromToken', storedToken)
-            .then((res) => {
-              resolve(res);
-            }, (err) => {
-              reject(err);
-            });
+          if (getters.userData.pk) {
+            resolve(getters.userData);
+          } else {
+            dispatch('loadUserDataFromToken', storedToken)
+              .then((res) => {
+                resolve(res);
+              }, (err) => {
+                reject(err);
+              });
+          }
         } else {
           reject();
         }

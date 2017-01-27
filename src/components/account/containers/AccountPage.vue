@@ -55,10 +55,11 @@
       },
 
       isWorking() {
-        return this.working || this.profileAjaxPending;
+        return this.working || this.userAjaxPending || this.profileAjaxPending;
       },
 
       ...mapGetters([
+        'userAjaxPending',
         'profileAjaxPending',
         'userData',
         'profile'
@@ -68,7 +69,8 @@
 
     methods: {
       ...mapActions([
-        'checkForStoredLogin'
+        'checkForStoredLogin',
+        'loadUserProfile'
       ])
     },
 
@@ -79,7 +81,6 @@
       this.checkForStoredLogin()
         .then((res) => {
           this.working = false;
-          // no action needed if successful
         }, (err) => {
           if (err === errors.INVALID_TOKEN) {
             this.$notify({

@@ -319,6 +319,11 @@ export default {
       });
     },
 
+    /** Simply clears the local list of Snippets; should be called when logging out */
+    clearLocalSnippets({ commit }) {
+      commit(SNIPPETS.CLEAR_ALL);
+    },
+
     setSort({ commit }, { sortBy, sortAsc }) {
       commit(SNIPPETS.SORT_BY, { sortBy, sortAsc });
     }
