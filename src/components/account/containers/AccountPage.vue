@@ -1,6 +1,13 @@
 <template>
   <section>
-    <h3 class="page-title">Account Details</h3>
+    <h3 class="page-title">
+      Account Details
+      <el-button
+        type="text"
+        @click="editing = !editing">
+        {{ editButtonText }}
+      </el-button>
+    </h3>
 
     <!-- loading spinner -->
     <div
@@ -12,7 +19,7 @@
     </div><!-- loading spinner -->
 
     <transition name="fade">
-      <el-card class="box-card" v-if="!isWorking">
+      <el-card class="box-card" v-if="!isWorking && !editing">
         <div class="text item">
           <ul>
             <li>
@@ -25,6 +32,14 @@
               <h4>Member since: {{ dateJoined }}</h4>
             </li>
           </ul>
+        </div><!-- /. text item -->
+      </el-card>
+    </transition>
+
+    <transition name="fade">
+      <el-card class="box-card" v-if="editing">
+        <div class="text item">
+          <h4>Editing. TODO: Show Edit Form</h4>
         </div><!-- /. text item -->
       </el-card>
     </transition>
@@ -45,6 +60,9 @@
       return {
         // whether any operations are currently running
         working: false,
+
+        // whether user is currently editing profile
+        editing: false,
       };
     },
 
@@ -56,6 +74,10 @@
 
       isWorking() {
         return this.working || this.userAjaxPending || this.profileAjaxPending;
+      },
+
+      editButtonText() {
+        return this.editing ? '(Cancel)' : '(Edit)';
       },
 
       ...mapGetters([
@@ -95,3 +117,10 @@
     }
   };
 </script>
+
+
+<style scoped>
+  .edit-button {
+    float: right;
+  }
+</style>
