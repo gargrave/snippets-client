@@ -26,6 +26,7 @@ export let apiUrls = {
   login: `${apiRoot}/rest-auth/login/`,
   logout: `${apiRoot}/rest-auth/logout/`,
   user: `${apiRoot}/rest-auth/user/`,
+  profile: `${apiRoot}/rest-auth/user/profile/`,
   register: `${apiRoot}/rest-auth/registration/`,
   snippets: `${restApiRoot}/snippets/`,
   starredSnippets: `${restApiRoot}/snippets/starred/`,

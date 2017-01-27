@@ -3,30 +3,44 @@ import request from 'superagent';
 import { apiUrls } from '../../app-data/urls';
 import errors from '../../app-data/errors';
 import apiHelper from '../../utils/apiHelper';
-import { USER } from '../mutation-types';
+import { PROFILE, USER } from '../mutation-types';
 
 
 export default {
   state: {
+    // whether we have any open calls to the Profile API
+    profileAjaxPending: false,
+
     // full user data
     user: {
       pk: '',
       authToken: '',
       username: '',
-      firstName: '',
-      lastName: '',
       email: '',
       dateJoined: '',
       lastLogin: ''
+    },
+
+    profile: {
+      firstName: '',
+      lastName: ''
     }
   },
 
   getters: {
+    profileAjaxPending(state) {
+      return state.profileAjaxPending;
+    },
+
     /**
      * Returns full user data for currently logged in user
      */
     userData(state) {
       return state.user;
+    },
+
+    profile(state) {
+      return state.profile;
     },
 
     /**
@@ -55,8 +69,6 @@ export default {
         pk: user.pk,
         authToken: user.authToken,
         username: user.username,
-        firstName: user.first_name || '',
-        lastName: user.last_name || '',
         email: user.email,
         dateJoined: user.date_joined || '',
         lastLogin: user.last_login || ''
@@ -75,13 +87,28 @@ export default {
         pk: '',
         authToken: '',
         username: '',
-        firstName: '',
-        lastName: '',
         email: '',
         dateJoined: '',
         lastLogin: ''
       };
+      state.profile = {
+      };
       localStorage.clear();
+    },
+
+    [PROFILE.AJAX_BEGIN](state) {
+      state.profileAjaxPending = true;
+    },
+
+    [PROFILE.AJAX_END](state) {
+      state.profileAjaxPending = false;
+    },
+
+    [PROFILE.FETCH_SUCCESS](state, profile) {
+      state.profile = {
+        firstName: profile.first_name || '',
+        lastName: profile.last_name || '',
+      };
     }
   },
 
@@ -127,7 +154,7 @@ export default {
      * Attempts to fetch user data from the API with the supplied auth token.
      * If the attempt is successful, the returned data is committed to localStorage.
      */
-    loadUserDataFromToken({ commit }, authToken) {
+    loadUserDataFromToken({ dispatch, commit }, authToken) {
       return new Promise((resolve, reject) => {
         request
           .get(apiUrls.user)
@@ -151,6 +178,34 @@ export default {
               let user = res.body;
               user.authToken = authToken;
               commit(USER.LOGIN, user);
+
+              dispatch('loadUserProfile', authToken)
+                .then((res) => {
+                  // TODO: probably need better error-handling here
+                  resolve();
+                }, (err) => {
+                  // TODO: probably need better error-handling here
+                  resolve();
+                });
+            }
+          });
+      });
+    },
+
+    loadUserProfile({ commit }, authToken) {
+      return new Promise((resolve, reject) => {
+        commit(PROFILE.AJAX_BEGIN);
+        request
+          .get(apiUrls.profile)
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              commit(PROFILE.AJAX_END);
+              reject('Unable to fetch profile information.');
+            } else {
+              commit(PROFILE.FETCH_SUCCESS, res.body);
+              commit(PROFILE.AJAX_END);
               resolve();
             }
           });

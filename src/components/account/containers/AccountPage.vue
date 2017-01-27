@@ -5,21 +5,21 @@
     <!-- loading spinner -->
     <div
       class="snippets-list-working-spinner"
-      v-loading="working"
-      v-if="working"
+      v-loading="isWorking"
+      v-if="isWorking"
       element-loading-text="Working..."
       style="width: 100%; height: 160px;">
     </div><!-- loading spinner -->
 
     <transition name="fade">
-      <el-card class="box-card" v-if="!working">
+      <el-card class="box-card" v-if="!isWorking">
         <div class="text item">
           <ul>
             <li>
-              <h4>User name: {{ user.username }}</h4>
+              <h4>User name: {{ userData.username }}</h4>
             </li>
             <li>
-              <h4>Real name: {{ user.firstName }} {{ user.lastName }}</h4>
+              <h4>Real name: {{ profile.firstName }} {{ profile.lastName }}</h4>
             </li>
             <li>
               <h4>Member since: {{ dateJoined }}</h4>
@@ -51,12 +51,18 @@
 
     computed: {
       dateJoined() {
-        return dateHelper.cleanDate(this.user.dateJoined);
+        return dateHelper.cleanDate(this.userData.dateJoined);
       },
 
-      ...mapGetters({
-        user: 'userData'
-      })
+      isWorking() {
+        return this.working || this.profileAjaxPending;
+      },
+
+      ...mapGetters([
+        'profileAjaxPending',
+        'userData',
+        'profile'
+      ])
     },
 
 
