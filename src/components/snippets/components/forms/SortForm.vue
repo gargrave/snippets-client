@@ -88,7 +88,7 @@
             value: SORT.MODIFIED,
             label: SORT_LABELS.MODIFIED
           }
-        ]
+        ];
       }
     },
 

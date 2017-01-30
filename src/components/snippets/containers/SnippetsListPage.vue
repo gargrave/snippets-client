@@ -287,7 +287,7 @@
         if (this.isMainListView) {
           this.rebuildSnippetsList();
         } else {
-          this.$router.push({ name: 'snippets-list' })
+          this.$router.push({ name: 'snippets-list' });
         }
       },
 

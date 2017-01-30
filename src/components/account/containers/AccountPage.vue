@@ -129,7 +129,6 @@
         if (profileData.checkForMatch(this.profile, updatedProfile)) {
           this.$notify(msgNotify);
         } else {
-          console.log('update dat profile!');
           this.working = true;
           this.updateProfile(updatedProfile)
             .then((res) => {
@@ -137,7 +136,7 @@
               this.working = false;
             }, (err) => {
               this.working = false;
-            })
+            });
         }
       },
 

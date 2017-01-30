@@ -50,7 +50,7 @@
         return {
           sortBy: this.sortBy,
           sortAsc: this.sortAsc
-        }
+        };
       },
 
       ...mapGetters([

@@ -156,7 +156,7 @@
             // if we have an API error for any reason, just ignore the check;
             // the API will ultimately reject it anyway if the email exists
             this.existingDataErrors.email = false;
-          })
+          });
       },
 
       /**
@@ -176,7 +176,7 @@
             // if we have an API error for any reason, just ignore the check;
             // the API will ultimately reject it anyway if the username exists
             this.existingDataErrors.username = false;
-          })
+          });
       },
 
       ...mapActions([

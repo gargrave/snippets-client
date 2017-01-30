@@ -331,7 +331,7 @@
           // try again really soon!
           setTimeout(setStyles, 2);
         }
-      }
+      };
       setStyles();
     }
   };
