@@ -65,14 +65,12 @@
       return {
         // validation rules
         rules: {
-          // title: [
-          //   { max: 255, message: 'Must be no more than 255 characters long.', trigger: 'blur' }
-          // ],
-          // url: [
-          //   { required: true, message: 'URL is required.', trigger: 'blur' },
-          //   { max: 200, message: 'Must be no more than 200 characters long.', trigger: 'blur' },
-          //   { type: 'url', message: 'Must be a valid URL.', trigger: 'blur,change' }
-          // ]
+          firstName: [
+            { max: 100, message: 'Must be no more than 100 characters long.', trigger: 'blur' }
+          ],
+          lastName: [
+            { max: 100, message: 'Must be no more than 100 characters long.', trigger: 'blur' }
+          ]
         }
       };
     },
