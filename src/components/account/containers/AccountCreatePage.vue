@@ -40,7 +40,7 @@
   import { mapActions } from 'vuex';
 
   import { localUrls } from '../../../app-data/urls';
-  import AccountCreateForm from '../components/AccountCreateForm.vue';
+  import AccountCreateForm from '../components/forms/AccountCreateForm.vue';
 
   export default {
     components: {

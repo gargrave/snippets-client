@@ -37,7 +37,7 @@
   import { mapActions } from 'vuex';
 
   import { localUrls } from '../../../app-data/urls';
-  import LoginForm from '../components/LoginForm.vue';
+  import LoginForm from '../components/forms/LoginForm.vue';
 
   export default {
     components: {
