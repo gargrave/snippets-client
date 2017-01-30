@@ -332,6 +332,38 @@ export default {
       });
     },
 
+    /** Sends a request to the server to see if the specified email address is already in use. */
+    checkForExistingEmail({ commit }, email) {
+      return new Promise((resolve, reject) => {
+        request
+          .post(apiUrls.emailCheck)
+          .send({ email })
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
+    /** Sends a request to the server to see if the specified username address is already in use. */
+    checkForExistingUser({ commit }, username) {
+      return new Promise((resolve, reject) => {
+        request
+          .post(apiUrls.userCheck)
+          .send({ username })
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
     /**
      * Attempts to "re-login" from credentials stored in localStorage. Should be
      * called first upon re-loading the app.
@@ -356,6 +388,7 @@ export default {
       });
     },
 
+    /** Sends a request to update the user's profile with the provided details */
     updateProfile({ getters, commit }, profile) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;

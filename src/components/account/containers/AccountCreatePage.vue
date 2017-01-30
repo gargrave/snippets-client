@@ -24,7 +24,9 @@
           :working="working"
           :apiFieldErrors="apiFieldErrors"
           @submitted="onFormSubmitted"
-          @cancelled="onFormCancelled">
+          @cancelled="onFormCancelled"
+          @emailBlur="onEmailBlur"
+          @usernameBlur="onUsernameBlur">
         </app-account-create-form>
 
       </div><!-- /.text item -->
@@ -61,8 +63,22 @@
           username: '',
           password: '',
           passwordConfirm: ''
+        },
+
+        // errors related to a user entering a value that is already in use
+        // these must be unique per user, so the API will return an error if we submit these
+        existingDataErrors: {
+          email: false,
+          username: false,
         }
       };
+    },
+
+
+    computed: {
+      hasExistingDataErrors() {
+        return this.existingDataErrors.email || this.existingDataErrors.username;
+      }
     },
 
 
@@ -71,6 +87,11 @@
        * Attempts to submit the current user data to the API to login.
        */
       onFormSubmitted(value, event) {
+        // early-out if we have any standing errors
+        if (this.hasExistingDataErrors) {
+          return;
+        }
+
         const user = {
           email: value.email,
           username: value.username,
@@ -118,8 +139,50 @@
         this.$router.push(localUrls.login);
       },
 
+      /**
+       * Pre-checks if the entered email is already in use.
+       */
+      onEmailBlur(value, event) {
+        this.checkForExistingEmail(value)
+          .then((res) => {
+            if (res.email) {
+              this.existingDataErrors.email = true;
+              this.apiFieldErrors.email = 'Email is already in use.';
+            } else {
+              this.existingDataErrors.email = false;
+              this.apiFieldErrors.email = '';
+            }
+          }, (err) => {
+            // if we have an API error for any reason, just ignore the check;
+            // the API will ultimately reject it anyway if the email exists
+            this.existingDataErrors.email = false;
+          })
+      },
+
+      /**
+       * Pre-checks if the entered username is already in use.
+       */
+      onUsernameBlur(value, event) {
+        this.checkForExistingUser(value)
+          .then((res) => {
+            if (res.user) {
+              this.existingDataErrors.username = true;
+              this.apiFieldErrors.username = 'Username is already taken.';
+            } else {
+              this.existingDataErrors.username = false;
+              this.apiFieldErrors.username = '';
+            }
+          }, (err) => {
+            // if we have an API error for any reason, just ignore the check;
+            // the API will ultimately reject it anyway if the username exists
+            this.existingDataErrors.username = false;
+          })
+      },
+
       ...mapActions([
         'checkForStoredLogin',
+        'checkForExistingEmail',
+        'checkForExistingUser',
         'createUser'
       ])
     },

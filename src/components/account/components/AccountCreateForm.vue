@@ -8,7 +8,8 @@
         type="email"
         name="email"
         placeholder="Email"
-        v-model="user.email">
+        v-model="user.email"
+        @blur="onEmailBlur">
       </el-input>
     </el-form-item>
 
@@ -19,7 +20,8 @@
         type="text"
         name="username"
         placeholder="Username"
-        v-model="user.username">
+        v-model="user.username"
+        @blur="onUsernameBlur">
       </el-input>
     </el-form-item>
 
@@ -139,6 +141,14 @@
 
       onCancel() {
         this.$emit('cancelled');
+      },
+
+      onEmailBlur() {
+        this.$emit('emailBlur', this.user.email);
+      },
+
+      onUsernameBlur() {
+        this.$emit('usernameBlur', this.user.username);
       }
     }
   };

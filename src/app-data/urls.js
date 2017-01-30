@@ -28,6 +28,8 @@ export let apiUrls = {
   user: `${apiRoot}/rest-auth/user/`,
   profile: `${apiRoot}/rest-auth/user/profile/`,
   register: `${apiRoot}/rest-auth/registration/`,
+  userCheck: `${apiRoot}/rest-auth/registration/usercheck/`,
+  emailCheck: `${apiRoot}/rest-auth/registration/emailcheck/`,
   snippets: `${restApiRoot}/snippets/`,
   starredSnippets: `${restApiRoot}/snippets/starred/`,
   archivedSnippets: `${restApiRoot}/snippets/archived/`,
