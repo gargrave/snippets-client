@@ -354,6 +354,33 @@ export default {
           reject();
         }
       });
-    }
+    },
+
+    updateProfile({ getters, commit }, profile) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+        }
+
+        commit(PROFILE.AJAX_BEGIN);
+        request
+          .put(apiUrls.profile)
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .send(profile)
+          .end((err, res) => {
+            if (err) {
+              commit(PROFILE.AJAX_END);
+              reject('There was an error updating your profile.');
+            } else {
+              const snippet = res.body;
+              commit(PROFILE.FETCH_SUCCESS, profile);
+              commit(PROFILE.AJAX_END);
+              resolve(snippet);
+            }
+          });
+      });
+    },
   }
 };

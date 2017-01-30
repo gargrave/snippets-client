@@ -9,17 +9,14 @@
       </el-button>
     </h3>
 
-    <!-- loading spinner -->
-    <div
-      class="snippets-list-working-spinner"
-      v-loading="isWorking"
-      v-if="isWorking"
-      element-loading-text="Working..."
-      style="width: 100%; height: 160px;">
-    </div><!-- loading spinner -->
-
     <transition name="fade">
-      <el-card class="box-card" v-if="!isWorking && !editing">
+      <el-card
+        class="box-card"
+        v-if="!isWorking && !editing"
+        v-loading="isWorking"
+        element-loading-text="Working..."
+        style="width: 100%">
+
         <div class="text item">
           <ul>
             <li>
@@ -36,8 +33,15 @@
       </el-card>
     </transition>
 
+
     <transition name="fade">
-      <el-card class="box-card" v-if="editing">
+      <el-card
+        class="box-card"
+        v-if="editing"
+        v-loading="isWorking"
+        element-loading-text="Working..."
+        style="width: 100%">
+
         <div class="text item">
           <app-profile-edit-form
             :working="working"
@@ -59,6 +63,7 @@
   import errors from '../../../app-data/errors';
   import dateHelper from '../../../utils/dateHelper';
   import { localUrls } from '../../../app-data/urls';
+  import profileData from '../helpers/profileData';
   import ProfileEditForm from '../components/forms/ProfileEditForm';
 
   export default {
@@ -106,13 +111,34 @@
     methods: {
       /** toggles the state between viewing and editing the profile */
       onEditClick() {
-        this.profileCopy = Object.assign({}, this.profile);
-        this.editing = !this.editing;
+        if (!this.isWorking) {
+          this.profileCopy = Object.assign({}, this.profile);
+          this.editing = !this.editing;
+        }
       },
 
       /** Callback for form's 'submitted' event; attempt to save the update profile. */
       onFormSubmitted() {
-        console.log('update dat profile!');
+        const msgNotify = {
+          type: 'info',
+          title: 'Cannot Update',
+          message: 'No changes to save.'
+        };
+        const updatedProfile = profileData.buildRecordData(this.profileCopy);
+
+        if (profileData.checkForMatch(this.profile, updatedProfile)) {
+          this.$notify(msgNotify);
+        } else {
+          console.log('update dat profile!');
+          this.working = true;
+          this.updateProfile(updatedProfile)
+            .then((res) => {
+              this.editing = false;
+              this.working = false;
+            }, (err) => {
+              this.working = false;
+            })
+        }
       },
 
       /** Callback for form's' 'cancelled' event; simply end editing session */
@@ -122,7 +148,8 @@
 
       ...mapActions([
         'checkForStoredLogin',
-        'loadUserProfile'
+        'loadUserProfile',
+        'updateProfile'
       ])
     },
 
