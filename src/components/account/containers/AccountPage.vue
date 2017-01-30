@@ -4,7 +4,7 @@
       Account Details
       <el-button
         type="text"
-        @click="editing = !editing">
+        @click="onEditClick">
         {{ editButtonText }}
       </el-button>
     </h3>
@@ -39,7 +39,12 @@
     <transition name="fade">
       <el-card class="box-card" v-if="editing">
         <div class="text item">
-          <h4>Editing. TODO: Show Edit Form</h4>
+          <app-profile-edit-form
+            :working="working"
+            :profile="profileCopy"
+            @submitted="onFormSubmitted"
+            @cancelled="onFormCancelled">
+          </app-profile-edit-form>
         </div><!-- /. text item -->
       </el-card>
     </transition>
@@ -54,8 +59,14 @@
   import errors from '../../../app-data/errors';
   import dateHelper from '../../../utils/dateHelper';
   import { localUrls } from '../../../app-data/urls';
+  import ProfileEditForm from '../components/forms/ProfileEditForm';
 
   export default {
+    components: {
+      appProfileEditForm: ProfileEditForm
+    },
+
+
     data() {
       return {
         // whether any operations are currently running
@@ -63,6 +74,9 @@
 
         // whether user is currently editing profile
         editing: false,
+
+        // a copy of the profile for sending to the form fo reditin
+        profileCopy: {}
       };
     },
 
@@ -90,6 +104,22 @@
 
 
     methods: {
+      /** toggles the state between viewing and editing the profile */
+      onEditClick() {
+        this.profileCopy = Object.assign({}, this.profile);
+        this.editing = !this.editing;
+      },
+
+      /** Callback for form's 'submitted' event; attempt to save the update profile. */
+      onFormSubmitted() {
+        console.log('update dat profile!');
+      },
+
+      /** Callback for form's' 'cancelled' event; simply end editing session */
+      onFormCancelled() {
+        this.editing = false;
+      },
+
       ...mapActions([
         'checkForStoredLogin',
         'loadUserProfile'
