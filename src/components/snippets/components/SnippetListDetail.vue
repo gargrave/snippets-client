@@ -18,6 +18,10 @@
         rel="noopener noreferrer">
         {{ snippet.url }}
       </a>
+
+      <app-snippet-tags-list
+        :snippet="snippet">
+      </app-snippet-tags-list>
     </div><!-- /snippet-card-body -->
 
 
@@ -71,6 +75,7 @@
   import SnippetDeleteButton from '../components/panel-controls/SnippetDeleteButton.vue';
   import SnippetPinButton from '../components/panel-controls/SnippetPinButton.vue';
   import SnippetStarButton from '../components/panel-controls/SnippetStarButton.vue';
+  import SnippetTagsList from './SnippetTagsList';
 
   export default {
     components: {
@@ -79,6 +84,7 @@
       appSnippetDeleteButton: SnippetDeleteButton,
       appSnippetStarButton: SnippetStarButton,
       appSnippetArchiveButton: SnippetArchiveButton,
+      appSnippetTagsList: SnippetTagsList,
     },
 
 
