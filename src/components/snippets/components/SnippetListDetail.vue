@@ -50,6 +50,11 @@
         @archiveClicked="onArchiveClick">
       </app-snippet-archive-button>
 
+      <!-- tags dialog launcher -->
+      <app-snippet-tags-button
+        @clicked="onTagsClick">
+      </app-snippet-tags-button>
+
       <!-- archive/unarchive button -->
       <app-snippet-delete-button
         @clicked="onDeleteClick">
@@ -75,6 +80,7 @@
   import SnippetDeleteButton from '../components/panel-controls/SnippetDeleteButton.vue';
   import SnippetPinButton from '../components/panel-controls/SnippetPinButton.vue';
   import SnippetStarButton from '../components/panel-controls/SnippetStarButton.vue';
+  import SnippetTagsButton from '../components/panel-controls/SnippetTagsButton.vue';
   import SnippetTagsList from './SnippetTagsList';
 
   export default {
@@ -83,6 +89,7 @@
       appSnippetColorPicker: SnippetColorPicker,
       appSnippetDeleteButton: SnippetDeleteButton,
       appSnippetStarButton: SnippetStarButton,
+      appSnippetTagsButton: SnippetTagsButton,
       appSnippetArchiveButton: SnippetArchiveButton,
       appSnippetTagsList: SnippetTagsList,
     },
@@ -171,6 +178,10 @@
             archived: !this.snippet.archived
           });
         }
+      },
+
+      onTagsClick() {
+        console.log('show tag editor');
       },
 
       /**
