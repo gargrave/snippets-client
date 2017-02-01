@@ -9,7 +9,8 @@
         :snippet="snippet"
         :working="working"
         @quickUpdate="onQuickUpdate"
-        @deleteSnippet="onDeleteSnippet">
+        @deleteSnippet="onDeleteSnippet"
+        @tagButtonClicked="onTagButtonClicked">
       </app-snippet-list-detail>
       <hr class="snippets-hr" v-if="unpinnedSnippets.length">
     </div><!-- /pinned Snippets list -->
@@ -22,7 +23,8 @@
         :snippet="snippet"
         :working="working"
         @quickUpdate="onQuickUpdate"
-        @deleteSnippet="onDeleteSnippet">
+        @deleteSnippet="onDeleteSnippet"
+        @tagButtonClicked="onTagButtonClicked">
       </app-snippet-list-detail>
     </div><!-- /unpinned Snippets list -->
 
@@ -76,6 +78,11 @@
       // simply re-emit the event for the parent to handle
       onDeleteSnippet(snippetId, event) {
         this.$emit('deleteSnippet', snippetId);
+      },
+
+      // simply re-emit the event for the parent to handle
+      onTagButtonClicked(snippet, event) {
+        this.$emit('onTagButtonClicked', snippet);
       }
     }
   };

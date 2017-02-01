@@ -51,7 +51,8 @@
           :working="working"
           :snippets="snippets"
           @quickUpdate="onQuickUpdate"
-          @deleteSnippet="onDeleteSnippet">
+          @deleteSnippet="onDeleteSnippet"
+          @onTagButtonClicked="onTagButtonClicked">
         </app-full-snippets-list>
 
         <!-- filtered Snippets list -->
@@ -66,6 +67,12 @@
       </section><!-- /snippets list -->
     </transition>
 
+    <app-tag-editor
+      :snippet="activeSnippet"
+      :showing="tagEditorShowing"
+      @close="onTagEditorClose">
+    </app-tag-editor>
+
   </div>
 </template>
 
@@ -79,12 +86,14 @@
   import FullSnippetsList from '../components/list-views/FullSnippetsList';
   import NewSnippetCard from '../components/NewSnippetCard.vue';
   import FilteredSnippetsList from '../components/list-views/FilteredSnippetsList';
+  import TagEditor from '../components/dialogs/TagEditor';
 
   export default {
     components: {
       appFullSnippetsList: FullSnippetsList,
       appNewSnippetCard: NewSnippetCard,
       appFilteredSnippetsList: FilteredSnippetsList,
+      appTagEditor: TagEditor,
     },
 
 
@@ -102,7 +111,11 @@
         apiError: '',
 
         // the filter (if any) for the current list view
-        filterBy: ''
+        filterBy: '',
+
+        activeSnippet: {},
+
+        tagEditorShowing: false
       };
     },
 
@@ -294,6 +307,19 @@
         }
       },
 
+      /*=============================================
+       = Snippet tagging methods
+       =============================================*/
+      onTagButtonClicked(snippet, event) {
+        this.activeSnippet = snippet;
+        this.tagEditorShowing = true;
+      },
+
+      onTagEditorClose() {
+        this.tagEditorShowing = false;
+        this.activeSnippet = {};
+      },
+
       ...mapActions([
         'checkForStoredLogin',
         'fetchSnippets',
@@ -301,6 +327,7 @@
         'fetchArchivedSnippets',
         'updateSnippet',
         'deleteSnippet',
+        'initTags',
       ])
     },
 

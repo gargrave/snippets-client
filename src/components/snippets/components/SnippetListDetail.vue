@@ -52,7 +52,7 @@
 
       <!-- tags dialog launcher -->
       <app-snippet-tags-button
-        @clicked="onTagsClick">
+        @clicked="$emit('tagButtonClicked', snippet)">
       </app-snippet-tags-button>
 
       <!-- archive/unarchive button -->
@@ -91,7 +91,7 @@
       appSnippetStarButton: SnippetStarButton,
       appSnippetTagsButton: SnippetTagsButton,
       appSnippetArchiveButton: SnippetArchiveButton,
-      appSnippetTagsList: SnippetTagsList,
+      appSnippetTagsList: SnippetTagsList
     },
 
 
@@ -178,10 +178,6 @@
             archived: !this.snippet.archived
           });
         }
-      },
-
-      onTagsClick() {
-        console.log('show tag editor');
       },
 
       /**

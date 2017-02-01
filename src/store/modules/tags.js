@@ -13,7 +13,9 @@ export default {
 
   getters: {
     tags(state) {
-      return state.tags;
+      return state.tags.sort((a, b) => {
+        return a.title > b.title ? 1 : -1;
+      });
     },
   },
 
@@ -32,6 +34,7 @@ export default {
 
     [TAGS.FETCH_SUCCESS](state, tags) {
       state.tags = tags;
+      state.tags.sort();
     },
   },
 
