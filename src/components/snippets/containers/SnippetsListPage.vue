@@ -177,6 +177,9 @@
             this.working = false;
             this.initializing = false;
           });
+
+        // make sure the tags list gets initialized (no need to handle the promise here)
+        this.initTags();
       },
 
       onQuickUpdate(value) {

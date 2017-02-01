@@ -33,6 +33,7 @@ export let apiUrls = {
   snippets: `${restApiRoot}/snippets/`,
   starredSnippets: `${restApiRoot}/snippets/starred/`,
   archivedSnippets: `${restApiRoot}/snippets/archived/`,
+  tags: `${restApiRoot}/tags/`,
 };
 
 // URLs for local routing (i.e. vue-router)
