@@ -12,6 +12,10 @@ export default {
 
 
   getters: {
+    tagsAjaxPending(state) {
+      return state.tagsAjaxPending;
+    },
+
     tags(state) {
       return state.tags.sort((a, b) => {
         return a.title > b.title ? 1 : -1;
@@ -78,5 +82,74 @@ export default {
           });
       });
     },
+
+    addTagToSnippet({ getters, dispatch, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+          return;
+        }
+
+        const snippetId = payload.snippetId;
+        const requestPayload = {
+          _tag: payload.tagId,
+          _snippet: snippetId
+        };
+
+        commit(TAGS.AJAX_BEGIN);
+        request
+          .post(apiUrls.tagsAdd)
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .send(requestPayload)
+          .end((err, res) => {
+            if (err) {
+              commit(TAGS.AJAX_END);
+              reject('There was an error updating your Tags.');
+            } else {
+              const dispatchPayload = {
+                snippetId,
+                tag: res.body
+              };
+              dispatch('addTagToLocalSnippet', dispatchPayload);
+              commit(TAGS.AJAX_END);
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
+    removeTagFromSnippet({ getters, dispatch, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+          return;
+        }
+
+        const requestPayload = {
+          tag_id: payload.tagId,
+          snippet_id: payload.snippetId
+        };
+
+        commit(TAGS.AJAX_BEGIN);
+        request
+          .delete(apiUrls.tagsRemove)
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .send(requestPayload)
+          .end((err, res) => {
+            if (err) {
+              commit(TAGS.AJAX_END);
+              reject('There was an error updating your Tags.');
+            } else {
+              dispatch('removeTagFromLocalSnippet', payload);
+              commit(TAGS.AJAX_END);
+              resolve(res.body);
+            }
+          });
+      });
+    }
   }
 };

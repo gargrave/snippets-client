@@ -98,6 +98,25 @@ export default {
       state.sortBy = sortBy;
       state.sortAsc = sortAsc;
     },
+
+    /*=============================================
+     = Tag manipulation
+     =============================================*/
+    [SNIPPETS.ADD_TAG](state, { snippetId, tag }) {
+      const snippet = apiHelper.findRecordById(state.snippets, snippetId);
+      if (snippet) {
+        snippet.tags.push(tag);
+      }
+    },
+
+    [SNIPPETS.REMOVE_TAG](state, { snippetId, tagId }) {
+      const snippet = apiHelper.findRecordById(state.snippets, snippetId);
+      if (snippet) {
+        snippet.tags = snippet.tags.filter((tag) => {
+          return tag.id !== tagId;
+        });
+      }
+    }
   },
 
 
@@ -326,6 +345,17 @@ export default {
 
     setSort({ commit }, { sortBy, sortAsc }) {
       commit(SNIPPETS.SORT_BY, { sortBy, sortAsc });
+    },
+
+    /*=============================================
+     = Local state methods (i.e. no HTTP requests)
+     =============================================*/
+    addTagToLocalSnippet({ commit }, payload) {
+      commit(SNIPPETS.ADD_TAG, payload);
+    },
+
+    removeTagFromLocalSnippet({ commit }, payload) {
+      commit(SNIPPETS.REMOVE_TAG, payload);
     }
   }
 };
