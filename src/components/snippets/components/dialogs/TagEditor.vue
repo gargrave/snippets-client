@@ -9,7 +9,9 @@
     <div
       class="el-checkbox-wrapper"
       v-for="tag in tags">
-      <el-checkbox>
+      <el-checkbox
+        v-model="tagStates[tag.title]"
+        @change="onTagSelected(tag.title)">
         {{ tag.title }}
       </el-checkbox>
     </div>
@@ -33,6 +35,13 @@
         required: true,
         default: false
       }
+    },
+
+
+    data() {
+      return {
+        tagStates: {}
+      };
     },
 
 
@@ -62,11 +71,24 @@
       },
 
       onOpen() {
+        const currentTagTitles = [];
+        this.snippet.tags.forEach((tag) => {
+          currentTagTitles.push(tag._tag);
+        });
+
+        this.tagStates = {};
+        this.tags.forEach((tag) => {
+          this.tagStates[tag.title] = currentTagTitles.includes(tag.title);
+        });
         // setTimeout(this.forceFocusToInputField, 2);
       },
 
       onClose() {
         this.$emit('close');
+      },
+
+      onTagSelected(tagTitle) {
+        console.log('onTagSelected: ' + tagTitle);
       }
     }
   };
