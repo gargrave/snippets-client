@@ -11,17 +11,19 @@
       v-for="tag in tags">
       <el-checkbox
         v-model="tagStates[tag.title]"
-        @change="onTagSelected(tag.title)">
+        @change="onTagSelected(tag)">
         {{ tag.title }}
       </el-checkbox>
     </div>
+
+    <br>
 
   </el-dialog>
 </template>
 
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
 
   export default {
     props: {
@@ -51,7 +53,8 @@
       },
 
       ...mapGetters([
-        'tags'
+        'tags',
+        'tagsAjaxPending'
       ])
     },
 
@@ -66,11 +69,7 @@
         // }
       },
 
-      onSubmit() {
-        this.$emit('close');
-      },
-
-      onOpen() {
+      updateTagStates() {
         const currentTagTitles = [];
         this.snippet.tags.forEach((tag) => {
           currentTagTitles.push(tag._tag);
@@ -80,6 +79,14 @@
         this.tags.forEach((tag) => {
           this.tagStates[tag.title] = currentTagTitles.includes(tag.title);
         });
+      },
+
+      onSubmit() {
+        this.$emit('close');
+      },
+
+      onOpen() {
+        this.updateTagStates();
         // setTimeout(this.forceFocusToInputField, 2);
       },
 
@@ -87,9 +94,41 @@
         this.$emit('close');
       },
 
-      onTagSelected(tagTitle) {
-        console.log('onTagSelected: ' + tagTitle);
-      }
+      onTagSelected(clickedTag, event) {
+        const existingTag = this.snippet.tags.find((tag) => {
+          return tag._tag == clickedTag.title;
+        });
+
+        const payload = {
+          snippetId: this.snippet.id,
+          tagId: clickedTag.id
+        };
+
+        if (!this.tagsAjaxPending) {
+          // if the selected Tag is not on this Snippet yet, add it!
+          if (!existingTag) {
+            this.addTagToSnippet(payload)
+              .then((res) => {
+                this.updateTagStates();
+              }, (err) => {
+                // TODO: determine how to handle errors
+              });
+          } else {
+            // if the tag is already on this Snippet, remove it!
+            this.removeTagFromSnippet(payload)
+              .then((res) => {
+                this.updateTagStates();
+              }, (err) => {
+                // TODO: determine how to handle errors
+              });
+          }
+        }
+      },
+
+      ...mapActions([
+        'addTagToSnippet',
+        'removeTagFromSnippet',
+      ])
     }
   };
 </script>
