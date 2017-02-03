@@ -1,5 +1,6 @@
 {
   "eslint.enable": true,
+  "jscs.enable": false,
   "files.associations": {
     ".netlify": "json"
   },
