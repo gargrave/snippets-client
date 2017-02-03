@@ -16,6 +16,7 @@ export default {
       return state.tagsAjaxPending;
     },
 
+    /** Returns the list of Tags sorted alphabetically */
     tags(state) {
       return state.tags.sort((a, b) => {
         return a.title > b.title ? 1 : -1;
@@ -44,6 +45,13 @@ export default {
 
 
   actions: {
+    /**
+     * Initializes the collection of User's Tags. If the list has already been populated,
+     * this will simply return said list. Otherwise, a call the API will be made.
+     *
+     * We want to have the full list available to the User,
+     * so this method should be called upon loading the app.
+     */
     initTags({ getters, dispatch }) {
       if (getters.tags.length) {
         return new Promise((resolve, reject) => {
@@ -59,6 +67,7 @@ export default {
      */
     fetchTags({ getters, commit }) {
       return new Promise((resolve, reject) => {
+        // make sure we have a valid auth token
         const authToken = getters.authToken;
         if (!authToken) {
           reject('Not authenticated');
@@ -83,8 +92,15 @@ export default {
       });
     },
 
+    /**
+     * Adds an existing Tag to an existing Snippet (i.e. not for creating a new Tag).
+     * Payload should be an object with the following props:
+     *    tagId: The ID number of the tag
+     *    snippetId: The ID number of the Snippet
+     */
     addTagToSnippet({ getters, dispatch, commit }, payload) {
       return new Promise((resolve, reject) => {
+        // make sure we have a valid auth token
         const authToken = getters.authToken;
         if (!authToken) {
           reject('Not authenticated');
@@ -120,8 +136,15 @@ export default {
       });
     },
 
+    /**
+     * Removes an existing Tag to an existing Snippet (but does not delete the Snippet).
+     * Payload should be an object with the following props:
+     *    tagId: The ID number of the tag
+     *    snippetId: The ID number of the Snippet
+     */
     removeTagFromSnippet({ getters, dispatch, commit }, payload) {
       return new Promise((resolve, reject) => {
+        // make sure we have a valid auth token
         const authToken = getters.authToken;
         if (!authToken) {
           reject('Not authenticated');
