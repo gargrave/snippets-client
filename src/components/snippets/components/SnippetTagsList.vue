@@ -5,10 +5,8 @@
 
     <el-tag
       type="gray"
-      v-for="tag in snippet.tags"
-      :closable="true"
-      @close="onClose(tag.id)">
-      {{ tag._tag }}
+      v-for="tag in snippet.tags">
+      {{ tag._tag.title }}
     </el-tag>
 
   </div>
@@ -21,13 +19,6 @@
       snippet: {
         type: Object,
         required: true
-      }
-    },
-
-
-    methods: {
-      onClose(tagId) {
-        console.log('remove tag #' + tagId);
       }
     }
   };

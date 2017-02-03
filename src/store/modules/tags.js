@@ -41,6 +41,10 @@ export default {
       state.tags = tags;
       state.tags.sort();
     },
+
+    [TAGS.CREATE_SUCCESS](state, payload) {
+      state.tags.push(payload.tag._tag);
+    },
   },
 
 
@@ -93,10 +97,12 @@ export default {
     },
 
     /**
-     * Adds an existing Tag to an existing Snippet (i.e. not for creating a new Tag).
-     * Payload should be an object with the following props:
-     *    tagId: The ID number of the tag
-     *    snippetId: The ID number of the Snippet
+     * Adds a tag to a Snippet, either by providing the ID of an existing Tag,
+     * or by providing a 'tagTitle' property to create a new Tag.
+     *
+     *    tagId: (optional) The ID number of the existing tag to use
+     *    snippetId: (required) The ID number of the Snippet
+     *    tagTitle: (optional) The title to use for creating a new Tag
      */
     addTagToSnippet({ getters, dispatch, commit }, payload) {
       return new Promise((resolve, reject) => {
@@ -107,10 +113,14 @@ export default {
           return;
         }
 
-        const snippetId = payload.snippetId;
+        // a 'tagTitle' prop shows that we are creating Tag, rather than using existing
+        const creatingNewtag = payload.tagTitle !== undefined;
+        // build the payload for the request
+        // leave 'tag_title' empty if none was provided
         const requestPayload = {
           _tag: payload.tagId,
-          _snippet: snippetId
+          _snippet: payload.snippetId,
+          tag_title: payload.tagTitle || ''
         };
 
         commit(TAGS.AJAX_BEGIN);
@@ -124,11 +134,15 @@ export default {
               commit(TAGS.AJAX_END);
               reject('There was an error updating your Tags.');
             } else {
-              const dispatchPayload = {
-                snippetId,
-                tag: res.body
+              const tagData = {
+                snippetId: payload.snippetId,
+                tag: { ...res.body }
               };
-              dispatch('addTagToLocalSnippet', dispatchPayload);
+              // if we created a new Tag with this request, add it to the local store
+              if (creatingNewtag) {
+                commit(TAGS.CREATE_SUCCESS, tagData);
+              }
+              dispatch('addTagToLocalSnippet', tagData);
               commit(TAGS.AJAX_END);
               resolve(res.body);
             }

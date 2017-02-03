@@ -6,11 +6,17 @@
     @open="onOpen"
     @close="onClose">
 
+    <!-- new tag entry form -->
+    <app-tag-form
+      :working="working"
+      @submitted="onFormSubmitted">
+    </app-tag-form>
+
     <div
       class="el-checkbox-wrapper"
       v-for="tag in tags">
       <el-checkbox
-        v-model="tagStates[tag.title]"
+        v-model="tagStates[tag.id]"
         @change="onTagSelected(tag)">
         {{ tag.title }}
       </el-checkbox>
@@ -25,7 +31,14 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
 
+  import TagForm from '../forms/TagForm';
+
   export default {
+    components: {
+      appTagForm: TagForm
+    },
+
+
     props: {
       snippet: {
         type: Object,
@@ -42,6 +55,7 @@
 
     data() {
       return {
+        working: false,
         tagStates: {}
       };
     },
@@ -70,14 +84,15 @@
       },
 
       updateTagStates() {
-        const currentTagTitles = [];
-        this.snippet.tags.forEach((tag) => {
-          currentTagTitles.push(tag._tag);
+        const currentTags = [];
+        // TODO: this can probably be cleaned up (i.e. only stored active ids, not all)
+        this.snippet.tags.forEach((tagOnSnippet) => {
+          currentTags.push(tagOnSnippet._tag.id);
         });
 
         this.tagStates = {};
-        this.tags.forEach((tag) => {
-          this.tagStates[tag.title] = currentTagTitles.includes(tag.title);
+        this.tags.forEach((tagInStore) => {
+          this.tagStates[tagInStore.id] = currentTags.includes(tagInStore.id);
         });
       },
 
@@ -96,7 +111,7 @@
 
       onTagSelected(clickedTag, event) {
         const existingTag = this.snippet.tags.find((tag) => {
-          return tag._tag == clickedTag.title;
+          return tag._tag.id === clickedTag.id;
         });
 
         const payload = {
@@ -125,9 +140,25 @@
         }
       },
 
+      onFormSubmitted(value) {
+        const payload = {
+          snippetId: this.snippet.id,
+          tagTitle: value
+        };
+
+        this.working = true;
+        this.addTagToSnippet(payload)
+          .then((res) => {
+            this.updateTagStates();
+            this.working = false;
+          }, (err) => {
+            this.working = false;
+          });
+      },
+
       ...mapActions([
         'addTagToSnippet',
-        'removeTagFromSnippet',
+        'removeTagFromSnippet'
       ])
     }
   };

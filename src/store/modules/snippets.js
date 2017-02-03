@@ -113,7 +113,7 @@ export default {
       const snippet = apiHelper.findRecordById(state.snippets, snippetId);
       if (snippet) {
         snippet.tags = snippet.tags.filter((tag) => {
-          return tag.id !== tagId;
+          return tag._tag.id !== tagId;
         });
       }
     }
