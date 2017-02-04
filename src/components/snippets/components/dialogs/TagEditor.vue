@@ -41,11 +41,13 @@
 
 
     props: {
+      // the currently-selected Snippet
       snippet: {
         type: Object,
         required: true
       },
 
+      // whether the dialog is currently showing
       showing: {
         type: Boolean,
         required: true,
@@ -57,12 +59,18 @@
     data() {
       return {
         working: false,
+
+        // a collection of Boolean values for the state of each Tag
+        // (i.e. does this Snippet currently have this Tag?)
+        // these are used for the v-model state of each checkbox
         tagStates: {}
       };
     },
 
 
     computed: {
+      // a simple wrapper for 'showing' state
+      // this is used to prevent Vue errors about 'mutating props directly'
       isShowing() {
         return this.showing;
       },
@@ -76,11 +84,13 @@
 
     methods: {
       updateTagStates() {
+        // make a list of IDs for the Tags currently tied to this Snippet
         const currentTags = [];
         this.snippet.tags.forEach((tagOnSnippet) => {
           currentTags.push(tagOnSnippet._tag.id);
         });
 
+        // set a flag for each of these Tags, so the associated checkboxes will be pre-checked
         this.tagStates = {};
         this.tags.forEach((tagInStore) => {
           this.tagStates[tagInStore.id] = currentTags.includes(tagInStore.id);
@@ -102,6 +112,7 @@
           return tag._tag.id === clickedTag.id;
         });
 
+        // build the appropriate request payload for using an existing Tag
         const payload = {
           snippetId: this.snippet.id,
           tagId: clickedTag.id
@@ -144,6 +155,7 @@
           tagTitle
         };
 
+        // now submit the request
         this.working = true;
         this.addTagToSnippet(payload)
           .then((res) => {
