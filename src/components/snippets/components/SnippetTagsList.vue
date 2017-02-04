@@ -27,8 +27,9 @@
 
 <style scoped>
   .el-tag {
-    border: 1px solid #888;
-    color: #333;
+    color: #222;
+    background-color: rgba(245, 245, 245, .5);
+    border: 1px solid rgba(80, 80, 80, .5);
     margin-right: 2px;
   }
 
