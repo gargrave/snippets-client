@@ -43,6 +43,13 @@ export default {
     },
 
     [TAGS.CREATE_SUCCESS](state, payload) {
+      // check if the store already has the specified Tag on it; if so, do nothing
+      const newTagId = payload.tag._tag.id;
+      state.tags.forEach((tag) => {
+        if (tag.id === newTagId) {
+          return;
+        }
+      });
       state.tags.push(payload.tag._tag);
     },
   },

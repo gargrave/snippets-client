@@ -109,6 +109,13 @@ export default {
     [SNIPPETS.ADD_TAG](state, { snippetId, tag }) {
       const snippet = apiHelper.findRecordById(state.snippets, snippetId);
       if (snippet) {
+        // check if this Snippet already has the specified Tag on it; if so, do nothing
+        const newTagId = tag._tag.id;
+        snippet.tags.forEach((t) => {
+          if (t.id === newTagId) {
+            return;
+          }
+        });
         snippet.tags.push(tag);
       }
     },

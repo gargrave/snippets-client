@@ -75,18 +75,8 @@
 
 
     methods: {
-      forceFocusToInputField() {
-        // const el = document.querySelector('#search-input > input');
-        // if (el) {
-        //   el.focus();
-        // } else {
-        //   setTimeout(this.forceFocusToInputField, 2);
-        // }
-      },
-
       updateTagStates() {
         const currentTags = [];
-        // TODO: this can probably be cleaned up (i.e. only stored active ids, not all)
         this.snippet.tags.forEach((tagOnSnippet) => {
           currentTags.push(tagOnSnippet._tag.id);
         });
@@ -97,15 +87,12 @@
         });
       },
 
-      onSubmit() {
-        this.$emit('close');
-      },
-
+      /** Callback for 'open' event; update the selected Tags for the current Snippet */
       onOpen() {
         this.updateTagStates();
-        // setTimeout(this.forceFocusToInputField, 2);
       },
 
+      /** Callback for 'close' event; simply emit upwards */
       onClose() {
         this.$emit('close');
       },
@@ -127,7 +114,6 @@
               .then((res) => {
                 this.updateTagStates();
               }, (err) => {
-                // TODO: determine how to handle errors
               });
           } else {
             // if the tag is already on this Snippet, remove it!
@@ -135,16 +121,27 @@
               .then((res) => {
                 this.updateTagStates();
               }, (err) => {
-                // TODO: determine how to handle errors
               });
           }
         }
       },
 
       onFormSubmitted(value) {
-        const payload = {
+        const tagTitle = value;
+        // check the store for an existing Tag with this title
+        // if we find one, simply add that Tag to this Snippet;
+        // if not, we will create a new Tag
+        const existingTag = this.tags.find((t) => {
+          return t.title === tagTitle;
+        });
+
+        // build the request payload based on whether we found an existing tag
+        const payload = existingTag ? {
           snippetId: this.snippet.id,
-          tagTitle: value
+          tagId: existingTag.id,
+        } : {
+          snippetId: this.snippet.id,
+          tagTitle
         };
 
         this.working = true;
@@ -168,12 +165,14 @@
 
 <style>
   .el-dialog.tags-dialog {
+    /* add restraints to dialog size, as lots of tags will mean a very long list */
     max-height: 70%;
     max-width: 350px;
     overflow: scroll;
   }
 
   .tag-checkbox-wrapper label span {
+    /* make the checkboxes a bit larger and spread them a bit, for easier user on mobile */
     font-size: 1.1em;
     line-height: 1.6em;
   }
