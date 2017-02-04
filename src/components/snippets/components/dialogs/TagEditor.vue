@@ -9,6 +9,7 @@
     <!-- new tag entry form -->
     <app-tag-form
       :working="working"
+      :showing="showing"
       @submitted="onFormSubmitted">
     </app-tag-form>
 

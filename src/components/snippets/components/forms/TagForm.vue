@@ -32,6 +32,23 @@
       working: {
         type: Boolean,
         required: true
+      },
+
+      showing: {
+        type: Boolean,
+        required: false,
+        default: true
+      }
+    },
+
+
+    watch: {
+      showing(newValue) {
+        // when the parent dialog shows, reset the title and set focus on input field
+        if (newValue === true) {
+          this.tag.title = '';
+          this.forceFocusToInputField();
+        }
       }
     },
 
