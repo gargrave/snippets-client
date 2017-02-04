@@ -22,7 +22,7 @@ export default {
     },
 
     snippets(state) {
-      return snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
+      return state.snippets;
     },
 
     currentSearch(state) {
@@ -57,13 +57,13 @@ export default {
     },
 
     [SNIPPETS.FETCH_ALL](state, snippets) {
-      state.snippets = snippets;
+      state.snippets = snippetsSorter.sort(snippets, state.sortBy, state.sortAsc);
       state.currentSearch = '';
     },
 
     [SNIPPETS.FETCH_BY_SEARCH](state, { snippets, search }) {
-      state.snippets = snippets;
       state.currentSearch = search;
+      state.snippets = snippetsSorter.sort(snippets, state.sortBy, state.sortAsc);
     },
 
     /*=============================================
@@ -71,6 +71,7 @@ export default {
      =============================================*/
     [SNIPPETS.CREATE](state, snippet) {
       state.snippets.push(snippet);
+      state.snippets = snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
     },
 
     [SNIPPETS.UPDATE](state, { snippet, removeAfterUpdate }) {
@@ -83,12 +84,14 @@ export default {
           s => s.id !== snippet.id
         ), snippet];
       }
+      state.snippets = snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
     },
 
     [SNIPPETS.DELETE](state, snippetId) {
       state.snippets = state.snippets.filter(
         s => s.id !== snippetId
       );
+      state.snippets = snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
     },
 
     /*=============================================
@@ -97,6 +100,7 @@ export default {
     [SNIPPETS.SORT_BY](state, { sortBy, sortAsc }) {
       state.sortBy = sortBy;
       state.sortAsc = sortAsc;
+      state.snippets = snippetsSorter.sort(state.snippets, state.sortBy, state.sortAsc);
     },
 
     /*=============================================
