@@ -35,6 +35,7 @@ export let apiUrls = {
   archivedSnippets: `${restApiRoot}/snippets/archived/`,
   tags: `${restApiRoot}/tags/`,
   tagsAdd: `${restApiRoot}/tags/add/`,
+  tagsRemove: `${restApiRoot}/tags/remove/`,
 };
 
 // URLs for local routing (i.e. vue-router)
