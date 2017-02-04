@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    custom-class="snippets-dialog"
+    custom-class="snippets-dialog tags-dialog"
     title="Update Tags"
     v-model="isShowing"
     @open="onOpen"
@@ -167,7 +167,7 @@
 
 
 <style>
-  .el-dialog.snippets-dialog {
+  .el-dialog.tags-dialog {
     max-height: 70%;
     max-width: 350px;
     overflow: scroll;
