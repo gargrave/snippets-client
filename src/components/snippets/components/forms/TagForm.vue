@@ -79,6 +79,7 @@
         // TODO add validation before submitting
         if (this.tag.title && !this.isWorking) {
           this.$emit('submitted', this.tag.title);
+          this.tag.title = '';
         }
       }
     },
