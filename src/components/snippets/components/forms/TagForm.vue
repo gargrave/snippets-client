@@ -5,9 +5,9 @@
 
     <el-form-item label="">
       <el-input
+        id="tag-input"
         v-model="tag.title"
-        placeholder="Enter Tag"
-        @change="onTextChange">
+        placeholder="Enter Tag">
       </el-input>
     </el-form-item>
 
@@ -48,8 +48,13 @@
 
 
     methods: {
-      onTextChange() {
-        console.log('onTextChange');
+      forceFocusToInputField() {
+        const el = document.querySelector('#tag-input > input');
+        if (el) {
+          el.focus();
+        } else {
+          setTimeout(this.forceFocusToInputField, 2);
+        }
       },
 
       onSubmit(event) {
@@ -77,6 +82,8 @@
         }
       };
       initStyles();
+
+      setTimeout(this.forceFocusToInputField, 2);
     }
   };
 </script>
