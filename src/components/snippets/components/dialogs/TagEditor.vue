@@ -14,7 +14,7 @@
     </app-tag-form>
 
     <div
-      class="el-checkbox-wrapper"
+      class="el-checkbox-wrapper tag-checkbox-wrapper"
       v-for="tag in tags">
       <el-checkbox
         v-model="tagStates[tag.id]"
@@ -164,3 +164,17 @@
     }
   };
 </script>
+
+
+<style>
+  .el-dialog.snippets-dialog {
+    max-height: 70%;
+    max-width: 350px;
+    overflow: scroll;
+  }
+
+  .tag-checkbox-wrapper label span {
+    font-size: 1.1em;
+    line-height: 1.6em;
+  }
+</style>
