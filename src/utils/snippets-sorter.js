@@ -61,11 +61,15 @@ export default {
 
     // finally, sort the tags on each snippet
     snippets.forEach((snippet) => {
-      snippet.tags.sort((a, b) => {
-        return a._tag.title > b._tag.title ? 1 : -1;
-      });
+      this.sortTagsOnSnippet(snippet);
     });
 
     return snippets;
+  },
+
+  sortTagsOnSnippet(snippet) {
+    snippet.tags.sort((a, b) => {
+      return a._tag.title > b._tag.title ? 1 : -1;
+    });
   }
 };

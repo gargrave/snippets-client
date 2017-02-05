@@ -117,6 +117,7 @@ export default {
           }
         });
         snippet.tags.push(tag);
+        snippetsSorter.sortTagsOnSnippet(snippet);
       }
     },
 
