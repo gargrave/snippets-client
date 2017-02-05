@@ -10,7 +10,7 @@
       <el-form-item label="">
         <el-input
           id="search-input"
-          placeholder="Search"
+          placeholder="Search by title"
           v-model="search.text"
           auto-complete="off">
         </el-input>

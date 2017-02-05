@@ -3,11 +3,15 @@
     class="tag-list"
     v-if="snippet.tags.length">
 
-    <el-tag
-      type="gray"
-      v-for="tag in snippet.tags">
-      {{ tag._tag.title }}
-    </el-tag>
+    <span
+      class="el-tag-wrapper"
+      v-for="tag in snippet.tags"
+      @click="onTagClicked(tag)">
+      <el-tag
+        type="gray">
+        {{ tag._tag.title }}
+      </el-tag>
+    </span>
 
   </div>
 </template>
@@ -20,6 +24,13 @@
         type: Object,
         required: true
       }
+    },
+
+
+    methods: {
+      onTagClicked(tag) {
+        this.$emit('tagClicked', tag._tag);
+      }
     }
   };
 </script>
@@ -28,9 +39,11 @@
 <style scoped>
   .el-tag {
     color: #222;
-    background-color: rgba(245, 245, 245, .5);
+    background-color: rgba(80, 80, 80, .15);
     border: 1px solid rgba(80, 80, 80, .5);
+    border-radius: 3px;
     margin-right: 2px;
+    cursor: pointer;
   }
 
   .tag-list {

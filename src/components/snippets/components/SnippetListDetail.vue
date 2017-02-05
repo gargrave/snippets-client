@@ -20,7 +20,8 @@
       </a>
 
       <app-snippet-tags-list
-        :snippet="snippet">
+        :snippet="snippet"
+        @tagClicked="onTagClicked">
       </app-snippet-tags-list>
     </div><!-- /snippet-card-body -->
 
@@ -128,6 +129,10 @@
 
 
     methods: {
+      onTagClicked(tag) {
+        console.log('onTagClicked: ' + tag);
+      },
+
       /**
        * Handler for changing a Snippet's 'pinned' state;
        * toggle the 'pinned' value and emit an event.
