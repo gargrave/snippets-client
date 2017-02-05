@@ -44,16 +44,16 @@
         @colorSelected="onColorSelected">
       </app-snippet-color-picker>
 
+      <!-- tags dialog launcher -->
+      <app-snippet-tags-button
+        @clicked="$emit('tagButtonClicked', snippet)">
+      </app-snippet-tags-button>
+
       <!-- archive/unarchive button -->
       <app-snippet-archive-button
         :snippet="snippet"
         @archiveClicked="onArchiveClick">
       </app-snippet-archive-button>
-
-      <!-- tags dialog launcher -->
-      <app-snippet-tags-button
-        @clicked="$emit('tagButtonClicked', snippet)">
-      </app-snippet-tags-button>
 
       <!-- archive/unarchive button -->
       <app-snippet-delete-button
