@@ -186,6 +186,6 @@
   .tag-checkbox-wrapper label span {
     /* make the checkboxes a bit larger and spread them a bit, for easier user on mobile */
     font-size: 1.1em;
-    line-height: 1.6em;
+    line-height: 1.9em;
   }
 </style>
