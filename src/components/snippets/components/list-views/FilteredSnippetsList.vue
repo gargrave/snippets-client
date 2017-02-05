@@ -7,7 +7,8 @@
       :snippet="snippet"
       :working="working"
       @quickUpdate="onQuickUpdate"
-      @deleteSnippet="onDeleteSnippet">
+      @deleteSnippet="onDeleteSnippet"
+      @tagButtonClicked="onTagButtonClicked">
     </app-snippet-list-detail>
 
   </section>
@@ -47,6 +48,11 @@
       // simply re-emit the event for the parent to handle
       onDeleteSnippet(snippetId, event) {
         this.$emit('deleteSnippet', snippetId);
+      },
+
+      // simply re-emit the event for the parent to handle
+      onTagButtonClicked(snippet, event) {
+        this.$emit('onTagButtonClicked', snippet);
       }
     }
   };

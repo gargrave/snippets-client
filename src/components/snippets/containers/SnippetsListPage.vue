@@ -61,7 +61,8 @@
           :working="working"
           :snippets="snippets"
           @quickUpdate="onQuickUpdate"
-          @deleteSnippet="onDeleteSnippet">
+          @deleteSnippet="onDeleteSnippet"
+          @onTagButtonClicked="onTagButtonClicked">
         </app-filtered-snippets-list>
 
       </section><!-- /snippets list -->
