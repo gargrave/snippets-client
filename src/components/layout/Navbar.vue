@@ -24,7 +24,7 @@
             <i class="el-icon-menu"></i>
           </template>
 
-          <el-menu-item index="2-1-0" class="submenu-section">Go</el-menu-item>
+          <el-menu-item index="2-1-0" class="submenu-section">Snippets</el-menu-item>
           <!-- link to main snippets list -->
           <span @click="gotoLink($event, localUrls.snippetsList)">
             <el-menu-item index="2-1-1">
@@ -45,6 +45,16 @@
               Archived Snippets
             </el-menu-item>
           </span>
+
+
+          <el-menu-item index="2-3-0" class="submenu-section">Tags</el-menu-item>
+          <!-- link to 'create snippet' page -->
+          <span @click="$message('Go to Tags list')">
+            <el-menu-item index="2-3-1">
+              My Tags
+            </el-menu-item>
+          </span>
+
 
           <el-menu-item index="2-2-0" class="submenu-section">Actions</el-menu-item>
           <!-- link to 'create snippet' page -->

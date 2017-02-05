@@ -5,7 +5,7 @@
     'Navigation' sub-menu
     -->
     <ul class="sidenav-submenu">
-      <li class="sidenav-submenu-header">Navigation</li>
+      <li class="sidenav-submenu-header">Snippets</li>
 
       <!-- link to Snippets page-->
       <li>
@@ -36,6 +36,13 @@
           Archived
         </router-link>
       </li>
+    </ul>
+
+    <!--
+    'Navigation' sub-menu
+    -->
+    <ul class="sidenav-submenu">
+      <li class="sidenav-submenu-header">Tags</li>
     </ul>
 
 

@@ -130,7 +130,7 @@
 
     methods: {
       onTagClicked(tag) {
-        console.log('onTagClicked: ' + tag);
+        this.$message(`onTagClicked: ${tag.title}`);
       },
 
       /**
