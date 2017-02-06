@@ -42,7 +42,11 @@
 
 
         <!-- API error display -->
-        <div class="alert alert-danger" v-if="apiError">Error: {{ apiError }}</div>
+        <el-alert
+          type="error"
+          v-if="apiError"
+          :description="apiError">
+        </el-alert>
 
 
         <!-- full Snippets list -->
