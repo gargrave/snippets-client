@@ -36,6 +36,7 @@ export let apiUrls = {
   tags: `${restApiRoot}/tags/`,
   tagsAdd: `${restApiRoot}/tags/add/`,
   tagsRemove: `${restApiRoot}/tags/remove/`,
+  tagsDelete: `${restApiRoot}/tags/delete/`,
 };
 
 // URLs for local routing (i.e. vue-router)
