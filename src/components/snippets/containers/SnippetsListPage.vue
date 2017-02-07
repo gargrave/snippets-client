@@ -2,7 +2,7 @@
   <div>
     <!-- page title display -->
     <h3 class="page-title">
-      <span v-if="currentSearch">Search Results</span>
+      <span v-if="hasCurrentSearch">Search Results</span>
       <span v-else>{{ pageTitle }}</span>
       <!-- working icon for background tasks -->
       <i class="fa fa-spinner fa-spin" v-if="backgroundWorking"></i>
@@ -22,16 +22,19 @@
     <!-- snippets list, shown when not snippetsRefreshing -->
     <transition name="fade">
       <section v-if="!initializing && !snippetsRefreshing">
-        <!-- search results display (when applicable) -->
+        <!-- search results display (when applicable)
         <el-alert
           id="search-alert"
           v-if="currentSearch.title"
           type="info"
-          title=""
+          title="Searching by title"
+          :description="titleSearchDescription"
           close-text="Reset"
           @close="onClearSearch">
-          {{ snippets.length }} matching: <strong>{{ currentSearch.title }}</strong>
-        </el-alert>
+        </el-alert> -->
+        <app-search-results
+          @clearSearch="onClearSearch">
+        </app-search-results>
 
 
         <!-- 'add a new snippet' link -->
@@ -88,10 +91,12 @@
   import { localUrls } from '../../../app-data/urls';
   import errors from '../../../app-data/errors';
   import snippetData from '../helpers/snippetData';
-  import FullSnippetsList from '../components/list-views/FullSnippetsList';
+
+  import FullSnippetsList from '../components/list-views/FullSnippetsList.vue';
   import NewSnippetCard from '../components/NewSnippetCard.vue';
-  import FilteredSnippetsList from '../components/list-views/FilteredSnippetsList';
-  import TagEditor from '../components/dialogs/TagEditor';
+  import FilteredSnippetsList from '../components/list-views/FilteredSnippetsList.vue';
+  import TagEditor from '../components/dialogs/TagEditor.vue';
+  import SearchResults from '../components/SearchResultsDisplay.vue';
 
   export default {
     components: {
@@ -99,6 +104,7 @@
       appNewSnippetCard: NewSnippetCard,
       appFilteredSnippetsList: FilteredSnippetsList,
       appTagEditor: TagEditor,
+      appSearchResults: SearchResults
     },
 
 
@@ -136,6 +142,10 @@
         return 'My Snippets';
       },
 
+      hasCurrentSearch() {
+        return !!this.currentSearch.title || !!this.currentSearch.tags;
+      },
+
       /** Returns whether we are currently viewing the 'full' Snippets list (i.e. not filtered) */
       isMainListView() {
         return this.filterBy === '' || !this.filterBy;
@@ -149,6 +159,10 @@
       /** Returns whether we are currently viewing the 'Starred Snippets' list. */
       isStarredView() {
         return this.filterBy === 'starred';
+      },
+
+      titleSearchDescription() {
+        return `${this.snippets.length} matching: ${this.currentSearch.title}`;
       },
 
       ...mapGetters([

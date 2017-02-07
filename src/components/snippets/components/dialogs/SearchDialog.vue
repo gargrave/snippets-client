@@ -7,11 +7,23 @@
     @close="onClose">
 
     <el-form :model="search">
+
+      <!-- 'search by title' field -->
       <el-form-item label="">
         <el-input
           id="search-input"
           placeholder="Search by title"
           v-model="search.title"
+          auto-complete="off">
+        </el-input>
+      </el-form-item>
+
+      <!-- 'search by tags' field -->
+      <el-form-item label="">
+        <el-input
+          id="search-input"
+          placeholder="Search by tags (comma-separated)"
+          v-model="search.tags"
           auto-complete="off">
         </el-input>
       </el-form-item>

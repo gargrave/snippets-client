@@ -44,6 +44,15 @@
   z-index: 1000;
 }
 
+.el-tag.snippets-tag {
+  color: #222;
+  background-color: rgba(80, 80, 80, .15);
+  border: 1px solid rgba(80, 80, 80, .5);
+  border-radius: 3px;
+  margin-right: 2px;
+  cursor: pointer;
+}
+
 .snippets-dialog {
   // limit max width of dialogs
   max-width: $dialogMaxWidth;

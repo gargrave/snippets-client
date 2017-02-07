@@ -8,6 +8,7 @@
       v-for="tag in snippet.tags"
       @click="onTagClicked(tag)">
       <el-tag
+        class="snippets-tag"
         type="gray">
         {{ tag._tag.title }}
       </el-tag>
@@ -37,15 +38,6 @@
 
 
 <style scoped>
-  .el-tag {
-    color: #222;
-    background-color: rgba(80, 80, 80, .15);
-    border: 1px solid rgba(80, 80, 80, .5);
-    border-radius: 3px;
-    margin-right: 2px;
-    cursor: pointer;
-  }
-
   .tag-list {
     margin-top: 6px;
   }
