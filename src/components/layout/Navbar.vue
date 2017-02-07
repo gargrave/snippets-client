@@ -202,6 +202,7 @@
   import { localUrls } from '../../app-data/urls';
   import SearchDialog from '../snippets/components/dialogs/SearchDialog';
   import SortDialog from '../snippets/components/dialogs/SortDialog';
+  import searchHelper from '../snippets/helpers/snippetSearchHelper';
 
   export default {
     components: {
@@ -255,9 +256,10 @@
       },
 
       onSearchSubmit(value, event) {
-        const search = value.trim();
-        if (search !== this.currentSearch) {
-          this.fetchSnippetsBySearch(search)
+        console.log('onSearchSubmit');
+        if (!searchHelper.isIdentical(value, this.currentSearch)) {
+          console.log('search');
+          this.fetchSnippetsBySearch(value)
             .then((res) => {
               // succesful search; no action needed
             }, (err) => {

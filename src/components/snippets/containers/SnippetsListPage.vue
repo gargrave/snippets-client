@@ -25,12 +25,12 @@
         <!-- search results display (when applicable) -->
         <el-alert
           id="search-alert"
-          v-if="currentSearch"
+          v-if="currentSearch.title"
           type="info"
           title=""
           close-text="Reset"
           @close="onClearSearch">
-          {{ snippets.length }} matching: <strong>{{ currentSearch }}</strong>
+          {{ snippets.length }} matching: <strong>{{ currentSearch.title }}</strong>
         </el-alert>
 
 

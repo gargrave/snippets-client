@@ -33,6 +33,7 @@ export let apiUrls = {
   snippets: `${restApiRoot}/snippets/`,
   starredSnippets: `${restApiRoot}/snippets/starred/`,
   archivedSnippets: `${restApiRoot}/snippets/archived/`,
+  snippetsSearch: `${restApiRoot}/snippets/search/`,
   tags: `${restApiRoot}/tags/`,
   tagsAdd: `${restApiRoot}/tags/add/`,
   tagsRemove: `${restApiRoot}/tags/remove/`,

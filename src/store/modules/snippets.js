@@ -4,13 +4,17 @@ import { apiUrls } from '../../app-data/urls';
 import { SNIPPETS } from '../mutation-types';
 import apiHelper from '../../utils/apiHelper';
 import snippetsSorter, { DEFAULT_SORT, SORT } from '../../utils/snippets-sorter';
+import searchHelper from '../../components/snippets/helpers/snippetSearchHelper';
 
 
 export default {
   state: {
     snippetsRefreshing: false,
     snippets: [],
-    currentSearch: '',
+    currentSearch: {
+      title: '',
+      tags: ''
+    },
     sortBy: DEFAULT_SORT,
     sortAsc: false
   },
@@ -42,7 +46,10 @@ export default {
   mutations: {
     [SNIPPETS.CLEAR_ALL](state, snippets) {
       state.snippets = [];
-      state.currentSearch = '';
+      state.currentSearch = {
+        title: '',
+        tags: ''
+      };
     },
 
     /*=============================================
@@ -58,7 +65,10 @@ export default {
 
     [SNIPPETS.FETCH_ALL](state, snippets) {
       state.snippets = snippetsSorter.sort(snippets, state.sortBy, state.sortAsc);
-      state.currentSearch = '';
+      state.currentSearch = {
+        title: '',
+        tags: ''
+      };
     },
 
     [SNIPPETS.FETCH_BY_SEARCH](state, { snippets, search }) {
@@ -172,22 +182,23 @@ export default {
       return dispatch('fetchSnippets', apiUrls.archivedSnippets);
     },
 
-    fetchSnippetsBySearch({ getters, commit }, searchString) {
+    fetchSnippetsBySearch({ getters, commit }, payload) {
       return new Promise((resolve, reject) => {
         const authToken = getters.authToken;
         if (!authToken) {
           reject('Not authenticated');
           return;
         }
+
+        const requestPayload = searchHelper.buildRequestPayload(payload);
         commit(SNIPPETS.CLEAR_ALL);
         commit(SNIPPETS.FETCH_BEGIN);
 
-        const url = apiUrls.snippets;
         request
-          .get(url)
-          .query({ search: searchString })
+          .post(apiUrls.snippetsSearch)
           .set('Authorization', `Token ${authToken}`)
           .set('Accept', 'application/json')
+          .send(requestPayload)
           .end((err, res) => {
             if (err) {
               commit(SNIPPETS.FETCH_END);
@@ -195,7 +206,7 @@ export default {
             } else {
               commit(SNIPPETS.FETCH_BY_SEARCH, {
                 snippets: res.body,
-                search: searchString
+                search: requestPayload
               });
               commit(SNIPPETS.FETCH_END);
               resolve(res.body);

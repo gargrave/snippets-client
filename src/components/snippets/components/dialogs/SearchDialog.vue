@@ -11,7 +11,7 @@
         <el-input
           id="search-input"
           placeholder="Search by title"
-          v-model="search.text"
+          v-model="search.title"
           auto-complete="off">
         </el-input>
       </el-form-item>
@@ -34,6 +34,8 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import snippetSearchHelper from '../../../snippets/helpers/snippetSearchHelper';
+
   export default {
     props: {
       showing: {
@@ -46,9 +48,7 @@
 
     data() {
       return {
-        search: {
-          text: ''
-        }
+        search: snippetSearchHelper.emptySearch()
       };
     },
 
@@ -75,17 +75,17 @@
       },
 
       onSubmit() {
-        this.$emit('submitSearch', this.search.text);
+        this.$emit('submitSearch', this.search);
         this.$emit('close');
       },
 
       onOpen() {
-        this.search.text = this.currentSearch;
+        this.search = Object.assign({}, this.currentSearch);
         setTimeout(this.forceFocusToInputField, 2);
       },
 
       onClose() {
-        this.search.text = '';
+        this.search = snippetSearchHelper.emptySearch();
         this.$emit('close');
       }
     }
