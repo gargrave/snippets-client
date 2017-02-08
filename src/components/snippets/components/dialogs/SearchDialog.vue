@@ -122,7 +122,7 @@
        * Callback for 'close' event; clear the search data and emit event upwards.
        */
       onClose() {
-        this.search = snippetSearchHelper.emptySearch();
+        this.search = searchHelper.emptySearch();
         this.$emit('close');
       }
     }
