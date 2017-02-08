@@ -256,9 +256,7 @@
       },
 
       onSearchSubmit(value, event) {
-        console.log('onSearchSubmit');
         if (!searchHelper.isIdentical(value, this.currentSearch)) {
-          console.log('search');
           this.fetchSnippetsBySearch(value)
             .then((res) => {
               // succesful search; no action needed

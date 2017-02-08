@@ -1,4 +1,7 @@
 export default {
+  /**
+   * Returns a new search object with all fields at default values
+   */
   emptySearch() {
     return {
       title: '',
@@ -6,12 +9,17 @@ export default {
     };
   },
 
+  /**
+   * Compares two search objects and returns whether they are identical.
+   */
   isIdentical(a, b) {
-    console.dir(b);
     return a.title.trim() === b.title.trim() &&
       a.tags.trim() === b.tags.trim();
   },
 
+  /**
+   * Returns an object with the data to send a search request to the API
+   */
   buildRequestPayload(data) {
     return {
       title: data.title.trim() || '',
