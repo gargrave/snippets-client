@@ -22,8 +22,8 @@ export default {
    */
   buildRequestPayload(data) {
     return {
-      title: data.title.trim() || '',
-      tags: data.tags.trim() || ''
+      title: data.title ? data.title.trim() : '',
+      tags: data.tags ? data.tags.trim() : ''
     };
   }
 };
