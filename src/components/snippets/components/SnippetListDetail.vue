@@ -74,7 +74,10 @@
 
 
 <script>
-  import {localUrls} from '../../../app-data/urls';
+  import { mapActions, mapGetters } from 'vuex';
+
+  import { localUrls } from '../../../app-data/urls';
+  import searchHelper from '../helpers/snippetSearchHelper';
   import snippetStyles from '../helpers/snippetStyles';
   import SnippetArchiveButton from '../components/panel-controls/SnippetArchiveButton.vue';
   import SnippetColorPicker from '../components/panel-controls/SnippetColorPicker.vue';
@@ -125,12 +128,28 @@
       cardClass() {
         return snippetStyles.snippetCard(this.snippet);
       },
+
+      ...mapGetters([
+        'currentSearch'
+      ])
     },
 
 
     methods: {
+      /**
+       * Callback for 'tag clicked' event.
+       * When a user clicks on a Tag, do a search by that Tag
+       */
       onTagClicked(tag) {
-        this.$message(`onTagClicked: ${tag.title}`);
+        const payload = searchHelper.buildRequestPayload({ tags: tag.title });
+        if (!searchHelper.isIdentical(payload, this.currentSearch)) {
+          this.fetchSnippetsBySearch(payload)
+            .then((res) => {
+              // succesful search; no action needed
+            }, (err) => {
+              // TODO handle errors
+            });
+        }
       },
 
       /**
@@ -202,7 +221,11 @@
         if (!this.working) {
           this.$router.push(`${localUrls.snippetsList}/${this.snippet.id}`);
         }
-      }
+      },
+
+      ...mapActions([
+        'fetchSnippetsBySearch'
+      ])
     }
   };
 </script>
