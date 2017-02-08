@@ -1,5 +1,6 @@
 <template>
   <el-form
+    id="tag-form"
     ref="form"
     :model="tag">
 
@@ -92,7 +93,7 @@
         Element UI does not create the actual <form> element until runtime, so it may
         not be available immediately.
         */
-        let formEle = document.querySelector('form.el-form');
+        let formEle = document.querySelector('form#tag-form');
         if (formEle) {
           formEle.addEventListener('submit', this.onSubmit);
         } else {

@@ -11,7 +11,7 @@
       <!-- 'search by title' field -->
       <el-form-item label="">
         <el-input
-          id="search-input"
+          id="search-input-title"
           placeholder="Search by title"
           v-model="search.title"
           auto-complete="off">
@@ -22,7 +22,7 @@
       <!-- 'search by tags' field -->
       <el-form-item label="">
         <el-input
-          id="search-input"
+          id="search-input-tags"
           placeholder="Search by tags (comma-separated)"
           v-model="search.tags"
           auto-complete="off">
@@ -94,7 +94,7 @@
        * we are using a short timeout here to make sure the field has been created first.
        */
       forceFocusToInputField() {
-        const el = document.querySelector('#search-input > input');
+        const el = document.querySelector('#search-input-title > input');
         if (el) {
           el.focus();
         } else {
