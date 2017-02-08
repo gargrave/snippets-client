@@ -14,7 +14,7 @@ export default {
    */
   isIdentical(a, b) {
     return a.title.trim() === b.title.trim() &&
-      a.tags.trim() === b.tags.trim();
+      a.tags.trim().toLowerCase() === b.tags.trim().toLowerCase();
   },
 
   /**
@@ -23,7 +23,7 @@ export default {
   buildRequestPayload(data) {
     return {
       title: data.title ? data.title.trim() : '',
-      tags: data.tags ? data.tags.trim() : ''
+      tags: data.tags ? data.tags.trim().toLowerCase() : ''
     };
   }
 };
