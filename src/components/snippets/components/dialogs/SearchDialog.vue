@@ -18,6 +18,7 @@
         </el-input>
       </el-form-item>
 
+
       <!-- 'search by tags' field -->
       <el-form-item label="">
         <el-input
@@ -28,6 +29,8 @@
         </el-input>
       </el-form-item>
 
+
+      <!-- submit button -->
       <el-form-item>
         <el-button
           type="primary"
@@ -37,8 +40,8 @@
           Submit
         </el-button>
       </el-form-item>
-    </el-form>
 
+    </el-form>
   </el-dialog>
 </template>
 
@@ -46,10 +49,11 @@
 <script>
   import { mapGetters } from 'vuex';
 
-  import snippetSearchHelper from '../../../snippets/helpers/snippetSearchHelper';
+  import searchHelper from '../../../snippets/helpers/snippetSearchHelper';
 
   export default {
     props: {
+      /** Whether the dialog is currently showing */
       showing: {
         type: Boolean,
         required: true,
@@ -60,12 +64,19 @@
 
     data() {
       return {
-        search: snippetSearchHelper.emptySearch()
+        /**
+         * Current search data
+         * (starts empty, but is populated by existing search data (if any) on open)
+         */
+        search: searchHelper.emptySearch()
       };
     },
 
 
     computed: {
+      /**
+       * Whether the dialog is currently showing
+       */
       isShowing() {
         return this.showing;
       },
@@ -77,6 +88,11 @@
 
 
     methods: {
+      /**
+       * Sets focus to the title search input field.
+       * Note that because Element's dialogs are not created immediately at runtime,
+       * we are using a short timeout here to make sure the field has been created first.
+       */
       forceFocusToInputField() {
         const el = document.querySelector('#search-input > input');
         if (el) {
@@ -86,16 +102,25 @@
         }
       },
 
+      /**
+       * Handler for 'submit' event; emit event upwards with search data and close dialog.
+       */
       onSubmit() {
         this.$emit('submitSearch', this.search);
         this.$emit('close');
       },
 
+      /**
+       * Callback for 'open' event; create new search data object and force focus to input field.
+       */
       onOpen() {
         this.search = Object.assign({}, this.currentSearch);
         setTimeout(this.forceFocusToInputField, 2);
       },
 
+      /**
+       * Callback for 'close' event; clear the search data and emit event upwards.
+       */
       onClose() {
         this.search = snippetSearchHelper.emptySearch();
         this.$emit('close');
