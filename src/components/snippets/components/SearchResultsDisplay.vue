@@ -10,6 +10,7 @@
       <span class="search-results-title">{{ resultString }}</span>
       <!-- clear/reset search button -->
       <el-button
+        class="reset-search-button"
         style="float: right;"
         size="small"
         type="primary"
@@ -21,6 +22,7 @@
 
     <!-- display current 'search by title' (if any) -->
     <div
+      id="current-search-title"
       class="text item"
       v-if="currentSearch.title">
       Title includes: <strong><em>{{ currentSearch.title }}</em></strong>
@@ -29,6 +31,7 @@
 
     <!-- display current 'search by tags' (if any) -->
     <div
+      id="current-search-tags"
       class="text item"
       v-if="currentSearch.tags">
       Tags include:
