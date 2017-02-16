@@ -39,7 +39,7 @@
 
         <!-- 'add a new snippet' link -->
         <app-new-snippet-card
-          v-if="isMainListView && !currentSearch"
+          v-if="isMainListView && !hasCurrentSearch"
           :working="working">
         </app-new-snippet-card>
 
