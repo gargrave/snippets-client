@@ -3,14 +3,14 @@
 // we are also using it with karma-webpack
 //   https://github.com/webpack/karma-webpack
 
-var path = require('path');
-var merge = require('webpack-merge');
-var baseConfig = require('../../build/webpack.base.conf');
-var utils = require('../../build/utils');
-var webpack = require('webpack');
-var projectRoot = path.resolve(__dirname, '../../');
+let path = require('path');
+let merge = require('webpack-merge');
+let baseConfig = require('../../build/webpack.base.conf');
+let utils = require('../../build/utils');
+let webpack = require('webpack');
+let projectRoot = path.resolve(__dirname, '../../');
 
-var webpackConfig = merge(baseConfig, {
+let webpackConfig = merge(baseConfig, {
   // use inline sourcemap for karma-sourcemap-loader
   module: {
     loaders: utils.styleLoaders()
@@ -43,7 +43,7 @@ webpackConfig.module.preLoaders.unshift({
 webpackConfig.module.loaders.some(function(loader, i) {
   if (loader.loader === 'babel') {
     loader.include = path.resolve(projectRoot, 'test/unit');
-    return true
+    return true;
   }
 });
 
@@ -56,7 +56,10 @@ module.exports = function(config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: [
+      '../../node_modules/babel-polyfill/dist/polyfill.js',
+      './index.js'
+    ],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },
@@ -67,9 +70,9 @@ module.exports = function(config) {
     coverageReporter: {
       dir: './coverage',
       reporters: [
-        {type: 'lcov', subdir: '.'},
-        {type: 'text-summary'}
+        { type: 'lcov', subdir: '.' },
+        { type: 'text-summary' }
       ]
     }
-  })
+  });
 };
