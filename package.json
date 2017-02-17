@@ -12,7 +12,8 @@
     "bd_prod": "npm run build && npm run deploy_prod",
     "deploy_prod": "netlify deploy -e prod",
     "unit": "karma start test/unit/karma.conf.js --single-run",
-    "test": "npm run unit",
+    "unit2": "karma start test/unit/karma.conf.js",
+    "test": "npm run unit2",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
@@ -56,7 +57,7 @@
     "inject-loader": "^2.0.1",
     "isparta-loader": "^2.0.0",
     "json-loader": "^0.5.4",
-    "karma": "^1.3.0",
+    "karma": "^1.4.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.0",
