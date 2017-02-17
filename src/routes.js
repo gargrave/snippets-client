@@ -1,4 +1,4 @@
-import {localUrls} from './app-data/urls';
+import { localUrls } from './app-data/urls';
 
 import AccountPage from './components/account/containers/AccountPage.vue';
 import AccountCreatePage from './components/account/containers/AccountCreatePage.vue';
@@ -6,10 +6,11 @@ import LoginPage from './components/account/containers/LoginPage.vue';
 import SnippetCreatePage from './components/snippets/containers/SnippetCreatePage.vue';
 import SnippetDetailPage from './components/snippets/containers/SnippetDetailPage.vue';
 import SnippetsListPage from './components/snippets/containers/SnippetsListPage.vue';
+import TagsListPage from './components/snippets/containers/TagsListPage.vue';
 
 
 export const routes = [
-  {path: '/', redirect: {name: 'snippets-list'}},
+  { path: '/', redirect: { name: 'snippets-list' } },
 
   /*=============================================
    = Auth routes
@@ -54,6 +55,15 @@ export const routes = [
     name: 'snippet-detail'
   },
 
+  /*=============================================
+   = Tags routes
+   =============================================*/
+  {
+    path: localUrls.tagsList,
+    component: TagsListPage,
+    name: 'tags-list'
+  },
+
   // catch-all redirect to home page
-  {path: '*', redirect: {name: 'snippets-list'}},
+  { path: '*', redirect: { name: 'snippets-list' } },
 ];

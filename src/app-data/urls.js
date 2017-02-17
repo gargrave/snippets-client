@@ -49,4 +49,5 @@ export let localUrls = {
   snippetsFilteredList: '/snippets/filter/:filterBy',
   snippetCreate: '/snippets/new',
   snippetDetail: '/snippets/:id',
+  tagsList: '/tags'
 };

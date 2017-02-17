@@ -49,7 +49,7 @@
 
           <el-menu-item index="2-3-0" class="submenu-section">Tags</el-menu-item>
           <!-- link to 'create snippet' page -->
-          <span @click="$message('Go to Tags list')">
+          <span @click="gotoLink($event, localUrls.tagsList)">
             <el-menu-item index="2-3-1">
               My Tags
             </el-menu-item>

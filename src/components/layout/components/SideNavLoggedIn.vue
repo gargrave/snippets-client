@@ -43,6 +43,16 @@
     -->
     <ul class="sidenav-submenu">
       <li class="sidenav-submenu-header">Tags</li>
+
+      <li>
+        <router-link
+          :to="{name: 'tags-list'}"
+          active-class="active"
+          exact>
+          <strong>My Tags</strong>
+        </router-link>
+      </li>
+
       <li v-for="tag in tags" @click.prevent="onTagClicked(tag)">
         <a href="">{{ tag.title }}</a>
       </li>

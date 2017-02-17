@@ -22,16 +22,7 @@
     <!-- snippets list, shown when not snippetsRefreshing -->
     <transition name="fade">
       <section v-if="!initializing && !snippetsRefreshing">
-        <!-- search results display (when applicable)
-        <el-alert
-          id="search-alert"
-          v-if="currentSearch.title"
-          type="info"
-          title="Searching by title"
-          :description="titleSearchDescription"
-          close-text="Reset"
-          @close="onClearSearch">
-        </el-alert> -->
+        <!-- search results display (when applicable) -->
         <app-search-results
           @clearSearch="onClearSearch">
         </app-search-results>
