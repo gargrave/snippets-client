@@ -3,6 +3,7 @@
 
     <div class="snippet-card-header">
       <a
+        class="snippet-detail-title"
         :href="snippet.url"
         target="_blank"
         rel="noopener noreferrer">
@@ -13,6 +14,7 @@
 
     <div class="text item snippet-card-body">
       <a
+        class="snippet-detail-url"
         :href="snippet.url"
         target="_blank"
         rel="noopener noreferrer">

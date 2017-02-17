@@ -1,4 +1,4 @@
-export default [{
+const snippets = [{
   'id': 27,
   'title': '20 Great CSS Tricks',
   'url': 'http://webdesignerwall.com/tutorials/level-css-skills-20-pro-css-tips',
@@ -8,6 +8,12 @@ export default [{
     '_tag': {
       'id': 6,
       'title': 'css'
+    }
+  }, {
+    'id': 26,
+    '_tag': {
+      'id': 17,
+      'title': 'dev'
     }
   }],
   'pinned': false,
@@ -39,7 +45,7 @@ export default [{
       'title': 'vods'
     }
   }],
-  'pinned': false,
+  'pinned': true,
   'starred': false,
   'archived': false,
   'created': '2017-02-06T21:34:32.854224Z',
@@ -63,7 +69,7 @@ export default [{
     }
   }],
   'pinned': false,
-  'starred': false,
+  'starred': true,
   'archived': false,
   'created': '2016-10-20T16:14:53.995472Z',
   'modified': '2017-02-06T17:47:05.497440Z'
@@ -87,7 +93,14 @@ export default [{
   }],
   'pinned': false,
   'starred': false,
-  'archived': false,
+  'archived': true,
   'created': '2016-10-20T16:14:36.206252Z',
   'modified': '2017-02-06T17:46:42.221404Z'
 }];
+
+export default {
+  snippets,
+  pinnedSnippet: snippets[1],
+  starredSnippet: snippets[2],
+  archivedSnippet: snippets[3],
+};

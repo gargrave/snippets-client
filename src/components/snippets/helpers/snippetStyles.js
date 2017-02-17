@@ -2,6 +2,15 @@ import snippetData from './snippetData';
 
 
 export default {
+  icons: {
+    pinned: 'fa-thumb-tack',
+    unpinned: 'fa-thumb-tack-o',
+    starred: 'fa-star',
+    unstarred: 'fa-star-o',
+    archived: 'fa-refresh',
+    unarchived: 'fa-archive',
+  },
+
   /**
    * Builds and returns the style string for the top-level element, including the color
    * of the Snippet card, based on the Snippet's 'color' property
@@ -22,17 +31,21 @@ export default {
 
   snippetStarButton(snippet) {
     return snippet.starred ?
-      'fa fa-star pointer snippet-control snippet-control-star' :
-      'fa fa-star-o pointer snippet-control snippet-control-star';
+      `fa ${this.icons.starred} pointer snippet-control snippet-control-star` :
+      `fa ${this.icons.unstarred} pointer snippet-control snippet-control-star`;
   },
 
   snippetPinButton(snippet) {
-    let iconClass = snippet.pinned ? 'fa fa-thumb-tack' : 'fa fa-thumb-tack fa-thumb-tack-o';
+    let iconClass = snippet.pinned ?
+      `fa ${this.icons.pinned}` :
+      `fa ${this.icons.pinned} ${this.icons.unpinned}`;
     return `${iconClass} pointer snippet-control snippet-control-pin`;
   },
 
   snippetArchiveButton(snippet) {
-    let iconClass = snippet.archived ? 'fa fa-refresh' : 'fa fa-archive';
+    let iconClass = snippet.archived ?
+      `fa ${this.icons.archived}` :
+      `fa ${this.icons.unarchived}`;
     return `${iconClass} pointer snippet-control snippet-control-archive`;
   },
 };
