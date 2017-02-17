@@ -34,7 +34,7 @@ describe('SearchResultsDisplay.vue', () => {
       // update store with full mock Snippets list
       // (search data does not matter here, but at least one field must not be blank)
       store.commit(SNIPPETS.FETCH_BY_SEARCH, {
-        snippets: snippetsMock,
+        snippets: snippetsMock.snippets,
         search: {
           title: '-',
           tags: ''
@@ -60,7 +60,7 @@ describe('SearchResultsDisplay.vue', () => {
       // update store with full mock Snippets list
       // (search data does not matter here, but at least one field must not be blank)
       store.commit(SNIPPETS.FETCH_BY_SEARCH, {
-        snippets: snippetsMock,
+        snippets: snippetsMock.snippets,
         search: {
           title: '-',
           tags: ''
@@ -69,7 +69,7 @@ describe('SearchResultsDisplay.vue', () => {
 
       const vm = getComponent();
       const titleStr = vm.$el.querySelector('.search-results-title').textContent.toLowerCase().trim();
-      const expectedCount = snippetsMock.length;
+      const expectedCount = snippetsMock.snippets.length;
       const expectedStr = `Showing ${expectedCount} Matches`.toLowerCase();
 
       expect(titleStr).to.equal(expectedStr);
@@ -79,7 +79,7 @@ describe('SearchResultsDisplay.vue', () => {
       const searchTitle = 'css';
 
       store.commit(SNIPPETS.FETCH_BY_SEARCH, {
-        snippets: snippetsMock,
+        snippets: snippetsMock.snippets,
         search: {
           title: searchTitle,
           tags: ''
@@ -97,7 +97,7 @@ describe('SearchResultsDisplay.vue', () => {
       const testSearchTags = ['css', 'dev'];
 
       store.commit(SNIPPETS.FETCH_BY_SEARCH, {
-        snippets: snippetsMock,
+        snippets: snippetsMock.snippets,
         search: {
           title: '',
           tags: testSearchTags.join(',')
