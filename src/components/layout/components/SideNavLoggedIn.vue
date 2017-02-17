@@ -39,10 +39,13 @@
     </ul>
 
     <!--
-    'Navigation' sub-menu
+    'Tags' sub-menu
     -->
     <ul class="sidenav-submenu">
       <li class="sidenav-submenu-header">Tags</li>
+      <li v-for="tag in tags" @click.prevent="onTagClicked(tag)">
+        <a href="">{{ tag.title }}</a>
+      </li>
     </ul>
 
 
@@ -77,11 +80,39 @@
 
 
 <script>
+  import { mapActions, mapGetters } from 'vuex';
+
+  import searchHelper from '../../snippets/helpers/snippetSearchHelper';
+
   export default {
+    computed: {
+      ...mapGetters([
+        'tags',
+        'currentSearch'
+      ])
+    },
+
+
     methods: {
       onLogout() {
         this.$emit('logout');
-      }
+      },
+
+      onTagClicked(tag) {
+        const tagSearch = { title: '', tags: tag.title };
+        if (!searchHelper.isIdentical(tagSearch, this.currentSearch)) {
+          this.fetchSnippetsBySearch(tagSearch)
+            .then((res) => {
+              // succesful search; no action needed
+            }, (err) => {
+              // TODO handle errors
+            });
+        }
+      },
+
+      ...mapActions([
+        'fetchSnippetsBySearch'
+      ])
     }
   };
 </script>
