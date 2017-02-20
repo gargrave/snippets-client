@@ -46,8 +46,8 @@
       },
 
       // simply re-emit the event for the parent to handle
-      onDeleteSnippet(snippetId, event) {
-        this.$emit('deleteSnippet', snippetId);
+      onDeleteSnippet(snippet, event) {
+        this.$emit('deleteSnippet', snippet);
       },
 
       // simply re-emit the event for the parent to handle

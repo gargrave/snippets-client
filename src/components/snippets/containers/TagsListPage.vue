@@ -71,7 +71,7 @@
             message: 'Tag deleted'
           };
 
-          this.$confirm('Delete this Tag?', 'Confirm', msgConfirm)
+          this.$confirm(`Delete "${tag.title}"?`, 'Confirm', msgConfirm)
             .then(() => {
               this.working = true;
               this.deleteTag(tag.id)

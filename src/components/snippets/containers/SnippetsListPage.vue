@@ -281,7 +281,7 @@
       /**
        * Attempts to delete the specified Snippet (after user confirms)
        */
-      onDeleteSnippet(snippetId) {
+      onDeleteSnippet(snippet) {
         const msgConfirm = {
           confirmButtonText: 'Ok',
           cancelButtonText: 'Cancel',
@@ -292,10 +292,10 @@
           message: 'Snippet deleted'
         };
 
-        this.$confirm('Delete this Snippet?', 'Confirm', msgConfirm)
+        this.$confirm(`Delete "${snippet.title}"?`, 'Confirm', msgConfirm)
           .then(() => {
             this.working = true;
-            this.deleteSnippet(snippetId)
+            this.deleteSnippet(snippet.id)
               .then((res) => {
                 this.$notify(msgNotify);
                 this.working = false;

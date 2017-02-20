@@ -211,7 +211,7 @@
        */
       onDeleteClick() {
         if (!this.working) {
-          this.$emit('deleteSnippet', this.snippet.id);
+          this.$emit('deleteSnippet', this.snippet);
         }
       },
 
