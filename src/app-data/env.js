@@ -1,7 +1,8 @@
 const ENV = {
   DEV: 0,
   STAGING: 1,
-  PROD: 2
+  PROD: 2,
+  TESTING: 3
 };
 
 const STAGING_SITE_URL_CHECK = 'gargrave-snippets-dev';
@@ -32,5 +33,9 @@ export default {
 
   isDev() {
     return appEnv === ENV.DEV;
+  },
+
+  isTesting() {
+    return process.env.NODE_ENV === 'testing';
   }
 };
