@@ -4,34 +4,19 @@
     <h3 class="page-title">
       My Tags
       <!-- working icon for background tasks -->
-      <i class="fa fa-spinner fa-spin" v-if="backgroundWorking"></i>
+      <i class="fa fa-spinner fa-spin" v-if="isWorking"></i>
     </h3><!-- /page title display -->
 
-
-    <!-- loading spinner -->
-    <div
-      class="snippets-list-working-spinner"
-      v-loading="tagsAjaxPending || initializing"
-      v-if="tagsAjaxPending || initializing"
-      element-loading-text="Working..."
-      style="width: 100%; height: 160px;">
-    </div><!-- loading spinner -->
-
-
-    <!-- snippets list, shown when not tagsAjaxPending -->
+    <!-- tags list, shown when not tagsAjaxPending -->
     <transition name="fade">
-      <el-card
-        class="box-card"
-        v-loading="isWorking"
-        element-loading-text="Working..."
-        style="width: 100%">
-
-        <div class="text item">
-          <ul>
-            <li v-for="tag in tags">{{ tag.title }}</li>
-          </ul>
-        </div><!-- /. text item -->
-      </el-card>
+      <section>
+        <app-tags-list-detail
+          v-for="tag in tags"
+          :working="isWorking"
+          :tag="tag"
+          :onDeleteClick="onTagDeleteClick">
+        </app-tags-list-detail>
+      </section>
     </transition>
 
   </div>
@@ -43,29 +28,27 @@
 
   import { localUrls } from '../../../app-data/urls';
   import errors from '../../../app-data/errors';
-
+  import TagsListDetail from '../components/TagsListDetail';
 
   export default {
+    components: {
+      appTagsListDetail: TagsListDetail
+    },
+
+
     data() {
       return {
         initializing: true,
 
         // whether any operations are currently running
         working: false,
-
-        // whether any background operations (e.g. 'quick update') are running
-        backgroundWorking: false,
-
-        // error messages returned from API (e.g. invalid data)
-        apiError: '',
       };
     },
 
 
     computed: {
       isWorking() {
-        return this.initializing || this.working ||
-          this.backgroundWorking || this.profileAjaxPending;
+        return this.initializing || this.working || this.tagsAjaxPending;
       },
 
       ...mapGetters([
@@ -76,9 +59,40 @@
 
 
     methods: {
+      onTagDeleteClick(tag) {
+        if (!this.isWorking) {
+          const msgConfirm = {
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          };
+          const msgNotify = {
+            type: 'success',
+            message: 'Tag deleted'
+          };
+
+          this.$confirm('Delete this Tag?', 'Confirm', msgConfirm)
+            .then(() => {
+              this.working = true;
+              this.deleteTag(tag.id)
+                .then((res) => {
+                  this.$notify(msgNotify);
+                  this.working = false;
+                }, (err) => {
+                  this.apiError = err;
+                  this.working = false;
+                });
+            })
+            .catch(() => {
+              // cancel deletion; no action needed
+            });
+        }
+      },
+
       ...mapActions([
         'checkForStoredLogin',
-        'initTags'
+        'initTags',
+        'deleteTag'
       ])
     },
 

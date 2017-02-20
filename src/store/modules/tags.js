@@ -42,6 +42,9 @@ export default {
       state.tags.sort();
     },
 
+    /*=============================================
+     = Tags creating/editing
+     =============================================*/
     [TAGS.CREATE_SUCCESS](state, payload) {
       // check if the store already has the specified Tag on it; if so, do nothing
       const newTagId = payload.tag._tag.id;
@@ -51,6 +54,13 @@ export default {
         }
       });
       state.tags.push(payload.tag._tag);
+    },
+
+    [TAGS.DELETE_SUCCESS](state, tagId) {
+      state.tags = state.tags.filter(
+        t => t.id !== tagId
+      );
+      state.tags.sort();
     },
   },
 
@@ -189,6 +199,31 @@ export default {
               reject('There was an error updating your Tags.');
             } else {
               dispatch('removeTagFromLocalSnippet', payload);
+              commit(TAGS.AJAX_END);
+              resolve(res.body);
+            }
+          });
+      });
+    },
+
+    deleteTag({ getters, commit }, tagId) {
+      return new Promise((resolve, reject) => {
+        const authToken = getters.authToken;
+        if (!authToken) {
+          reject('Not authenticated');
+        }
+
+        commit(TAGS.AJAX_BEGIN);
+        request
+          .delete(apiUrls.tagsDelete + `${tagId}/`)
+          .set('Authorization', `Token ${authToken}`)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              commit(TAGS.AJAX_END);
+              reject('There was an error deleting the Tag.');
+            } else {
+              commit(TAGS.DELETE_SUCCESS, tagId);
               commit(TAGS.AJAX_END);
               resolve(res.body);
             }
