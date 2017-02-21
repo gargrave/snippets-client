@@ -20,7 +20,17 @@ function getEmptyUser() {
 function getEmptyProfile() {
   return {
     firstName: '',
-    lastName: ''
+    lastName: '',
+    categories: {
+      white: '',
+      red: '',
+      green: '',
+      blue: '',
+      yellow: '',
+      orange: '',
+      teal: '',
+      gray: '',
+    }
   };
 }
 
@@ -143,6 +153,16 @@ export default {
       state.profile = {
         firstName: profile.first_name || '',
         lastName: profile.last_name || '',
+        categories: {
+          white: profile.categories.white || '',
+          red: profile.categories.red || '',
+          green: profile.categories.green || '',
+          blue: profile.categories.blue || '',
+          yellow: profile.categories.yellow || '',
+          orange: profile.categories.orange || '',
+          teal: profile.categories.teal || '',
+          gray: profile.categories.gray || '',
+        }
       };
       state.profileHasBeenLoaded = true;
     }

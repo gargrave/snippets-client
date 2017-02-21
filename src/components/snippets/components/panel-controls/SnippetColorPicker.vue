@@ -11,7 +11,7 @@
           v-for="color in validColors"
           :class="colorPickerLiClass(color)"
           :command="color">
-          <a :class="colorPickerAClass(color)"></a>
+          <a :class="colorPickerAClass(color)">{{ profile.categories[color] }}</a>
         </el-dropdown-item>
       </el-dropdown-menu>
 
@@ -21,6 +21,8 @@
 
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import snippetData from '../../helpers/snippetData';
   import snippetStyles from '../../helpers/snippetStyles';
 
@@ -33,6 +35,10 @@
       validColors() {
         return snippetData.VALID_COLORS;
       },
+
+      ...mapGetters([
+        'profile'
+      ])
     },
 
 
@@ -67,6 +73,9 @@
     display: block;
     min-width: 150px;
     min-height: 38px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
     text-decoration: none !important;
   }
 </style>
