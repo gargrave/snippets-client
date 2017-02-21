@@ -22,6 +22,8 @@ let appEnv = ENV.PROD;
 })();
 
 
+export let mockApiDelay = 1;
+
 export default {
   isProd() {
     return appEnv === ENV.PROD;

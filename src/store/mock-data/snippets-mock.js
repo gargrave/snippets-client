@@ -22,7 +22,7 @@ const snippets = [{
   'created': '2017-02-06T21:35:27.267239Z',
   'modified': '2017-02-06T21:35:46.342719Z'
 }, {
-  'id': 19,
+  'id': 28,
   'title': 'Shoutcraft Kings January 2017',
   'url': 'https://youtu.be/xLP-JMH7Gck?t=4607',
   'color': 'green',
@@ -51,7 +51,7 @@ const snippets = [{
   'created': '2017-02-06T21:34:32.854224Z',
   'modified': '2017-02-06T21:34:44.977868Z'
 }, {
-  'id': 2,
+  'id': 29,
   'title': 'NodeJS Path @ Pluralsight',
   'url': 'https://app.pluralsight.com/paths/skill/node-js',
   'color': 'orange',
@@ -74,7 +74,7 @@ const snippets = [{
   'created': '2016-10-20T16:14:53.995472Z',
   'modified': '2017-02-06T17:47:05.497440Z'
 }, {
-  'id': 1,
+  'id': 30,
   'title': 'Interesting JavaScript and CSS Libraries',
   'url': 'http://tutorialzine.com/2016/08/15-interesting-javascript-and-css-libraries-for-august-2016/',
   'color': 'blue',
