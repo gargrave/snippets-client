@@ -24,6 +24,10 @@
   // a darkened border for color each color picker item
   &.color-picker-item {
     border: 1px solid $darkened1;
+
+    a {
+      color: darken($color, 58);
+    }
   }
 
   // a darkened color for "hover" state of color pickers
