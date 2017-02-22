@@ -1,14 +1,15 @@
 <template>
   <section>
+    <h3 class="page-title">
+      {{ originalSnippet.title }}
+      <i
+        v-if="working"
+        class="fa fa-cog fa-spin"
+        aria-hidden="true">
+      </i>
+    </h3>
 
-    <h3 class="page-title">{{ originalSnippet.title }}</h3>
-
-    <el-card
-      class="box-card"
-      v-loading="working"
-      element-loading-text="Working..."
-      style="width: 100%">
-
+    <el-card class="box-card">
       <div class="text item">
 
         <!-- error message display -->
