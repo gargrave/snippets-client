@@ -11,7 +11,7 @@
           v-for="color in validColors"
           :class="colorPickerLiClass(color)"
           :command="color">
-          <a :class="colorPickerAClass(color)">{{ profile.categories[color] }}</a>
+          <a :class="colorPickerAClass(color)">{{ getCategoryName(color) }}</a>
         </el-dropdown-item>
       </el-dropdown-menu>
 
@@ -36,6 +36,8 @@
         return snippetData.VALID_COLORS;
       },
 
+
+
       ...mapGetters([
         'profile'
       ])
@@ -51,9 +53,16 @@
         return `color-picker-click-${color}`;
       },
 
+      getCategoryName(color) {
+        const cat = this.profile.categories.find((c) => {
+          return c.key === color.toLowerCase();
+        });
+        return cat.value;
+      },
+
       onColorSelect(color) {
         this.$emit('colorSelected', color);
-      }
+      },
     }
   };
 </script>

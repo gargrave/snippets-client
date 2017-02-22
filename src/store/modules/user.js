@@ -21,16 +21,16 @@ function getEmptyProfile() {
   return {
     firstName: '',
     lastName: '',
-    categories: {
-      white: '',
-      red: '',
-      green: '',
-      blue: '',
-      yellow: '',
-      orange: '',
-      teal: '',
-      gray: '',
-    }
+    categories: [
+      { key: 'white', value: '' },
+      { key: 'red', value: '' },
+      { key: 'green', value: '' },
+      { key: 'blue', value: '' },
+      { key: 'yellow', value: '' },
+      { key: 'orange', value: '' },
+      { key: 'teal', value: '' },
+      { key: 'gray', value: '' },
+    ]
   };
 }
 
@@ -153,16 +153,16 @@ export default {
       state.profile = {
         firstName: profile.first_name ? profile.first_name : '',
         lastName: profile.last_name ? profile.last_name : '',
-        categories: {
-          white: profile.categories ? profile.categories.white : '',
-          red: profile.categories ? profile.categories.red : '',
-          green: profile.categories ? profile.categories.green : '',
-          blue: profile.categories ? profile.categories.blue : '',
-          yellow: profile.categories ? profile.categories.yellow : '',
-          orange: profile.categories ? profile.categories.orange : '',
-          teal: profile.categories ? profile.categories.teal : '',
-          gray: profile.categories ? profile.categories.gray : '',
-        }
+        categories: [
+          { key: 'white', value: profile.categories ? profile.categories.white : '' },
+          { key: 'red', value: profile.categories ? profile.categories.red : '' },
+          { key: 'green', value: profile.categories ? profile.categories.green : '' },
+          { key: 'blue', value: profile.categories ? profile.categories.blue : '' },
+          { key: 'yellow', value: profile.categories ? profile.categories.yellow : '' },
+          { key: 'orange', value: profile.categories ? profile.categories.orange : '' },
+          { key: 'teal', value: profile.categories ? profile.categories.teal : '' },
+          { key: 'gray', value: profile.categories ? profile.categories.gray : '' },
+        ]
       };
       state.profileHasBeenLoaded = true;
     }
