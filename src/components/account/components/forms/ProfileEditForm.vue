@@ -21,6 +21,17 @@
       </el-input>
     </el-form-item>
 
+
+    <el-form-item label="Red Category" prop="catRed">
+      <el-input
+        type="text"
+        name="catRed"
+        placeholder="Red Category (optional)"
+        v-model="profile.categories[1].value">
+      </el-input>
+    </el-form-item>
+
+
     <el-form-item>
       <!-- submit button -->
       <el-button
@@ -70,6 +81,9 @@
           ],
           lastName: [
             { max: 100, message: 'Must be no more than 100 characters long.', trigger: 'blur' }
+          ],
+          catRed: [
+            { max: 16, message: 'Must be no more than 16 characters long.', trigger: 'blur' }
           ]
         }
       };

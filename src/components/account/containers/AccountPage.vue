@@ -76,9 +76,14 @@
     'edit profile' page; only shown when in 'editing' mode
     -->
     <transition name="fade">
+      <!-- 'user details' edit card -->
       <el-card
-        class="box-card"
+        class="box-card account-page-card"
         v-if="editing">
+
+        <div slot="header" class="clearfix">
+          <h4 class="account-page-card-title">User Details</h4>
+        </div>
 
         <div class="text item">
           <app-profile-edit-form
@@ -87,8 +92,8 @@
             @submitted="onFormSubmitted"
             @cancelled="onFormCancelled">
           </app-profile-edit-form>
-        </div><!-- /. text item -->
-      </el-card>
+        </div><!-- /text item -->
+      </el-card><!-- /'user details' edit card -->
     </transition>
 
   </section>
@@ -106,7 +111,7 @@
 
   export default {
     components: {
-      appProfileEditForm: ProfileEditForm
+      appProfileEditForm: ProfileEditForm,
     },
 
 
