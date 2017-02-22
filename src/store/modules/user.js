@@ -151,17 +151,17 @@ export default {
 
     [PROFILE.FETCH_SUCCESS](state, profile) {
       state.profile = {
-        firstName: profile.first_name || '',
-        lastName: profile.last_name || '',
+        firstName: profile.first_name ? profile.first_name : '',
+        lastName: profile.last_name ? profile.last_name : '',
         categories: {
-          white: profile.categories.white || '',
-          red: profile.categories.red || '',
-          green: profile.categories.green || '',
-          blue: profile.categories.blue || '',
-          yellow: profile.categories.yellow || '',
-          orange: profile.categories.orange || '',
-          teal: profile.categories.teal || '',
-          gray: profile.categories.gray || '',
+          white: profile.categories ? profile.categories.white : '',
+          red: profile.categories ? profile.categories.red : '',
+          green: profile.categories ? profile.categories.green : '',
+          blue: profile.categories ? profile.categories.blue : '',
+          yellow: profile.categories ? profile.categories.yellow : '',
+          orange: profile.categories ? profile.categories.orange : '',
+          teal: profile.categories ? profile.categories.teal : '',
+          gray: profile.categories ? profile.categories.gray : '',
         }
       };
       state.profileHasBeenLoaded = true;
