@@ -11,7 +11,7 @@
           v-for="color in validColors"
           :class="colorPickerLiClass(color)"
           :command="color">
-          <a :class="colorPickerAClass(color)">{{ getCategoryName(color) }}</a>
+          <a :class="colorPickerAClass(color)"></a>
         </el-dropdown-item>
       </el-dropdown-menu>
 
@@ -51,13 +51,6 @@
 
       colorPickerAClass(color) {
         return `color-picker-click-${color}`;
-      },
-
-      getCategoryName(color) {
-        const cat = this.profile.categories.find((c) => {
-          return c.key === color.toLowerCase();
-        });
-        return cat.value;
       },
 
       onColorSelect(color) {

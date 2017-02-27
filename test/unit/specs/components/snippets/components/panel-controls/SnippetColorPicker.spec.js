@@ -41,31 +41,4 @@ describe('SnippetColorPicker.vue', () => {
     expect(hasBeenClicked).to.equal(true);
     expect(colorValue).to.equal('blue');
   });
-
-  it('should display category names when they are defined', () => {
-    // set up mock categories
-    const RED_CATEGORY = 'RED_CATEGORY';
-    const GREEN_CATEGORY = 'GREEN_CATEGORY';
-    store.commit(PROFILE.FETCH_SUCCESS, {
-      categories: {
-        white: '',
-        red: RED_CATEGORY,
-        green: GREEN_CATEGORY,
-        blue: '',
-        yellow: '',
-        orange: '',
-        teal: '',
-        gray: '',
-      }
-    });
-
-    const vm = getComponent();
-    const tealText = vm.$el.querySelector('.color-picker-click-teal').textContent;
-    const redText = vm.$el.querySelector('.color-picker-click-red').textContent;
-    const greenText = vm.$el.querySelector('.color-picker-click-green').textContent;
-
-    expect(tealText).to.equal('');
-    expect(redText).to.equal(RED_CATEGORY);
-    expect(greenText).to.equal(GREEN_CATEGORY);
-  });
 });

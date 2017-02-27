@@ -45,29 +45,6 @@
             </ul>
           </div><!-- /text item -->
         </el-card><!-- /'user details' card -->
-
-        <!-- 'user settings' card -->
-        <el-card
-          class="box-card account-page-card"
-          v-if="!isWorking && !editing">
-
-          <div slot="header" class="clearfix">
-            <h4 class="account-page-card-title">User Categories</h4>
-          </div>
-
-          <div class="text item">
-            <ul>
-              <li
-                v-for="cat in profile.categories">
-                <h4>
-                  <span :class="getCatNameClass(cat)">{{ getCleanCatString(cat) }}</span>->
-                  <span v-if="cat.value.length" :class="getCatNameClass(cat)">{{ cat.value }}</span>
-                  <span v-else class="muted-text">Unset</span>
-                </h4>
-              </li>
-            </ul>
-          </div><!-- /text item -->
-        </el-card><!-- /'user settings' card -->
       </section>
     </transition>
 
