@@ -18,7 +18,7 @@
         "max_preserve_newlines": 3, // Maximum number of line breaks to be preserved in one chunk (0 disables)
         "preserve_newlines": true, // Whether existing line breaks before elements should be preserved (only works before elements, not inside tags or for text)
         "unformatted": ["a", "span", "img", "code", "pre", "sub", "sup", "em", "strong", "b", "i", "u", "strike", "big", "small", "pre"], // List of tags that should not be reformatted
-        "wrap_attributes": "force-expand-multiline", // Wrap attributes to new lines [auto|force|force-aligned|force-expand-multiline] ["auto"]
+        "wrap_attributes": "auto", // Wrap attributes to new lines [auto|force|force-aligned|force-expand-multiline] ["auto"]
         "wrap_attributes_indent_size": 2,
         "wrap_line_length": 0 // Lines should wrap at next opportunity after this number of characters (0 disables)
     },
